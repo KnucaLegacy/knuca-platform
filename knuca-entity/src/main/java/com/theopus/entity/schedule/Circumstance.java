@@ -1,6 +1,6 @@
-package com.theopus;
+package com.theopus.entity.schedule;
 
-import com.theopus.enums.LessonOrder;
+import com.theopus.entity.schedule.enums.LessonOrder;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;

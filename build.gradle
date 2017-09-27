@@ -31,12 +31,5 @@ allprojects {
 }
 
 project(':knuca-entity') {
-
     version = 'v1.0'
-
-//    apply plugin: 'org.springframework.boot'
-
-    dependencies {
-//        compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    }
 }

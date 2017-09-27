@@ -1,5 +1,5 @@
-package com.theopus;
-import com.theopus.enums.LessonType;
+package com.theopus.entity.schedule;
+import com.theopus.entity.schedule.enums.LessonType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
