@@ -1,6 +1,5 @@
 /.idea
-/.idea/
 /gradle/
 /.gradle/
-knuca-entity/build/
-/knuca-entity/build/
+*/build/*
+*/out/*

@@ -26,10 +26,20 @@ allprojects {
         compile group: 'org.projectlombok', name: 'lombok', version: '1.16.18'
         compile group: 'joda-time', name: 'joda-time', version: '2.3'
         compile group: 'org.jadira.usertype', name: 'usertype.core', version: '6.0.1.GA'
-
+        testCompile group: 'junit', name: 'junit', version: '4.12'
     }
 }
 
 project(':knuca-entity') {
     version = 'v1.0'
+
+
+}
+
+project('knuca-parser'){
+    version = 'v1.0'
+
+    dependencies{
+        compile project(path: ':knuca-entity')
+    }
 }
