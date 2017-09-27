@@ -1,14 +1,40 @@
-group 'com.theopus'
-version '1.0-SNAPSHOT'
-
-apply plugin: 'java'
-
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
+buildscript {
+    ext {
+        springBootVersion = '1.5.7.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+allprojects {
+
+    apply plugin: 'java'
+
+    group = 'com.theopus'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile group: 'org.projectlombok', name: 'lombok', version: '1.16.18'
+        compile group: 'joda-time', name: 'joda-time', version: '2.3'
+        compile group: 'org.jadira.usertype', name: 'usertype.core', version: '6.0.1.GA'
+
+    }
+}
+
+project(':knuca-entity') {
+
+//    apply plugin: 'org.springframework.boot'
+
+    dependencies {
+//        compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    }
 }
