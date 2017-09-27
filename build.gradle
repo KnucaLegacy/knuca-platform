@@ -32,6 +32,8 @@ allprojects {
 
 project(':knuca-entity') {
 
+    version = 'v1.0'
+
 //    apply plugin: 'org.springframework.boot'
 
     dependencies {
