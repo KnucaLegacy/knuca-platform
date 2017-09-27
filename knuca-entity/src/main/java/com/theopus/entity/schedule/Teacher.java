@@ -2,6 +2,7 @@ package com.theopus.entity.schedule;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -14,6 +15,7 @@ import java.util.Set;
  */
 
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(exclude = {"id", })
 @Entity(name = "Teacher")
 public class Teacher {
@@ -25,4 +27,7 @@ public class Teacher {
     @Column(name = "name")
     private String name;
 
+    public Teacher(String name) {
+        this.name = name;
+    }
 }

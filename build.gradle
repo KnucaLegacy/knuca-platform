@@ -36,10 +36,10 @@ project(':knuca-entity') {
 
 }
 
-project('knuca-parser'){
+project('knuca-parser') {
     version = 'v1.0'
 
-    dependencies{
+    dependencies {
         compile project(path: ':knuca-entity')
     }
 }

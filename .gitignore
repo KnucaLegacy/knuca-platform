@@ -3,3 +3,6 @@
 /.gradle/
 */build/*
 */out/*
+build/*
+/knuca-parser/build/
+/build/
