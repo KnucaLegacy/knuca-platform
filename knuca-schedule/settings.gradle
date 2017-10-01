@@ -1,3 +1,3 @@
-rootProject.name = 'knuca-platform'
-include 'knuca-entity'
+rootProject.name = 'knuca-schedule'
+include 'knuca-schedule-entity'
 
