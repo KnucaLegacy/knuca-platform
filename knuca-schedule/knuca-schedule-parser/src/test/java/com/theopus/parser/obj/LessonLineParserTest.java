@@ -1,7 +1,6 @@
-package com.theopus.parser;
+package com.theopus.parser.obj;
 
 
-import com.theopus.entity.schedule.Lesson;
 import com.theopus.entity.schedule.Subject;
 import com.theopus.entity.schedule.Teacher;
 import com.theopus.entity.schedule.enums.LessonOrder;
@@ -9,7 +8,6 @@ import com.theopus.entity.schedule.enums.LessonType;
 import com.theopus.parser.exceptions.IllegalPDFFormatException;
 import org.junit.Test;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 

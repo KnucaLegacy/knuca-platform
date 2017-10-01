@@ -1,4 +1,4 @@
-package com.theopus.parser;
+package com.theopus.parser.obj;
 
 import com.theopus.entity.schedule.Subject;
 import com.theopus.entity.schedule.Teacher;
