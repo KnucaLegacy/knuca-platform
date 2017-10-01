@@ -1,4 +1,0 @@
-rootProject.name = 'knuca-platform'
-include 'knuca-entity'
-include 'knuca-parser'
-

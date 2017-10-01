@@ -30,16 +30,16 @@ allprojects {
     }
 }
 
-project(':knuca-entity') {
+project(':knuca-schedule-entity') {
     version = 'v1.0'
 
 
 }
 
-project('knuca-parser') {
+project('knuca-schedule-parser') {
     version = 'v1.0'
 
     dependencies {
-        compile project(path: ':knuca-entity')
+        compile project(path: ':knuca-schedule-entity')
     }
 }

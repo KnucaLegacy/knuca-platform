@@ -1,0 +1,4 @@
+rootProject.name = 'knuca-schedule'
+include 'knuca-schedule-entity'
+include 'knuca-schedule-parser'
+
