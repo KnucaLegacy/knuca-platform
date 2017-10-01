@@ -30,6 +30,6 @@ allprojects {
     }
 }
 
-project(':knuca-entity') {
+project(':knuca-schedule-entity') {
     version = 'v1.0'
 }
