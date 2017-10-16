@@ -3,10 +3,9 @@ package com.theopus.entity.schedule;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-import org.joda.time.LocalDate;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,7 +37,6 @@ public class Circumstance {
     @ElementCollection
     @CollectionTable(name = "dates", joinColumns = @JoinColumn(name = "circumstance_id"))
     @Column(name = "date")
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
     private Set<LocalDate> dates = new HashSet<>();
 
     @ManyToOne(targetEntity = Lesson.class)

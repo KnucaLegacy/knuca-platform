@@ -6,4 +6,6 @@
 build/*
 /knuca-parser/build/
 /build/
+knuca-entity/build/
+/knuca-entity/build/
 *.iml
