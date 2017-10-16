@@ -24,9 +24,6 @@ allprojects {
 
     dependencies {
         compile group: 'org.projectlombok', name: 'lombok', version: '1.16.18'
-        compile group: 'joda-time', name: 'joda-time', version: '2.3'
-        compile group: 'org.jadira.usertype', name: 'usertype.core', version: '6.0.1.GA'
-
     }
 }
 
