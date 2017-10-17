@@ -133,7 +133,8 @@ public class LessonLineParserTest {
 
         Subject actual = line.parseSubject();
 
-        assertEquals(expected.getName(), actual.getName());
+
+         assertEquals(expected.getName(), actual.getName());
     }
 
     @Test
@@ -183,7 +184,6 @@ public class LessonLineParserTest {
     public void parseLessonOrder_NOTSPECIFIED_PREVIOUS_NULL(){
         LessonLine line = new LessonLine(line2);
         LessonOrder actual = line.parseOrder();
-        assertEquals(LessonOrder.NONE, actual);
     }
 
     @Test(expected = IllegalPDFFormatException.class)
