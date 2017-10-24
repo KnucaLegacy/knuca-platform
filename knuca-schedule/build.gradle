@@ -1,4 +1,5 @@
 buildscript {
+
     ext {
         springBootVersion = '1.5.7.RELEASE'
     }
@@ -9,6 +10,8 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
+
+
 
 allprojects {
 
@@ -29,9 +32,11 @@ allprojects {
 }
 
 project(':knuca-schedule-entity') {
+    apply plugin: 'org.springframework.boot'
     version = 'v1.0'
-
-
+    dependencies{
+        compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    }
 }
 
 project('knuca-schedule-parser') {
@@ -39,5 +44,6 @@ project('knuca-schedule-parser') {
 
     dependencies {
         compile project(path: ':knuca-schedule-entity')
+        compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
     }
 }

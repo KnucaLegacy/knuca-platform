@@ -1,7 +1,6 @@
 package com.theopus.parser.obj;
 
 import com.theopus.entity.schedule.Circumstance;
-import com.theopus.entity.schedule.Room;
 import com.theopus.entity.schedule.Subject;
 import com.theopus.entity.schedule.Teacher;
 import com.theopus.entity.schedule.enums.LessonOrder;
@@ -12,10 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,9 +18,9 @@ import java.util.regex.Pattern;
 
 public class LessonLine {
 
-    private static Logger logger = LoggerFactory.getLogger(LessonLine.class);
+    private final static Logger log = LoggerFactory.getLogger(LessonLine.class);
 
-    private String line;
+    String line;
     private LessonLine previous;
     private static Map<Pattern, Integer> lessonOrderMap = loadProperties();
     //ToDo: Move stringPatterns to property file
@@ -144,61 +139,8 @@ public class LessonLine {
     }
 
 
-    private static Pattern brackets_pattern = Pattern.compile("\\[([^]]+)\\]");
-    private static Pattern aud_pattern = Pattern.compile("ауд\\.([\\wА-я<>]+)");
-    private static Pattern single_date_pattern = Pattern.compile("\\d?\\d\\.\\d\\d");
-    private static DateTimeFormatter dateTimeFormat = new DateTimeFormatterBuilder()
-            .appendPattern("d.MM")
-            .parseDefaulting(ChronoField.YEAR, LocalDate.now().getYear())
-            .toFormatter();
 
 
-        class Bracket {
-            private Room room;
-            private Set<LocalDate> dates;
-            private String bracketContent;
-            private Bracket next;
-            private Bracket prev;
-
-            public Bracket(String bracketContent) {
-                this.bracketContent = bracketContent;
-            }
-
-            public Bracket(String bracketContent, Bracket next, Bracket prev) {
-                this.bracketContent = bracketContent;
-                this.next = next;
-                this.prev = prev;
-            }
 
 
-            Room parseRoom() {
-                Matcher matcher2 = aud_pattern.matcher(bracketContent);
-                if (matcher2.find()) {
-                    Room room = new Room();
-                    room.setName(matcher2.group());
-                    return room;
-                }
-                else {
-                    //ToDo: add Info which line
-                    logger.warn("No room avalible for line. Default has been setted.");
-                    Room room = new Room();
-                    room.setName("NoAuditory");
-                    return room;
-                }
-            }
-
-            Set<LocalDate> parseDates() {
-                return getSingleDates();
-
-            }
-
-            private Set<LocalDate> getSingleDates() {
-                Set<LocalDate> localDates = new HashSet<>();
-                Matcher matcher = single_date_pattern.matcher(bracketContent);
-                while (matcher.find()) {
-                    localDates.add(LocalDate.parse(matcher.group(), dateTimeFormat));
-                }
-                return localDates;
-            }
-        }
 }
