@@ -28,5 +28,28 @@ allprojects {
 }
 
 project(':knuca-schedule-entity') {
+    apply plugin: 'org.springframework.boot'
+
     version = 'v1.0'
+
+    dependencies{
+        compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    }
+}
+
+project(':knuca-schedule-repository') {
+
+    apply plugin: 'org.springframework.boot'
+
+    version = 'v1.0'
+
+    dependencies{
+        compile project(path: ':knuca-schedule-entity')
+        compile("org.springframework.boot:spring-boot-starter-data-jpa")
+
+
+        testCompile ("org.springframework.boot:spring-boot-starter-test")
+        compile("com.h2database:h2")
+        testCompile("junit:junit")
+    }
 }
