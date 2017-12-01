@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,8 +28,8 @@ public class Lesson {
     @GenericGenerator(name= "increment", strategy= "increment")
     private long id;
 
+    @ManyToOne
     @JoinColumn(name = "subject_id")
-    @ManyToOne(cascade = CascadeType.PERSIST)
     private Subject subject;
     @Column(name = "lesson_type")
     private LessonType type;
@@ -43,12 +45,12 @@ public class Lesson {
     @JoinTable(name = "lesson_teacher",
             joinColumns =@JoinColumn(name = "lesson_id"),
             inverseJoinColumns =@JoinColumn(name = "teacher_id"))
-    private Set<Teacher> teachers = new HashSet<>();
+    private List<Teacher> teachers = new ArrayList<>();
 
-    @OneToMany(targetEntity = Circumstance.class,mappedBy = "lesson",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "lesson",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Circumstance> circumstances = new HashSet<>();
 
-    public Lesson(Subject subject, LessonType type, Set<Group> groups, Set<Teacher> teachers,
+    public Lesson(Subject subject, LessonType type, Set<Group> groups, List<Teacher> teachers,
                   Set<Circumstance> circumstances) {
         this.subject = subject;
         this.type = type;
