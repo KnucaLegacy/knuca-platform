@@ -1,11 +1,11 @@
 package com.theopus.repository.specification;
 
-import com.theopus.entity.schedule.Subject;
+import com.theopus.entity.schedule.Teacher;
 import org.springframework.data.jpa.domain.Specification;
 
-public class SubjectSpecification {
+public class TeacherSpecification {
 
-    public static Specification<Subject> getByName(String name) {
+    public static Specification<Teacher> getByName(String name) {
         return (root, query, cb) -> cb.equal(root.get("name"), name);
     }
 }
