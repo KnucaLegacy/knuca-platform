@@ -18,13 +18,11 @@ public class LessonSpecification {
             Path<Object> type = root.get("type");
             query.distinct(true);
             Expression<Collection<Object>> expressionT = root.get("teachers");
-            Expression<Collection<Object>> expressionG = root.get("groups");
             Predicate pl = cb.equal(subject, lesson.getSubject());
             Predicate pty = cb.equal(type, lesson.getType());
 
             return cb.and(pl, pty,
-                    isCollectionEquals(expressionT, lesson.getTeachers(), cb),
-                    isCollectionEquals(expressionG, lesson.getGroups(), cb));
+                    isCollectionEquals(expressionT, lesson.getTeachers(), cb));
         });
     }
 
@@ -44,6 +42,7 @@ public class LessonSpecification {
         };
     }
 
+    @Deprecated
     static Predicate anyCircumstance(Join<Object, Object> circumstaces, Collection<Circumstance> initial, CriteriaBuilder cb) {
         return cb.or(initial.stream()
                 .map(circumstance -> cb.and(

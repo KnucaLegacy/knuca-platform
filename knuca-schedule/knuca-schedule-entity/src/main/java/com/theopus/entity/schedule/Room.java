@@ -21,7 +21,7 @@ public class Room {
     @Id@GeneratedValue(generator = "increment")
     @GenericGenerator(name= "increment", strategy= "increment")
     private long id;
-    @Column(name = "name")
+    @Column(unique = true, name = "name")
     private String name;
 
 }

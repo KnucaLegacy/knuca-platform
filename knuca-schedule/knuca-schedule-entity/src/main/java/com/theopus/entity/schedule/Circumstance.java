@@ -43,6 +43,10 @@ public class Circumstance {
     @JoinColumn(name = "lesson_id")
     private Lesson lesson;
 
+    @ManyToOne(targetEntity = Group.class)
+    @JoinColumn(name = "group_id")
+    private Group group;
+
     public Circumstance(LessonOrder lessonOrder, Set<Room> rooms, Set<LocalDate> dates, Lesson lesson) {
         this.lessonOrder = lessonOrder;
         this.rooms = rooms;

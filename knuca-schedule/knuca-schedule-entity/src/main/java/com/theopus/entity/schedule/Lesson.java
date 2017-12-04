@@ -13,15 +13,18 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Represents a concept of some classes at some time at some places.
  * Created by Oleksandr_Tkachov on 9/15/2017.
  */
-
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = {"id"})
 @Entity(name = "Lesson")
+//@Table(uniqueConstraints = {
+//        @UniqueConstraint(columnNames = {"subject_id", "lesson_type", "teachers"})
+//})
 public class Lesson {
 
     @Id@GeneratedValue(generator = "increment")
@@ -35,13 +38,6 @@ public class Lesson {
     private LessonType type;
 
     @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @JoinTable(name = "lesson_group",
-            joinColumns =@JoinColumn(name = "lesson_id"),
-            inverseJoinColumns =@JoinColumn(name = "group_id") )
-    private Set<Group> groups = new HashSet<>();
-
-
-    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "lesson_teacher",
             joinColumns =@JoinColumn(name = "lesson_id"),
             inverseJoinColumns =@JoinColumn(name = "teacher_id"))
@@ -50,11 +46,10 @@ public class Lesson {
     @OneToMany(mappedBy = "lesson",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Circumstance> circumstances = new HashSet<>();
 
-    public Lesson(Subject subject, LessonType type, Set<Group> groups, List<Teacher> teachers,
+    public Lesson(Subject subject, LessonType type, List<Teacher> teachers,
                   Set<Circumstance> circumstances) {
         this.subject = subject;
         this.type = type;
-        this.groups = groups;
         this.teachers = teachers;
         this.circumstances = circumstances;
     }
