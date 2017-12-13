@@ -13,7 +13,6 @@ import java.util.Collection;
 @Service
 public class CacheableSubjectService implements SimpleService<Subject> {
 
-
     private SubjectRepository repository;
 
     @Autowired

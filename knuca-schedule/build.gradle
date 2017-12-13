@@ -47,6 +47,7 @@ project(':knuca-schedule-repository') {
         compile project(path: ':knuca-schedule-entity')
         compile("org.springframework.boot:spring-boot-starter-data-jpa")
 
+        compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
 
         testCompile ("org.springframework.boot:spring-boot-starter-test")
         compile("com.h2database:h2")

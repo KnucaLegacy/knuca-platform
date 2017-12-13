@@ -15,42 +15,34 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "lesson")
-@EqualsAndHashCode(exclude = {"id", "lesson"})
-@Entity(name = "Circumstance")
+@EqualsAndHashCode(exclude = {"id", "curriculum"})
+@Entity(name = "circumstance")
 public class Circumstance {
 
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
-    private long id;
+    private Long id;
 
     @Column(name = "lesson_order")
     private LessonOrder lessonOrder;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "circumstance_room",
-            joinColumns = @JoinColumn(name = "room_id"),
-            inverseJoinColumns = @JoinColumn(name = "circumstance_id"))
-    private Set<Room> rooms = new HashSet<>();
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "room_id")
+    private Room room;
+
+    @ManyToOne(targetEntity = Curriculum.class)
+    @JoinColumn(name = "course_id")
+    private Curriculum curriculum;
 
     @ElementCollection
     @CollectionTable(name = "dates", joinColumns = @JoinColumn(name = "circumstance_id"))
     @Column(name = "date")
     private Set<LocalDate> dates = new HashSet<>();
 
-    @ManyToOne(targetEntity = Lesson.class)
-    @JoinColumn(name = "lesson_id")
-    private Lesson lesson;
 
-    @ManyToOne(targetEntity = Group.class)
-    @JoinColumn(name = "group_id")
-    private Group group;
-
-    public Circumstance(LessonOrder lessonOrder, Set<Room> rooms, Set<LocalDate> dates, Lesson lesson) {
+    public Circumstance(LessonOrder lessonOrder, Set<Room> rooms, Set<LocalDate> dates, Course course) {
         this.lessonOrder = lessonOrder;
-        this.rooms = rooms;
         this.dates = dates;
-        this.lesson = lesson;
     }
 }

@@ -15,12 +15,12 @@ import javax.persistence.Id;
 
 @Data
 @EqualsAndHashCode(exclude = "id")
-@Entity(name = "Room")
+@Entity(name = "room")
 public class Room {
 
     @Id@GeneratedValue(generator = "increment")
     @GenericGenerator(name= "increment", strategy= "increment")
-    private long id;
+    private Long id;
     @Column(unique = true, name = "name")
     private String name;
 

@@ -1,9 +1,9 @@
 spring:
-#  datasource:
-#    url: jdbc:mysql://localhost:3306/knuca-shcedule?useSSL=true
-#    username: root
-#    password: root
-#    driver-class-name: com.mysql.jdbc.Driver
+  datasource:
+    url: jdbc:mysql://localhost:3306/knuca-schedule?useSSL=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
   jpa:
     show-sql: false
     properties:

@@ -6,9 +6,11 @@ import com.theopus.repository.service.SimpleService;
 import com.theopus.repository.specification.GroupSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+@Service
 public class CacheableGroupService implements SimpleService<Group> {
 
     private GroupRepository repository;

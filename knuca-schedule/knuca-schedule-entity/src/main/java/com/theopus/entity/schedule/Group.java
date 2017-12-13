@@ -18,12 +18,12 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"id"})
-@Entity(name = "Groupp")
+@Entity(name = "group_")
 public class Group {
 
     @Id@GeneratedValue(generator = "increment")
     @GenericGenerator(name= "increment", strategy= "increment")
-    private long id;
+    private Long id;
     @Column(unique = true, name = "name")
     private String name;
 
