@@ -47,3 +47,6 @@ gen
 /knuca-schedule-repository/out/
 /knuca-schedule-entity/out/
 !/gradle/wrapper/gradle-wrapper.jar
+/knuca-schedule-repository/out/production/
+/knuca-schedule-repository/out/test/
+/knuca-schedule-entity/build/

@@ -29,4 +29,26 @@ allprojects {
         testCompile("junit:junit:${jUnitVersion}")
         compile group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}"
     }
+
+    checkstyle {
+        ignoreFailures = false
+        configFile = new File(rootDir, "config/checkstyle/checkstyle.xml")
+        toolVersion "8.4"
+        maxErrors 0
+        maxWarnings 0
+
+    }
+
+    checkstyleMain.finalizedBy {
+        copyCheckstyleReport
+    }
+
+    checkstyleTest.finalizedBy {
+        copyCheckstyleReport
+    }
+
+    task copyCheckstyleReport(type: Copy) {
+        from "build/reports/checkstyle/"
+        into "${rootProject.rootDir}/build/reports/checkstyle/${project.name}"
+    }
 }
