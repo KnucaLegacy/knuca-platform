@@ -1,6 +1,8 @@
 buildscript {
     ext {
-        springBootVersion = '1.5.7.RELEASE'
+        springBootVersion = '1.5.8.RELEASE'
+        jUnitVersion = '4.12'
+        lombokVersion = '1.16.18'
     }
     repositories {
         mavenCentral()
@@ -13,6 +15,7 @@ buildscript {
 allprojects {
 
     apply plugin: 'java'
+    apply plugin: 'checkstyle'
 
     group = 'com.theopus'
     version = '0.0.1-SNAPSHOT'
@@ -23,34 +26,7 @@ allprojects {
     }
 
     dependencies {
-        compile group: 'org.projectlombok', name: 'lombok', version: '1.16.18'
-    }
-}
-
-project(':knuca-schedule-entity') {
-    apply plugin: 'org.springframework.boot'
-
-    version = 'v1.0'
-
-    dependencies{
-        compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    }
-}
-
-project(':knuca-schedule-repository') {
-
-    apply plugin: 'org.springframework.boot'
-
-    version = 'v1.0'
-
-    dependencies{
-        compile project(path: ':knuca-schedule-entity')
-        compile("org.springframework.boot:spring-boot-starter-data-jpa")
-
-        compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
-
-        testCompile ("org.springframework.boot:spring-boot-starter-test")
-        compile("com.h2database:h2")
-        testCompile("junit:junit")
+        testCompile("junit:junit:${jUnitVersion}")
+        compile group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}"
     }
 }
