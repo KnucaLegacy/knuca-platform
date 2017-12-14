@@ -1,7 +1,9 @@
 package com.theopus.entity.schedule;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -14,13 +16,19 @@ import javax.persistence.Id;
  */
 
 @Data
-@EqualsAndHashCode(exclude = {"id", })
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(exclude = {"id"})
 @Entity(name = "teacher")
 public class Teacher {
+
     @Id@GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
     @Column(unique = true, name = "name")
     private String name;
 
+    public Teacher(String name) {
+        this.name = name;
+    }
 }

@@ -44,5 +44,4 @@ public class Course {
         this.type = type;
         this.teachers = teachers;
     }
-
 }

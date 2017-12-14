@@ -1,7 +1,9 @@
 package com.theopus.entity.schedule;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -14,6 +16,8 @@ import javax.persistence.Id;
  */
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(exclude = "id")
 @Entity(name = "room")
 public class Room {
@@ -24,4 +28,7 @@ public class Room {
     @Column(unique = true, name = "name")
     private String name;
 
+    public Room(String name) {
+        this.name = name;
+    }
 }

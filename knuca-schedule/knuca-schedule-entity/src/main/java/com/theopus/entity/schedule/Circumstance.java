@@ -19,8 +19,7 @@ import java.util.Set;
 @Entity(name = "circumstance")
 public class Circumstance {
 
-    @Id
-    @GeneratedValue(generator = "increment")
+    @Id@GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
@@ -40,9 +39,9 @@ public class Circumstance {
     @Column(name = "date")
     private Set<LocalDate> dates = new HashSet<>();
 
-
-    public Circumstance(LessonOrder lessonOrder, Set<Room> rooms, Set<LocalDate> dates, Course course) {
+    public Circumstance(LessonOrder lessonOrder, Room room, Set<LocalDate> dates) {
         this.lessonOrder = lessonOrder;
+        this.room = room;
         this.dates = dates;
     }
 }

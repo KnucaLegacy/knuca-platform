@@ -17,8 +17,7 @@ import java.util.Set;
 @Entity(name = "curriculum")
 public class Curriculum {
 
-    @Id
-    @GeneratedValue(generator = "increment")
+    @Id@GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
@@ -33,6 +32,11 @@ public class Curriculum {
     @OneToMany(mappedBy = "curriculum", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Circumstance> circumstances = new HashSet<>();
 
+    public Curriculum(Course course, Group group, Set<Circumstance> circumstances) {
+        this.course = course;
+        this.group = group;
+        this.circumstances = circumstances;
+    }
 }
 
 
