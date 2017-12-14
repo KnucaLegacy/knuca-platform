@@ -7,7 +7,7 @@ import javax.persistence.criteria.*;
 
 public class CircumstanceSpecification {
 
-    public static Specification<Circumstance> sameCircumstance(Circumstance circumstance){
+    public static Specification<Circumstance> sameCircumstance(Circumstance circumstance) {
         return (root, query, cb) -> {
             Path<Object> curriculum = root.get("curriculum");
             Path<Object> lessonOrder = root.get("lessonOrder");

@@ -19,7 +19,7 @@ import javax.persistence.Id;
 public class Room {
 
     @Id@GeneratedValue(generator = "increment")
-    @GenericGenerator(name= "increment", strategy= "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
     @Column(unique = true, name = "name")
     private String name;

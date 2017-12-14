@@ -1,4 +1,5 @@
 package com.theopus.entity.schedule;
+
 import com.theopus.entity.schedule.enums.LessonType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,9 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Represents a concept of some classes at some time at some places.
@@ -25,7 +24,7 @@ import java.util.Set;
 public class Course {
 
     @Id@GeneratedValue(generator = "increment")
-    @GenericGenerator(name= "increment", strategy= "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
     @ManyToOne
@@ -36,12 +35,11 @@ public class Course {
 
     @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "course_teacher",
-            joinColumns =@JoinColumn(name = "course_id"),
-            inverseJoinColumns =@JoinColumn(name = "teacher_id"))
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "teacher_id"))
     private List<Teacher> teachers = new ArrayList<>();
 
-    public Course(Subject subject, LessonType type, List<Teacher> teachers,
-                  Set<Curriculum> сurriculums) {
+    public Course(Subject subject, LessonType type, List<Teacher> teachers) {
         this.subject = subject;
         this.type = type;
         this.teachers = teachers;

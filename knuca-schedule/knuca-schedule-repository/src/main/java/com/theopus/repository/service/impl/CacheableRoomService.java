@@ -20,9 +20,9 @@ public class CacheableRoomService<T> implements SimpleService<Room> {
 
     @Cacheable
     @Override
-    public Room save(Room room){
+    public Room save(Room room) {
         Room saved = findByName(room.getName());
-        if (saved != null){
+        if (saved != null) {
             return saved;
         }
         return repository.save(room);
@@ -30,7 +30,7 @@ public class CacheableRoomService<T> implements SimpleService<Room> {
 
     @Cacheable
     @Override
-    public Room save(String name){
+    public Room save(String name) {
         Room room = findByName(name);
         if (room != null) {
             return room;
@@ -42,7 +42,7 @@ public class CacheableRoomService<T> implements SimpleService<Room> {
 
     @Cacheable
     @Override
-    public Room findByName(String name){
+    public Room findByName(String name) {
         return (Room) repository.findOne(RoomSpecification.getByName(name));
     }
 
@@ -52,7 +52,7 @@ public class CacheableRoomService<T> implements SimpleService<Room> {
     }
 
     @Override
-    public Collection<Room> getAll(){
+    public Collection<Room> getAll() {
         return repository.findAll();
     }
 }

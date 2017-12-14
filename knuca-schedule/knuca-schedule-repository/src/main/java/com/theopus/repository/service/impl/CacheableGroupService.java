@@ -22,9 +22,9 @@ public class CacheableGroupService implements SimpleService<Group> {
 
     @Cacheable
     @Override
-    public Group save(Group group){
+    public Group save(Group group) {
         Group saved = findByName(group.getName());
-        if (saved != null){
+        if (saved != null) {
             return saved;
         }
         return repository.save(group);
@@ -32,7 +32,7 @@ public class CacheableGroupService implements SimpleService<Group> {
 
     @Cacheable
     @Override
-    public Group save(String name){
+    public Group save(String name) {
         Group group = findByName(name);
         if (group != null) {
             return group;
@@ -44,7 +44,7 @@ public class CacheableGroupService implements SimpleService<Group> {
 
     @Cacheable
     @Override
-    public Group findByName(String name){
+    public Group findByName(String name) {
         return (Group) repository.findOne(GroupSpecification.getByName(name));
     }
 
@@ -54,7 +54,7 @@ public class CacheableGroupService implements SimpleService<Group> {
     }
 
     @Override
-    public Collection<Group> getAll(){
+    public Collection<Group> getAll() {
         return repository.findAll();
     }
 }

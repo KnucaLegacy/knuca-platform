@@ -22,21 +22,22 @@ public class NoDuplicateCurriculumService implements CurriculumService {
     private CurriculumRepository repository;
 
     @Autowired
-    public NoDuplicateCurriculumService(CourseService courseService, CircumstanceService circumstanceService, SimpleService<Group> groupService, CurriculumRepository repository) {
+    public NoDuplicateCurriculumService(CourseService courseService, CircumstanceService circumstanceService,
+                                        SimpleService<Group> groupService, CurriculumRepository repository) {
         this.courseService = courseService;
         this.circumstanceService = circumstanceService;
         this.groupService = groupService;
         this.repository = repository;
     }
 
-    Curriculum save(Curriculum curriculum){
+    Curriculum save(Curriculum curriculum) {
         Curriculum saved = this.safeSave(curriculum);
         saved.getCircumstances().forEach(circumstance -> circumstance.setCurriculum(saved));
         return repository.save(saved);
     }
 
     @Cacheable
-    public Curriculum safeSave(Curriculum curriculum){
+    public Curriculum safeSave(Curriculum curriculum) {
         Course course = courseService.save(curriculum.getCourse());
         Group group = groupService.save(curriculum.getGroup());
         curriculum.setCourse(course);

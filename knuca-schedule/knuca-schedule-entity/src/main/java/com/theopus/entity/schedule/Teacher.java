@@ -18,7 +18,7 @@ import javax.persistence.Id;
 @Entity(name = "teacher")
 public class Teacher {
     @Id@GeneratedValue(generator = "increment")
-    @GenericGenerator(name= "increment", strategy= "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
     @Column(unique = true, name = "name")
     private String name;

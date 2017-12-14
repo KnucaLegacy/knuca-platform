@@ -52,3 +52,6 @@ allprojects {
         into "${rootProject.rootDir}/build/reports/checkstyle/${project.name}"
     }
 }
+
+
+

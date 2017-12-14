@@ -22,9 +22,9 @@ public class CacheableSubjectService implements SimpleService<Subject> {
 
     @Cacheable
     @Override
-    public Subject save(Subject subject){
+    public Subject save(Subject subject) {
         Subject saved = findByName(subject.getName());
-        if (saved != null){
+        if (saved != null) {
             return saved;
         }
         return repository.save(subject);
@@ -32,7 +32,7 @@ public class CacheableSubjectService implements SimpleService<Subject> {
 
     @Cacheable
     @Override
-    public Subject save(String name){
+    public Subject save(String name) {
         Subject subject = findByName(name);
         if (subject != null) {
             return subject;
@@ -44,7 +44,7 @@ public class CacheableSubjectService implements SimpleService<Subject> {
 
     @Cacheable
     @Override
-    public Subject findByName(String name){
+    public Subject findByName(String name) {
         return (Subject) repository.findOne(SubjectSpecification.getByName(name));
     }
 
@@ -54,7 +54,7 @@ public class CacheableSubjectService implements SimpleService<Subject> {
     }
 
     @Override
-    public Collection<Subject> getAll(){
+    public Collection<Subject> getAll() {
         return repository.findAll();
     }
 }

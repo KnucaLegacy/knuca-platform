@@ -50,3 +50,4 @@ gen
 /knuca-schedule-repository/out/production/
 /knuca-schedule-repository/out/test/
 /knuca-schedule-entity/build/
+/knuca-schedule-repository/build/

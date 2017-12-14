@@ -8,7 +8,7 @@ import java.util.Collection;
 public class SpecificationUtil {
 
 
-    public static Predicate isCollectionEquals(Expression<Collection<Object>> collection, Collection<?> initial, CriteriaBuilder cb){
+    public static Predicate isCollectionEquals(Expression<Collection<Object>> collection, Collection<?> initial, CriteriaBuilder cb) {
         Predicate all = cb.and(initial.stream()
                 .map(o -> cb.isMember(o, collection))
                 .toArray(Predicate[]::new));
@@ -16,9 +16,12 @@ public class SpecificationUtil {
         return cb.and(all, size);
     }
 
-    public static Predicate isCollectionContainsSomething(Expression<Collection<Object>> collection, Collection<?> initial, CriteriaBuilder cb){
-        if (initial.size() == 0)
+    public static Predicate isCollectionContainsSomething(Expression<Collection<Object>> collection,
+                                                          Collection<?> initial,
+                                                          CriteriaBuilder cb) {
+        if (initial.size() == 0) {
             return cb.equal(cb.size(collection), initial.size());
+        }
         return cb.or(initial.stream()
                 .map(o -> cb.isMember(o, collection))
                 .toArray(Predicate[]::new));

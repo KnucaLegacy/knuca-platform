@@ -20,9 +20,9 @@ public class CacheableTeacherService implements SimpleService<Teacher> {
 
     @Cacheable
     @Override
-    public Teacher save(Teacher teacher){
+    public Teacher save(Teacher teacher) {
         Teacher saved = findByName(teacher.getName());
-        if (saved != null){
+        if (saved != null) {
             return saved;
         }
         return repository.save(teacher);
@@ -30,7 +30,7 @@ public class CacheableTeacherService implements SimpleService<Teacher> {
 
     @Cacheable
     @Override
-    public Teacher save(String name){
+    public Teacher save(String name) {
         Teacher subject = findByName(name);
         if (subject != null) {
             return subject;
@@ -42,7 +42,7 @@ public class CacheableTeacherService implements SimpleService<Teacher> {
 
     @Cacheable
     @Override
-    public Teacher findByName(String name){
+    public Teacher findByName(String name) {
         return (Teacher) repository.findOne(TeacherSpecification.getByName(name));
     }
 
@@ -52,7 +52,7 @@ public class CacheableTeacherService implements SimpleService<Teacher> {
     }
 
     @Override
-    public Collection<Teacher> getAll(){
+    public Collection<Teacher> getAll() {
         return repository.findAll();
     }
 }

@@ -9,7 +9,7 @@ import javax.persistence.criteria.Predicate;
 
 public class CurriculumSpecification {
 
-    public static Specification<Curriculum> sameCurriculum(Curriculum curriculum){
+    public static Specification<Curriculum> sameCurriculum(Curriculum curriculum) {
         return ((root, query, cb) -> {
             Path<Object> course = root.get("course");
             Path<Object> group = root.get("group");
