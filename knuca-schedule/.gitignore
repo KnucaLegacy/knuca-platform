@@ -28,7 +28,6 @@ gradle-app.setting
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.ear
 *.zip
@@ -47,3 +46,4 @@ out
 gen
 /knuca-schedule-repository/out/
 /knuca-schedule-entity/out/
+!/gradle/wrapper/gradle-wrapper.jar
