@@ -10,12 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
-@Service
 public class CacheableGroupService implements SimpleService<Group> {
 
     private GroupRepository repository;
 
-    @Autowired
     public CacheableGroupService(GroupRepository repository) {
         this.repository = repository;
     }

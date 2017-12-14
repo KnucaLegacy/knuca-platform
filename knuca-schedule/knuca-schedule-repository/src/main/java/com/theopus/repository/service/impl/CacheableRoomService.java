@@ -13,7 +13,6 @@ public class CacheableRoomService<T> implements SimpleService<Room> {
 
     private RoomRepository repository;
 
-    @Autowired
     public CacheableRoomService(RoomRepository repository) {
         this.repository = repository;
     }

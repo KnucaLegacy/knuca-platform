@@ -1,4 +1,5 @@
 rootProject.name = 'knuca-schedule'
 include 'knuca-schedule-entity'
 include 'knuca-schedule-repository'
+include 'knuca-schedule-rest-service'
 

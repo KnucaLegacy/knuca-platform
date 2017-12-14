@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
-@Service
 public class CourseServiceImpl implements CourseService {
     @Override
     public Course save(Course subject) {

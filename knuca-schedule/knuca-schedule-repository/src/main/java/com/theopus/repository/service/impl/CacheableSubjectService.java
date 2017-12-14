@@ -15,7 +15,6 @@ public class CacheableSubjectService implements SimpleService<Subject> {
 
     private SubjectRepository repository;
 
-    @Autowired
     public CacheableSubjectService(SubjectRepository subjectRepository) {
         this.repository = subjectRepository;
     }

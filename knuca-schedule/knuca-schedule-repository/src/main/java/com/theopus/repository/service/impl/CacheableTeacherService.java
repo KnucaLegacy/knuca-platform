@@ -13,7 +13,6 @@ public class CacheableTeacherService implements SimpleService<Teacher> {
 
     private TeacherRepository repository;
 
-    @Autowired
     public CacheableTeacherService(TeacherRepository repository) {
         this.repository = repository;
     }

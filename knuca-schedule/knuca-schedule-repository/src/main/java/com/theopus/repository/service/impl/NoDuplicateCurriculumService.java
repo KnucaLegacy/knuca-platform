@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-@Service
 public class NoDuplicateCurriculumService implements CurriculumService {
 
     private CourseService courseService;
@@ -21,7 +20,6 @@ public class NoDuplicateCurriculumService implements CurriculumService {
     private SimpleService<Group> groupService;
     private CurriculumRepository repository;
 
-    @Autowired
     public NoDuplicateCurriculumService(CourseService courseService, CircumstanceService circumstanceService,
                                         SimpleService<Group> groupService, CurriculumRepository repository) {
         this.courseService = courseService;
