@@ -35,7 +35,7 @@ gradle-app.setting
 *.rar
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+
 ### Example user template template
 ### Example user template
 
@@ -51,3 +51,9 @@ gen
 /knuca-schedule-repository/out/test/
 /knuca-schedule-entity/build/
 /knuca-schedule-repository/build/
+.gradle/
+.idea/
+gradle/
+knuca-schedule-entity/build/
+knuca-schedule-parser/build/
+

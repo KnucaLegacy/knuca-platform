@@ -1,7 +1,11 @@
 /.idea
-/.idea/
 /gradle/
 /.gradle/
+*/build/*
+*/out/*
+build/*
+/knuca-parser/build/
+/build/
 knuca-entity/build/
 /knuca-entity/build/
 *.iml
