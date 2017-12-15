@@ -50,35 +50,55 @@ public class RoomDateBrackets {
             current.parse();
             Circumstance circumstance = new Circumstance();
 
-            if (current.dates.isEmpty()) {
-                emptyDates.add(circumstance);
-            } else {
+            if (!current.dates.isEmpty() && !current.room.equals(dummyRoom)) {
                 circumstance.setDates(current.dates);
+                circumstance.setRoom(current.room);
                 cacheDates = current.dates;
-                Bracket finalCurrent1 = current;
-                emptyDates.forEach(c -> c.setDates(finalCurrent1.dates));
-                result.addAll(emptyDates);
+                cacheRoom = current.room;
+
+                Room finalCacheRoom = cacheRoom;
+                emptyRooms.forEach(c -> {
+                    c.setRoom(finalCacheRoom);
+                    result.add(c);
+                });
+                emptyRooms.clear();
+                Set<LocalDate> finalCacheDates = cacheDates;
+                emptyDates.forEach(c -> {
+                    c.setDates(finalCacheDates);
+                    result.add(c);
+                });
                 emptyDates.clear();
                 result.add(circumstance);
-            }
-
-            if (current.room.equals(dummyRoom)) {
-                emptyRooms.add(circumstance);
-            } else {
-                circumstance.setRoom(current.room);
-                Bracket finalCurrent = current;
-                cacheRoom = current.room;
-                emptyRooms.forEach(c -> c.setRoom(finalCurrent.room));
-                result.addAll(emptyRooms);
-                emptyRooms.clear();
-                result.add(circumstance);
-            }
-
-            if (current.next == null) {
-                circumstance.setDates(cacheDates);
-                circumstance.setRoom(cacheRoom);
-                result.add(circumstance);
                 continue;
+            }
+            if (current.dates.isEmpty() && !current.room.equals(dummyRoom)) {
+                emptyDates.add(circumstance);
+                continue;
+            }
+            if (!current.dates.isEmpty() && current.room.equals(dummyRoom)) {
+                emptyRooms.add(circumstance);
+                continue;
+            }
+            if (current.dates.isEmpty() && current.room.equals(dummyRoom)) {
+                log.warn("Empty [] brackets in {}", parent);
+            }
+            if (current.next == null) {
+                circumstance.setRoom(cacheRoom);
+                circumstance.setDates(cacheDates);
+                result.add(circumstance);
+
+                Room finalCacheRoom = cacheRoom;
+                emptyRooms.forEach(c -> {
+                    c.setRoom(finalCacheRoom);
+                    result.add(c);
+                });
+                emptyRooms.clear();
+                Set<LocalDate> finalCacheDates = cacheDates;
+                emptyDates.forEach(c -> {
+                    c.setDates(finalCacheDates);
+                    result.add(c);
+                });
+                emptyDates.clear();
             }
         }
         return result;
