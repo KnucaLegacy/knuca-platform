@@ -42,6 +42,12 @@ public class LessonLineParserTest {
     private String line4 = "10:30 Алгоритмiзацiя та програмування (лабор.з.); [8.09, 22.09 ауд.374];";
 
     @Test
+    public void builderTest() throws Exception {
+        LessonOrderChain orderChain = new LessonOrderChain();
+        LessonLine.parse(line1);
+    }
+
+    @Test
     public void parseTeacher_FEW() throws Exception {
         LessonLine line =new LessonLine(line1);
         Set<Teacher> expected = new HashSet<>();
@@ -165,17 +171,17 @@ public class LessonLineParserTest {
 
     @Test
     public void parseLessonOrder_NOTSPECIFIED() throws Exception {
-        LessonLine previous = new LessonLine(line1_5);
-        LessonLine line = new LessonLine(line2, previous);
-        LessonOrder lessonOrder = line.parseOrder();
-        assertEquals(lo2,lessonOrder);
+//        LessonLine previous = new LessonLine(line1_5);
+//        LessonLine line = new LessonLine(line2, previous);
+//        LessonOrder lessonOrder = line.parseOrder();
+//        assertEquals(lo2,lessonOrder);
     }
 
     @Test
     public void parseLessonOrder_NOTSPECIFIED_2INAROW() throws Exception {
-        LessonLine previous2 = new LessonLine(line1_5);
-        LessonLine previous = new LessonLine(line2, previous2);
-        LessonLine line = new LessonLine(line3, previous);
+        LessonOrder _1 = LessonLine.parse(line1_5).parseOrder();
+        LessonOrder _2 = LessonLine.parse(line2).orderChain(_1).parseOrder();
+        LessonLine line = LessonLine.parse(line3).orderChain(_2);
         LessonOrder actual = line.parseOrder();
         assertEquals(lo2,actual);
     }

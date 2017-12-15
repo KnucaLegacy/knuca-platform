@@ -21,7 +21,6 @@ public class LessonLine {
     private final static Logger log = LoggerFactory.getLogger(LessonLine.class);
 
     String line;
-    private LessonLine previous;
     private static Map<Pattern, Integer> lessonOrderMap = loadProperties();
     //ToDo: Move stringPatterns to property file
     private static Pattern practPattern = Pattern.compile("\\(пра.*\\)");
@@ -31,6 +30,7 @@ public class LessonLine {
     //ToDO: add another pattern for case where teacher does not have academic degree
     private static Pattern teacherPattern =
             Pattern.compile("\\b((([^.,\\s\\d\\p{Punct}]{2,5}.)?[^.,\\s\\d\\p{Punct}]{2,4}\\.)|[^.,\\d\\s]{3,}\\.)\\s[^.,\\s\\d]+(\\s[^.,\\d\\s]\\.)?([^.,\\d\\s]\\.?)?");
+    private LessonOrder previousOrder;
 
     private static Map<Pattern, Integer> loadProperties() {
         //ToDo move to UTIL class
@@ -58,22 +58,18 @@ public class LessonLine {
                         .findFirst().orElse(new AbstractMap.SimpleEntry<>(null, 0)).getValue() == l.ordinal()))
                 .findFirst().orElse(LessonOrder.NONE);
         if (lessonOrder.ordinal() == 0) {
-            if (previous != null)
-                //kinda recursion;
-                return previous.parseOrder();
-            else
+            if (previousOrder != null && !previousOrder.equals(LessonOrder.NONE)) {
+                return previousOrder;
+            } else {
                 throw new IllegalPDFFormatException("Lesson line " + line + "not contains any info about order");
-        } else
+            }
+        } else {
             return lessonOrder;
+        }
     }
 
     LessonLine(String line) {
         this.line = normalize(line);
-    }
-
-    LessonLine(String line, LessonLine previous) {
-        this.line = normalize(line);
-        this.previous = previous;
     }
 
     private String normalize(String line) {
@@ -134,5 +130,14 @@ public class LessonLine {
     Set<Circumstance> parseCircumstances() {
 
         return null;
+    }
+
+    public static LessonLine parse(String line2) {
+        return new LessonLine(line2);
+    }
+
+    public LessonLine orderChain(LessonOrder order) {
+        this.previousOrder = order;
+        return this;
     }
 }
