@@ -48,6 +48,10 @@ public class LessonLineCircumstancesParserTest {
     @Test
     public void parse_twobrackets_4_dates_1_room___1_date_1_room() throws Exception {
         RoomDateBrackets rdb = new RoomDateBrackets(twobrackets_4_dates_1_room___1_date_1_room,null,null);
+        Set<Circumstance> circumstances = rdb.parseCircumstaces();
+        circumstances.forEach(circumstance -> {
+            System.out.println(circumstance.equals(circumstances.stream().findAny().get()));
+        });
     }
 
 

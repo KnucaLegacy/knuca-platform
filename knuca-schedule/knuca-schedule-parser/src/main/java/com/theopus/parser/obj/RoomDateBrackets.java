@@ -36,7 +36,52 @@ public class RoomDateBrackets {
 
 
     private Set<Circumstance> parseBrackets() {
-        return null;
+        Room dummyRoom = new Room(DefaultRoom.NO_AUDITORY.toString());
+        Set<Circumstance> result = new HashSet<>();
+        Bracket bracket = splitToBrackets();
+        HashSet<Circumstance> emptyRooms = new HashSet<>();
+        HashSet<Circumstance> emptyDates = new HashSet<>();
+        emptyRooms.clear();
+
+        Room cacheRoom = dummyRoom;
+        Set<LocalDate> cacheDates = new HashSet<>();
+
+        for (Bracket current = bracket.parse(); current != null; current = current.next) {
+            current.parse();
+            Circumstance circumstance = new Circumstance();
+
+            if (current.dates.isEmpty()) {
+                emptyDates.add(circumstance);
+            } else {
+                circumstance.setDates(current.dates);
+                cacheDates = current.dates;
+                Bracket finalCurrent1 = current;
+                emptyDates.forEach(c -> c.setDates(finalCurrent1.dates));
+                result.addAll(emptyDates);
+                emptyDates.clear();
+                result.add(circumstance);
+            }
+
+            if (current.room.equals(dummyRoom)) {
+                emptyRooms.add(circumstance);
+            } else {
+                circumstance.setRoom(current.room);
+                Bracket finalCurrent = current;
+                cacheRoom = current.room;
+                emptyRooms.forEach(c -> c.setRoom(finalCurrent.room));
+                result.addAll(emptyRooms);
+                emptyRooms.clear();
+                result.add(circumstance);
+            }
+
+            if (current.next == null) {
+                circumstance.setDates(cacheDates);
+                circumstance.setRoom(cacheRoom);
+                result.add(circumstance);
+                continue;
+            }
+        }
+        return result;
     }
 
     private Bracket splitToBrackets() {
@@ -65,6 +110,10 @@ public class RoomDateBrackets {
             .appendPattern("d.MM")
             .parseDefaulting(ChronoField.YEAR, LocalDate.now().getYear())
             .toFormatter();
+
+    enum DefaultRoom {
+        NO_AUDITORY,
+    }
 
 
     class Bracket {
@@ -95,7 +144,7 @@ public class RoomDateBrackets {
                 //ToDo: add Info which line
                 log.warn("No room avalible for line. Default has been setted. Line " + parent.line);
                 Room room = new Room();
-                room.setName("NoAuditory");
+                room.setName(DefaultRoom.NO_AUDITORY.toString());
                 return room;
             }
         }
@@ -117,13 +166,14 @@ public class RoomDateBrackets {
             return localDates;
         }
 
-        private Set<LocalDate> getFromToDates(){
+        private Set<LocalDate> getFromToDates() {
             return null;
         }
 
-        private void parse() {
+        private Bracket parse() {
             this.room = parseRoom();
             this.dates = parseDates();
+            return this;
         }
     }
 }

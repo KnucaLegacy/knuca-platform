@@ -31,6 +31,7 @@ allprojects {
     dependencies {
         testCompile("junit:junit:${jUnitVersion}")
         compile group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}"
+        compile group: 'com.google.guava', name: 'guava', version: '23.5-jre'
     }
 
     checkstyle {
