@@ -92,4 +92,15 @@ public class Course {
     public void setTeachers(Set<Teacher> teachers) {
         this.teachers = teachers;
     }
+
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", subject=" + subject +
+                ", type=" + type +
+                ", teachers=" + teachers +
+                '}';
+    }
 }

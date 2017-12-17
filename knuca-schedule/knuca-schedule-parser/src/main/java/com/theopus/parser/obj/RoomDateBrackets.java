@@ -24,19 +24,44 @@ public class RoomDateBrackets {
     private LessonLine parent;
     private LessonOrder lessonOrder;
 
-    public RoomDateBrackets(String rightSplit, LessonLine parent, LessonOrder lessonOrder) {
+    public RoomDateBrackets() {
+    }
+
+    private RoomDateBrackets(String rightSplit, LessonLine parent, LessonOrder lessonOrder) {
         this.rightSplit = rightSplit;
         this.parent = parent;
         this.lessonOrder = lessonOrder;
     }
 
-    Set<Circumstance> parseCircumstaces() {
-        return parseBrackets();
+    public RoomDateBrackets prepare(String rightSplit, LessonLine parent, LessonOrder lessonOrder){
+        this.rightSplit = rightSplit;
+        this.parent = parent;
+        this.lessonOrder = lessonOrder;
+        return new RoomDateBrackets(rightSplit, parent, lessonOrder);
+    }
+
+    public static RoomDateBrackets build(){
+        return new RoomDateBrackets();
+    }
+
+    public RoomDateBrackets defaultPatterns(){
+        brackets_pattern = Pattern.compile(Patterns.RoomDates.BRACKETS);
+        aud_pattern = Pattern.compile(Patterns.RoomDates.AUDITORY);
+        single_date_pattern = Pattern.compile(Patterns.RoomDates.SINGLE_DATE);
+        from_date_pattern = Pattern.compile(Patterns.RoomDates.FROM_DATE);
+        to_date_pattern = Pattern.compile(Patterns.RoomDates.TO_DATE);
+        return this;
+    }
+
+    Set<Circumstance> parseCircumstacnes() {
+        Set<Circumstance> circumstances = parseBrackets();
+        circumstances.forEach(c -> c.setLessonOrder(lessonOrder));
+        return circumstances;
     }
 
 
-    private Set<Circumstance> parseBrackets() {
-        Room dummyRoom = new Room(DefaultRoom.NO_AUDITORY.toString());
+    Set<Circumstance> parseBrackets() {
+        Room dummyRoom = new Room(Room.NO_AUDITORY);
         Set<Circumstance> result = new HashSet<>();
         Bracket bracket = splitToBrackets();
         HashSet<Circumstance> emptyRooms = new HashSet<>();
@@ -61,23 +86,27 @@ public class RoomDateBrackets {
                     c.setRoom(finalCacheRoom);
                     result.add(c);
                 });
+                result.addAll(emptyRooms);
                 emptyRooms.clear();
                 Set<LocalDate> finalCacheDates = cacheDates;
                 emptyDates.forEach(c -> {
                     c.setDates(finalCacheDates);
                     result.add(c);
                 });
+                result.addAll(emptyDates);
                 emptyDates.clear();
                 result.add(circumstance);
-                continue;
             }
+
             if (current.dates.isEmpty() && !current.room.equals(dummyRoom)) {
+                circumstance.setRoom(current.room);
+                cacheRoom = current.room;
                 emptyDates.add(circumstance);
-                continue;
             }
             if (!current.dates.isEmpty() && current.room.equals(dummyRoom)) {
+                circumstance.setDates(current.dates);
+                cacheDates = current.dates;
                 emptyRooms.add(circumstance);
-                continue;
             }
             if (current.dates.isEmpty() && current.room.equals(dummyRoom)) {
                 log.warn("Empty [] brackets in {}", parent);
@@ -120,21 +149,16 @@ public class RoomDateBrackets {
         return first;
     }
 
+    private static Pattern brackets_pattern;
+    private static Pattern aud_pattern;
+    private static Pattern single_date_pattern;
+    private static Pattern from_date_pattern;
+    private static Pattern to_date_pattern;
 
-    private static Pattern brackets_pattern = Pattern.compile("\\[([^]]+)\\]");
-    private static Pattern aud_pattern = Pattern.compile("ауд\\.([\\wА-я<>]+)");
-    private static Pattern single_date_pattern = Pattern.compile("(^|([^доз]\\s))(\\d?\\d\\.\\d\\d)");
-    private static Pattern from_date_pattern = Pattern.compile("з\\s(\\d?\\d\\.\\d\\d)");
-    private static Pattern to_date_pattern = Pattern.compile("до\\s(\\d?\\d\\.\\d\\d)");
     private static DateTimeFormatter dateTimeFormat = new DateTimeFormatterBuilder()
             .appendPattern("d.MM")
             .parseDefaulting(ChronoField.YEAR, LocalDate.now().getYear())
             .toFormatter();
-
-    enum DefaultRoom {
-        NO_AUDITORY,
-    }
-
 
     class Bracket {
         private Room room;
@@ -162,9 +186,9 @@ public class RoomDateBrackets {
                 return room;
             } else {
                 //ToDo: add Info which line
-                log.warn("No room avalible for line. Default has been setted. Line " + parent.line);
+                log.warn("No room avalible for line {} . Default has been setted. ", parent.line);
                 Room room = new Room();
-                room.setName(DefaultRoom.NO_AUDITORY.toString());
+                room.setName(Room.NO_AUDITORY);
                 return room;
             }
         }

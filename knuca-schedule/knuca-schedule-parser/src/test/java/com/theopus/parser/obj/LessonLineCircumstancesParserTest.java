@@ -3,7 +3,6 @@ package com.theopus.parser.obj;
 import com.google.common.collect.Sets;
 import com.theopus.entity.schedule.Circumstance;
 import com.theopus.entity.schedule.Room;
-import com.theopus.entity.schedule.enums.LessonOrder;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -28,16 +27,65 @@ public class LessonLineCircumstancesParserTest {
 
     private String four_brackets_1room__2dates__1room__1room_1SinlgeDate = "[ ауд.358] [12.10, 19.10 ауд.468] [ ауд.351] [1.04 ауд.222];";
 
-    //manifesto to one brackets pair belongs only one room
+    //manifesto to one brackets pair belongs only one room or not belongs at all;
+    
+    private RoomDateBrackets parser = RoomDateBrackets.build().defaultPatterns();
 
 
     @Test
     public void parseCircumstaces_four_brackets_1room__2dates__1room__1room_1SinlgeDate() throws Exception {
+        RoomDateBrackets rdb = parser.prepare(four_brackets_1room__2dates__1room__1room_1SinlgeDate, null, null);
+        HashSet<Circumstance> expected = Sets.newHashSet(
+                new Circumstance(null, new Room("ауд.358"),
+                        Sets.newHashSet(
+                                LocalDate.of(2017, 10, 12),
+                                LocalDate.of(2017, 10, 19)
+                        )),
+                new Circumstance(null, new Room("ауд.468"),
+                        Sets.newHashSet(
+                                LocalDate.of(2017, 10, 12),
+                                LocalDate.of(2017, 10, 19)
+                        )),
+                new Circumstance(null, new Room("ауд.351"),
+                        Sets.newHashSet(
+                                LocalDate.of(2017, 4, 1)
+                        )),
+                new Circumstance(null, new Room("ауд.222"),
+                        Sets.newHashSet(
+                                LocalDate.of(2017, 4, 1)
+                        )));
 
+        Set<Circumstance> actual = rdb.parseBrackets();
+        assertEquals(expected,actual);
     }
 
     @Test
     public void parseCircumstances_four_brackets_1room__2dates_1room_1room() throws Exception {
+        RoomDateBrackets rdb = parser.prepare(four_brackets_1room__2dates_1room_1room, null, null);
+        HashSet<Circumstance> expected = Sets.newHashSet(
+                new Circumstance(null, new Room("ауд.358"),
+                        Sets.newHashSet(
+                                LocalDate.of(2017, 10, 12),
+                                LocalDate.of(2017, 10, 19)
+                        )),
+                new Circumstance(null, new Room("ауд.468"),
+                        Sets.newHashSet(
+                                LocalDate.of(2017, 10, 12),
+                                LocalDate.of(2017, 10, 19)
+                        )),
+                new Circumstance(null, new Room("ауд.351"),
+                        Sets.newHashSet(
+                                LocalDate.of(2017, 10, 12),
+                                LocalDate.of(2017, 10, 19)
+                        )),
+                new Circumstance(null, new Room("ауд.222"),
+                        Sets.newHashSet(
+                                LocalDate.of(2017, 10, 12),
+                                LocalDate.of(2017, 10, 19)
+                        )));
+
+        Set<Circumstance> actual = rdb.parseBrackets();
+        assertEquals(expected,actual);
 
     }
 
@@ -48,18 +96,61 @@ public class LessonLineCircumstancesParserTest {
 
     @Test
     public void parse_twobrackets_4_dates_1_room___1_date_1_room() throws Exception {
-        RoomDateBrackets rdb = new RoomDateBrackets(twobrackets_4_dates_1_room___1_date_1_room,null,null);
+        RoomDateBrackets rdb = parser.prepare(twobrackets_4_dates_1_room___1_date_1_room,null,null);
+        HashSet<Circumstance> expected = Sets.newHashSet(
+                new Circumstance(null, new Room("ауд.368"),
+                        Sets.newHashSet(
+                                LocalDate.of(2017, 11, 7),
+                                LocalDate.of(2017, 11, 14),
+                                LocalDate.of(2017, 11, 28),
+                                LocalDate.of(2017, 12, 5)
+                        )),
+                new Circumstance(null, new Room("ауд.366"),
+                        Sets.newHashSet(
+                                LocalDate.of(2017, 12, 12)
+                        )));
+
+        Set<Circumstance> actual = rdb.parseBrackets();
+        assertEquals(expected,actual);
     }
 
 
     @Test
     public void parseCircumstaces_two_brackets_1room__2singledate_1room() throws Exception {
-        RoomDateBrackets rdb = new RoomDateBrackets(two_brackets_1room__2singledate_1room,null,null);
+        RoomDateBrackets rdb = parser.prepare(two_brackets_1room__2singledate_1room,null,null);
+        HashSet<Circumstance> expected = Sets.newHashSet(
+                new Circumstance(null, new Room("ауд.358"),
+                        Sets.newHashSet(
+                                LocalDate.of(2017, 10, 12),
+                                LocalDate.of(2017, 10, 19)
+                        )),
+                new Circumstance(null, new Room("ауд.468"),
+                        Sets.newHashSet(
+                                LocalDate.of(2017, 10, 12),
+                                LocalDate.of(2017, 10, 19)
+                        )));
+
+        Set<Circumstance> actual = rdb.parseBrackets();
+        assertEquals(expected,actual);
 
     }
 
     @Test
     public void parseCircumstaces_two_brackets_2singledate_1room__1room() throws Exception {
-        RoomDateBrackets rdb = new RoomDateBrackets(two_brackets_2singledate_1room__1room,null,null);
+        RoomDateBrackets rdb = parser.prepare(two_brackets_2singledate_1room__1room,null,null);
+        HashSet<Circumstance> expected = Sets.newHashSet(
+                new Circumstance(null, new Room("ауд.358"),
+                        Sets.newHashSet(
+                                LocalDate.of(2017, 10, 12),
+                                LocalDate.of(2017, 10, 19)
+                        )),
+                new Circumstance(null, new Room("ауд.468"),
+                        Sets.newHashSet(
+                                LocalDate.of(2017, 10, 12),
+                                LocalDate.of(2017, 10, 19)
+                        )));
+
+        Set<Circumstance> actual = rdb.parseBrackets();
+        assertEquals(expected,actual);
     }
 }

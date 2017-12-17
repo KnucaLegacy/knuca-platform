@@ -1,6 +1,7 @@
 package com.theopus.parser.obj;
 
 
+import com.theopus.entity.schedule.Lesson;
 import com.theopus.entity.schedule.Subject;
 import com.theopus.entity.schedule.Teacher;
 import com.theopus.entity.schedule.enums.LessonOrder;
@@ -41,15 +42,13 @@ public class LessonLineParserTest {
 
     private String line4 = "10:30 Алгоритмiзацiя та програмування (лабор.з.); [8.09, 22.09 ауд.374];";
 
-    @Test
-    public void builderTest() throws Exception {
-        LessonOrderChain orderChain = new LessonOrderChain();
-        LessonLine.parse(line1);
-    }
+
+    private LessonLine lessonLine = LessonLine.build().defaultPatterns();
+
 
     @Test
     public void parseTeacher_FEW() throws Exception {
-        LessonLine line =new LessonLine(line1);
+        LessonLine line = lessonLine.prepare(line1);
         Set<Teacher> expected = new HashSet<>();
         expected.add(new Teacher("доц. Кузьмiна Г.В."));
         expected.add(new Teacher("ас. Коляда Т.С."));
@@ -62,7 +61,7 @@ public class LessonLineParserTest {
 
     @Test
     public void parseTeacher_NONE() throws Exception {
-        LessonLine line =new LessonLine(line3);
+        LessonLine line = lessonLine.prepare(line3);
 
         Set<Teacher> actual = line.parseTeachers();
 
@@ -71,7 +70,7 @@ public class LessonLineParserTest {
 
     @Test
     public void parseTeacher_One() throws Exception {
-        LessonLine line =new LessonLine(line1_5);
+        LessonLine line = lessonLine.prepare(line1_5);
         Set<Teacher> expected = new HashSet<>();
         expected.add(new Teacher("зав.каф. Дикарева Л.Ю."));
 
@@ -83,7 +82,7 @@ public class LessonLineParserTest {
     @Test
     public void parseTeacher_SEREGA_edition() throws Exception {
         String SergLie = "--\"-- Iсторiя української державностisssssssss i культу (Лекцiї) [з 18.09 ауд.302] хуй.хуй. ЦЮЦЮРА";
-        LessonLine line =new LessonLine(SergLie);
+        LessonLine line = lessonLine.prepare(SergLie);
         Set<Teacher> expected = new HashSet<>();
         expected.add(new Teacher("хуй.хуй. ЦЮЦЮРА"));
 
@@ -94,7 +93,7 @@ public class LessonLineParserTest {
 
     @Test
     public void parseLessonType_Lab() throws Exception {
-        LessonLine line =new LessonLine(line4);
+        LessonLine line = lessonLine.prepare(line4);
         LessonType expected = LessonType.LAB;
 
         LessonType actual = line.parseLessonType();
@@ -104,7 +103,7 @@ public class LessonLineParserTest {
 
     @Test
     public void parseLessonType_Pract() throws Exception {
-        LessonLine line =new LessonLine(line1);
+        LessonLine line = lessonLine.prepare(line1);
         LessonType expected = LessonType.PRACTICE;
 
         LessonType actual = line.parseLessonType();
@@ -114,7 +113,7 @@ public class LessonLineParserTest {
 
     @Test
     public void parseLessonType_lekt() throws Exception {
-        LessonLine line =new LessonLine(line1_5);
+        LessonLine line = lessonLine.prepare(line1_5);
         LessonType expected = LessonType.LECTURE;
 
         LessonType actual = line.parseLessonType();
@@ -124,7 +123,7 @@ public class LessonLineParserTest {
 
     @Test(expected = IllegalPDFFormatException.class)
     public void parseLessonType_NoLessonTypeIdentifier() throws Exception {
-        LessonLine line =new LessonLine(no_lesson_type);
+        LessonLine line = lessonLine.prepare(no_lesson_type);
         LessonType expected = LessonType.PRACTICE;
 
         LessonType actual = line.parseLessonType();
@@ -134,7 +133,7 @@ public class LessonLineParserTest {
 
     @Test
     public void parseLessonSubject_NoBrackets() throws Exception {
-        LessonLine line =new LessonLine(line1);
+        LessonLine line = lessonLine.prepare(line1);
         Subject expected = new Subject(subjectName1);
 
         Subject actual = line.parseSubject();
@@ -145,7 +144,7 @@ public class LessonLineParserTest {
 
     @Test
     public void parseLessonSubject_WithBracket() throws Exception {
-        LessonLine line =new LessonLine(line2);
+        LessonLine line = lessonLine.prepare(line2);
         Subject expected = new Subject(subjectName2);
 
         Subject actual = line.parseSubject();
@@ -155,7 +154,7 @@ public class LessonLineParserTest {
 
     @Test(expected = IllegalPDFFormatException.class)
     public void parseLesssonSubject_NO_dotcoma() throws Exception {
-        LessonLine line =new LessonLine(line3);
+        LessonLine line = lessonLine.prepare(line3);
 
         line.parseSubject();
         fail("Exception not trowed");
@@ -170,31 +169,23 @@ public class LessonLineParserTest {
     }
 
     @Test
-    public void parseLessonOrder_NOTSPECIFIED() throws Exception {
-//        LessonLine previous = new LessonLine(line1_5);
-//        LessonLine line = new LessonLine(line2, previous);
-//        LessonOrder lessonOrder = line.parseOrder();
-//        assertEquals(lo2,lessonOrder);
-    }
-
-    @Test
     public void parseLessonOrder_NOTSPECIFIED_2INAROW() throws Exception {
-        LessonOrder _1 = LessonLine.parse(line1_5).parseOrder();
-        LessonOrder _2 = LessonLine.parse(line2).orderChain(_1).parseOrder();
-        LessonLine line = LessonLine.parse(line3).orderChain(_2);
+        LessonOrder _1 = lessonLine.prepare(line1_5).parseOrder();
+        LessonOrder _2 = lessonLine.prepare(line2).orderChain(_1).parseOrder();
+        LessonLine line = lessonLine.prepare(line3).orderChain(_2);
         LessonOrder actual = line.parseOrder();
         assertEquals(lo2,actual);
     }
 
     @Test(expected = IllegalPDFFormatException.class)
     public void parseLessonOrder_NOTSPECIFIED_PREVIOUS_NULL(){
-        LessonLine line = new LessonLine(line2);
+        LessonLine line = lessonLine.prepare(line2);
         LessonOrder actual = line.parseOrder();
     }
 
     @Test(expected = IllegalPDFFormatException.class)
     public void parseLessonOrder_NO_ORDER_INFO_AT_ALL() throws Exception {
-        LessonLine line = new LessonLine(no_order_line);
+        LessonLine line = lessonLine.prepare(no_order_line);
         LessonOrder actual = line.parseOrder();
         fail();
     }

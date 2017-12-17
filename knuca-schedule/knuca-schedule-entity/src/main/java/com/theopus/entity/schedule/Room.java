@@ -19,6 +19,8 @@ import java.util.Objects;
 @Entity(name = "room")
 public class Room {
 
+    public static final String NO_AUDITORY = "NO_AUDITORY";
+
     @Id@GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
@@ -59,5 +61,14 @@ public class Room {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

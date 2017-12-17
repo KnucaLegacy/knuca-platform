@@ -1,6 +1,7 @@
 package com.theopus.parser.obj;
 
 import com.theopus.entity.schedule.Circumstance;
+import com.theopus.entity.schedule.Lesson;
 import com.theopus.entity.schedule.Subject;
 import com.theopus.entity.schedule.Teacher;
 import com.theopus.entity.schedule.enums.LessonOrder;
@@ -20,16 +21,15 @@ public class LessonLine {
 
     private final static Logger log = LoggerFactory.getLogger(LessonLine.class);
 
-    String line;
-    private static Map<Pattern, Integer> lessonOrderMap = loadProperties();
-    //ToDo: Move stringPatterns to property file
-    private static Pattern practPattern = Pattern.compile("\\(пра.*\\)");
-    private static Pattern labPattern = Pattern.compile("\\(лаб.*\\)");
-    private static Pattern lecPattern = Pattern.compile("\\(лек.*\\)");
+    private RoomDateBrackets roomDateBrackets;
 
-    //ToDO: add another pattern for case where teacher does not have academic degree
-    private static Pattern teacherPattern =
-            Pattern.compile("\\b((([^.,\\s\\d\\p{Punct}]{2,5}.)?[^.,\\s\\d\\p{Punct}]{2,4}\\.)|[^.,\\d\\s]{3,}\\.)\\s[^.,\\s\\d]+(\\s[^.,\\d\\s]\\.)?([^.,\\d\\s]\\.?)?");
+    String line;
+    private Map<Pattern, Integer> lessonOrderMap = loadProperties();
+    private Pattern practPattern;
+    private Pattern labPattern;
+    private Pattern lecPattern;
+
+    private Pattern teacherPattern;
     private LessonOrder previousOrder;
 
     private static Map<Pattern, Integer> loadProperties() {
@@ -66,6 +66,9 @@ public class LessonLine {
         } else {
             return lessonOrder;
         }
+    }
+
+    public LessonLine() {
     }
 
     LessonLine(String line) {
@@ -128,16 +131,33 @@ public class LessonLine {
     }
 
     Set<Circumstance> parseCircumstances() {
-
-        return null;
+        return roomDateBrackets.parseCircumstacnes();
     }
 
-    public static LessonLine parse(String line2) {
-        return new LessonLine(line2);
+    public LessonLine prepare(String line2) {
+        this.line = line2;
+        return this;
+    }
+
+    public static LessonLine build(){
+        return new LessonLine();
     }
 
     public LessonLine orderChain(LessonOrder order) {
         this.previousOrder = order;
+        return this;
+    }
+
+    public LessonLine roomDateBrackets(RoomDateBrackets roomDateBrackets){
+        this.roomDateBrackets = roomDateBrackets;
+        return this;
+    }
+
+    public LessonLine defaultPatterns(){
+        practPattern = Pattern.compile(Patterns.LessonLine.PRACT);
+        labPattern = Pattern.compile(Patterns.LessonLine.LAB);
+        lecPattern = Pattern.compile(Patterns.LessonLine.LECTURE);
+        teacherPattern = Pattern.compile(Patterns.LessonLine.TEACHER);
         return this;
     }
 }
