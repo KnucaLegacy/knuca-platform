@@ -1,9 +1,11 @@
-package com.theopus.parser.obj;
+package com.theopus.parser.obj.roomdate;
 
 import com.theopus.entity.schedule.Circumstance;
 import com.theopus.entity.schedule.Room;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.parser.exceptions.IllegalPDFFormatException;
+import com.theopus.parser.obj.Patterns;
+import com.theopus.parser.obj.line.LessonLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,36 +26,10 @@ public class RoomDateBrackets {
     private LessonLine parent;
     private LessonOrder lessonOrder;
 
-    public RoomDateBrackets() {
+    protected RoomDateBrackets() {
     }
 
-    private RoomDateBrackets(String rightSplit, LessonLine parent, LessonOrder lessonOrder) {
-        this.rightSplit = rightSplit;
-        this.parent = parent;
-        this.lessonOrder = lessonOrder;
-    }
-
-    public RoomDateBrackets prepare(String rightSplit, LessonLine parent, LessonOrder lessonOrder){
-        this.rightSplit = rightSplit;
-        this.parent = parent;
-        this.lessonOrder = lessonOrder;
-        return new RoomDateBrackets(rightSplit, parent, lessonOrder);
-    }
-
-    public static RoomDateBrackets build(){
-        return new RoomDateBrackets();
-    }
-
-    public RoomDateBrackets defaultPatterns(){
-        brackets_pattern = Pattern.compile(Patterns.RoomDates.BRACKETS);
-        aud_pattern = Pattern.compile(Patterns.RoomDates.AUDITORY);
-        single_date_pattern = Pattern.compile(Patterns.RoomDates.SINGLE_DATE);
-        from_date_pattern = Pattern.compile(Patterns.RoomDates.FROM_DATE);
-        to_date_pattern = Pattern.compile(Patterns.RoomDates.TO_DATE);
-        return this;
-    }
-
-    Set<Circumstance> parseCircumstacnes() {
+    public Set<Circumstance> parseCircumstacnes() {
         Set<Circumstance> circumstances = parseBrackets();
         circumstances.forEach(c -> c.setLessonOrder(lessonOrder));
         return circumstances;
@@ -139,7 +115,7 @@ public class RoomDateBrackets {
         if (matcher.find()) {
             first = new Bracket(matcher.group(1));
         } else {
-            throw new IllegalPDFFormatException("Not found brackets in line " + parent.line);
+            throw new IllegalPDFFormatException("Not found brackets in line " + parent.getLine());
         }
         Bracket tmp = first;
         while (matcher.find()) {
@@ -186,7 +162,7 @@ public class RoomDateBrackets {
                 return room;
             } else {
                 //ToDo: add Info which line
-                log.warn("No room avalible for line {} . Default has been setted. ", parent.line);
+                log.warn("No room avalible for line {} . Default has been setted. ", parent.getLine());
                 Room room = new Room();
                 room.setName(Room.NO_AUDITORY);
                 return room;
@@ -217,6 +193,33 @@ public class RoomDateBrackets {
         private Bracket parse() {
             this.room = parseRoom();
             this.dates = parseDates();
+            return this;
+        }
+    }
+
+    public RoomDateBrackets prepare(String rightSplit, LessonLine parent, LessonOrder lessonOrder){
+        this.rightSplit = rightSplit;
+        this.parent = parent;
+        this.lessonOrder = lessonOrder;
+        return this;
+    }
+
+    public static RoomDateBrackets.Builder create(){
+        return new RoomDateBrackets().new Builder();
+    }
+
+    public class Builder {
+
+        public RoomDateBrackets build() {
+            return new RoomDateBrackets();
+        }
+
+        public Builder defaultPatterns() {
+            brackets_pattern = Pattern.compile(Patterns.RoomDates.BRACKETS);
+            aud_pattern = Pattern.compile(Patterns.RoomDates.AUDITORY);
+            single_date_pattern = Pattern.compile(Patterns.RoomDates.SINGLE_DATE);
+            from_date_pattern = Pattern.compile(Patterns.RoomDates.FROM_DATE);
+            to_date_pattern = Pattern.compile(Patterns.RoomDates.TO_DATE);
             return this;
         }
     }

@@ -1,6 +1,9 @@
 package com.theopus.parser.api;
 
-import com.theopus.entity.schedule.Lesson;
+import com.theopus.entity.schedule.Curriculum;
+import com.theopus.parser.obj.line.LessonLine;
+import com.theopus.parser.obj.roomdate.RoomDateBrackets;
+import com.theopus.parser.obj.sheets.Sheet;
 
 import java.util.List;
 
@@ -8,10 +11,9 @@ import java.util.List;
 //ToDo make implementations of this interface (File parser, String parser, Pdf parser, Directory parser, etc.)
 public interface ParserKnuca {
 
-    List<Lesson> parseAll();
+    ParserKnuca sheet(Sheet sheet);
+    ParserKnuca lessonLine(LessonLine lessonLine);
+    ParserKnuca roomDateBracket(RoomDateBrackets roomDateBrackets);
 
-    //trivial
-//    List<Lesson> parseAllDistinct();
-//    List<Lesson> parseByGroup(String groupName);
-//    List<Lesson> parseByTeacher(String teacher);
+    List<Curriculum> parseCurriculums();
 }

@@ -3,7 +3,7 @@ package com.theopus.parser.obj;
 import java.util.regex.Pattern;
 
 /**
- * Created by irina on 17.12.2017.
+ * Created by Oleksandr_Tkachov on 17.12.2017.
  */
 public class Patterns {
 

@@ -1,8 +1,9 @@
-package com.theopus.parser.obj;
+package com.theopus.parser.obj.roomdate;
 
 import com.google.common.collect.Sets;
 import com.theopus.entity.schedule.Circumstance;
 import com.theopus.entity.schedule.Room;
+import com.theopus.parser.obj.roomdate.RoomDateBrackets;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -29,7 +30,10 @@ public class LessonLineCircumstancesParserTest {
 
     //manifesto to one brackets pair belongs only one room or not belongs at all;
     
-    private RoomDateBrackets parser = RoomDateBrackets.build().defaultPatterns();
+    private RoomDateBrackets parser = RoomDateBrackets
+            .create()
+            .defaultPatterns()
+            .build();
 
 
     @Test

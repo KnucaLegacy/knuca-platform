@@ -93,7 +93,6 @@ public class Course {
         this.teachers = teachers;
     }
 
-
     @Override
     public String toString() {
         return "Course{" +

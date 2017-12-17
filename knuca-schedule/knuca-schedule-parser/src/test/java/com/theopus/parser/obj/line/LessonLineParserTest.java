@@ -1,7 +1,7 @@
-package com.theopus.parser.obj;
+package com.theopus.parser.obj.line;
 
 
-import com.theopus.entity.schedule.Lesson;
+import com.theopus.entity.schedule.Group;
 import com.theopus.entity.schedule.Subject;
 import com.theopus.entity.schedule.Teacher;
 import com.theopus.entity.schedule.enums.LessonOrder;
@@ -27,24 +27,21 @@ public class LessonLineParserTest {
     private String Fname1 = "доц. Кузьмiна Г.В.";
     private String Sname1 = "ас. Козакова О.М.";
     private String subjectName1 = "Архiтектурне проектування";
-
-
     private String line1_5 = "12:20 Дiлова українська мова (Лекцiї); [11.09 ауд.302] АРХ-11б, АРХ-12а,\n" +
             "АРХ-12б, АРХ-13а, АРХ-13б зав.каф. Дикарева Л.Ю.";
     private String line2 = "--\"-- Iсторiя української державностi i культу (Тыхуй) (Лекцiї); [з 18.09 ауд.302]";
     private String subjectName2 = "Iсторiя української державностi i культу (Тыхуй)";
     private LessonOrder lo2 = LessonOrder.THIRD;
     private String line3 = "--\"-- Iсторiя української державностisssssssss i культу (Лекцiї) [з 18.09 ауд.302]";
-
     private String no_order_line = "Iсторiя української державностisssssssss i культу (Лекцiї) [з 18.09 ауд.302]";
-
     private String no_lesson_type = "--\"-- Iсторiя української державностisssssssss i культу [з 18.09 ауд.302]";
-
     private String line4 = "10:30 Алгоритмiзацiя та програмування (лабор.з.); [8.09, 22.09 ауд.374];";
 
-
-    private LessonLine lessonLine = LessonLine.build().defaultPatterns();
-
+    private LessonLine lessonLine = LessonLines
+            .createGroupLine()
+            .defaultPatterns()
+            .defaultOrderPatterns()
+            .build();
 
     @Test
     public void parseTeacher_FEW() throws Exception {
@@ -163,7 +160,7 @@ public class LessonLineParserTest {
 
     @Test
     public void parseLessonOrder_FOURTH() throws Exception {
-        LessonLine line = new LessonLine(line1);
+        LessonLine line = lessonLine.prepare(line1);
         LessonOrder actual = line.parseOrder();
         assertEquals(lo1,actual);
     }
@@ -171,8 +168,8 @@ public class LessonLineParserTest {
     @Test
     public void parseLessonOrder_NOTSPECIFIED_2INAROW() throws Exception {
         LessonOrder _1 = lessonLine.prepare(line1_5).parseOrder();
-        LessonOrder _2 = lessonLine.prepare(line2).orderChain(_1).parseOrder();
-        LessonLine line = lessonLine.prepare(line3).orderChain(_2);
+        LessonOrder _2 = lessonLine.prepare(line2, _1).parseOrder();
+        LessonLine line = lessonLine.prepare(line3,_2);
         LessonOrder actual = line.parseOrder();
         assertEquals(lo2,actual);
     }
