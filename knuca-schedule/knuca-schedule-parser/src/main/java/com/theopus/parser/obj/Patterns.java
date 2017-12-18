@@ -1,5 +1,7 @@
 package com.theopus.parser.obj;
 
+import com.theopus.parser.StringUtils;
+
 import java.util.regex.Pattern;
 
 /**
@@ -7,23 +9,34 @@ import java.util.regex.Pattern;
  */
 public class Patterns {
 
-    public static class LessonLine {
-        public static String LAB = "\\(лаб.*\\)";
-        public static String PRACT = "\\(пра.*\\)";
-        public static String LECTURE = "\\(лек.*\\)";
-        public static String EXAM = "";
-        public static String CONSULTATION = "";
-        public static String TEACHER = "\\b((([^.,\\s\\d\\p{Punct}]{2,5}.)?" +
-                "[^.,\\s\\d\\p{Punct}]{2,4}\\.)|[^.,\\d\\s]{3,}\\.)\\s[^.,\\s\\d]+(\\s[^.,\\d\\s]\\.)?" +
-                "([^.,\\d\\s]\\.?)?";
-        public static String GROUP = "";
+
+    public static final class Sheet {
+        public static final String DAY_OF_WEEK_SPLITTER = ("(понедiлок)|(Вiвторок)|(Середа)|(Четвер)|(П'ятниця)|(Субота)|(Неділя)");
+        public static final String DAY_OF_WEEK_Pattern = (DAY_OF_WEEK_SPLITTER + "(.{50,200})" + DAY_OF_WEEK_SPLITTER);
+        public static final String TABLE_BOUND = ("===");
     }
 
-    public static class RoomDates {
-        public static String BRACKETS = ("\\[([^]]+)\\]");
-        public static String AUDITORY = ("ауд\\.([\\wА-я<>]+)");
-        public static String SINGLE_DATE = ("(^|([^доз]\\s))(\\d?\\d\\.\\d\\d)");
-        public static String FROM_DATE = ("з\\s(\\d?\\d\\.\\d\\d)");
-        public static String TO_DATE = ("до\\s(\\d?\\d\\.\\d\\d)");
+    public static final class LessonLine {
+        public static final String LAB = "\\(лаб.*\\)";
+        public static final String PRACT = "\\(пра.*\\)";
+        public static final String LECTURE = "\\(лек.*\\)";
+        public static final String EXAM = "";
+        public static final String CONSULTATION = "";
+        public static final String TEACHER = "\\b((([^.,\\s\\d\\p{Punct}]{2,5}.)?" +
+                "[^.,\\s\\d\\p{Punct}]{2,4}\\.)|[^.,\\d\\s]{3,}\\.)\\s[^.,\\s\\d]+(\\s[^.,\\d\\s]\\.)?" +
+                "([^.,\\d\\s]\\.?)?";
+        public static final String GROUP = "";
+        public static final String BEGIN_LESSON_SPLITTER = ("((\\d?\\d:\\d\\d)|(--\"--))");
+        public static final String END_LESSON_SPLITTER = ("((\\d?\\d:\\d\\d)|(--\"--)|(-{4,5}))");
+    }
+
+    public static final class RoomDates {
+        public static final String BRACKETS = ("\\[([^]]+)\\]");
+        public static final String AUDITORY = ("ауд\\.([\\wА-я<>]+)");
+        public static final String SINGLE_DATE = ("(^|([^доз]\\s))(\\d?\\d\\.\\d\\d)");
+        public static final String FROM_DATE = ("з\\s(\\d?\\d\\.\\d\\d)");
+        public static final String TO_DATE = ("до\\s(\\d?\\d\\.\\d\\d)");
+
+
     }
 }
