@@ -1,10 +1,7 @@
 package com.theopus.parser.obj.sheets;
 
-import org.springframework.cglib.core.Local;
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.concurrent.TimeUnit;
 
 public class DaySheet<T> {
 
@@ -16,5 +13,7 @@ public class DaySheet<T> {
 
     private Sheet<T> parent;
 
-
+    public Sheet<T> getParent() {
+        return parent;
+    }
 }

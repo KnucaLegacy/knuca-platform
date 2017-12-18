@@ -3,6 +3,7 @@ package com.theopus.parser.obj.line;
 import com.theopus.entity.schedule.Curriculum;
 import com.theopus.entity.schedule.Group;
 import com.theopus.entity.schedule.enums.LessonOrder;
+import com.theopus.parser.obj.sheets.Sheet;
 
 import java.util.List;
 
@@ -15,18 +16,8 @@ public class GroupLine extends LessonLine {
 
     @Override
     protected List<Curriculum> parse() {
+        Sheet<Group> parent = parrent.getParent();
+        group = parent.getAnchor();
         return null;
-    }
-
-    public LessonLine prepare(String line, Group group) {
-        super.prepare(line);
-        this.group = group;
-        return this;
-    }
-
-    public LessonLine prepare(String line, LessonOrder previousOrder, Group group) {
-        super.prepare(line, previousOrder);
-        this.group = group;
-        return this;
     }
 }

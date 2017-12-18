@@ -7,7 +7,7 @@ import com.theopus.entity.schedule.Group;
  */
 public final class LessonLines {
 
-    public static GroupLine.Builder createGroupLine(){
+    public static GroupLine.Builder createGroupLine() {
         return new GroupLine().new Builder();
     }
 }

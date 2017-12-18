@@ -6,11 +6,13 @@ import com.theopus.entity.schedule.enums.LessonType;
 import com.theopus.parser.exceptions.IllegalPDFFormatException;
 import com.theopus.parser.obj.Patterns;
 import com.theopus.parser.obj.roomdate.RoomDateBrackets;
+import com.theopus.parser.obj.sheets.DaySheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,6 +21,9 @@ import java.util.regex.Pattern;
 public abstract class LessonLine {
 
     private final static Logger log = LoggerFactory.getLogger(LessonLine.class);
+
+
+    protected DaySheet parrent;
 
     private RoomDateBrackets roomDateBrackets;
 
@@ -150,6 +155,10 @@ public abstract class LessonLine {
             return this;
         }
 
+        public Builder parent(DaySheet daySheet) {
+            LessonLine.this.parrent = daySheet;
+            return this;
+        }
 
         public Builder defaultOrderPatterns() {
             //ToDo move to UTIL class

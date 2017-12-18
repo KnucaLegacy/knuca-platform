@@ -7,6 +7,7 @@ import com.theopus.entity.schedule.Teacher;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.entity.schedule.enums.LessonType;
 import com.theopus.parser.exceptions.IllegalPDFFormatException;
+import com.theopus.parser.obj.sheets.DaySheet;
 import org.junit.Test;
 
 import java.util.HashSet;
