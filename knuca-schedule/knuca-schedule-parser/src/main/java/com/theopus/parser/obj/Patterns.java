@@ -8,15 +8,15 @@ import java.util.regex.Pattern;
 public class Patterns {
 
     public static class LessonLine {
-            public static String LAB = "\\(лаб.*\\)";
-            public static String PRACT = "\\(пра.*\\)";
-            public static String LECTURE = "\\(лек.*\\)";
-            public static String EXAM = "";
-            public static String CONSULTATION = "";
-            public static String TEACHER = "\\b((([^.,\\s\\d\\p{Punct}]{2,5}.)?" +
-                    "[^.,\\s\\d\\p{Punct}]{2,4}\\.)|[^.,\\d\\s]{3,}\\.)\\s[^.,\\s\\d]+(\\s[^.,\\d\\s]\\.)?" +
-                    "([^.,\\d\\s]\\.?)?";
-            public static String GROUP = "";
+        public static String LAB = "\\(лаб.*\\)";
+        public static String PRACT = "\\(пра.*\\)";
+        public static String LECTURE = "\\(лек.*\\)";
+        public static String EXAM = "";
+        public static String CONSULTATION = "";
+        public static String TEACHER = "\\b((([^.,\\s\\d\\p{Punct}]{2,5}.)?" +
+                "[^.,\\s\\d\\p{Punct}]{2,4}\\.)|[^.,\\d\\s]{3,}\\.)\\s[^.,\\s\\d]+(\\s[^.,\\d\\s]\\.)?" +
+                "([^.,\\d\\s]\\.?)?";
+        public static String GROUP = "";
     }
 
     public static class RoomDates {

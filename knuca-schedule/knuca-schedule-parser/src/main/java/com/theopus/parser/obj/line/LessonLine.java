@@ -128,7 +128,7 @@ public abstract class LessonLine {
 
     public class Builder {
 
-        public LessonLine build(){
+        public LessonLine build() {
             return LessonLine.this;
         }
 
@@ -137,12 +137,12 @@ public abstract class LessonLine {
             return this;
         }
 
-        public Builder roomDateBrackets(RoomDateBrackets roomDateBrackets){
+        public Builder roomDateBrackets(RoomDateBrackets roomDateBrackets) {
             LessonLine.this.roomDateBrackets = roomDateBrackets;
             return this;
         }
 
-        public Builder defaultPatterns(){
+        public Builder defaultPatterns() {
             practPattern = Pattern.compile(Patterns.LessonLine.PRACT);
             labPattern = Pattern.compile(Patterns.LessonLine.LAB);
             lecPattern = Pattern.compile(Patterns.LessonLine.LECTURE);
@@ -172,6 +172,7 @@ public abstract class LessonLine {
         }
 
     }
+
     public String getLine() {
         return line;
     }

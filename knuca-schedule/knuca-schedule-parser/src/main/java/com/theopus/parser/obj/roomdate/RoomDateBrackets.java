@@ -197,14 +197,14 @@ public class RoomDateBrackets {
         }
     }
 
-    public RoomDateBrackets prepare(String rightSplit, LessonLine parent, LessonOrder lessonOrder){
+    public RoomDateBrackets prepare(String rightSplit, LessonLine parent, LessonOrder lessonOrder) {
         this.rightSplit = rightSplit;
         this.parent = parent;
         this.lessonOrder = lessonOrder;
         return this;
     }
 
-    public static RoomDateBrackets.Builder create(){
+    public static RoomDateBrackets.Builder create() {
         return new RoomDateBrackets().new Builder();
     }
 

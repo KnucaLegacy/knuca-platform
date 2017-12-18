@@ -18,7 +18,6 @@ public class GroupLine extends LessonLine {
         return null;
     }
 
-
     public LessonLine prepare(String line, Group group) {
         super.prepare(line);
         this.group = group;
