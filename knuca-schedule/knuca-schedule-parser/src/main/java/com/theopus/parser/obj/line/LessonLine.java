@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.time.DayOfWeek;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,10 +21,8 @@ public abstract class LessonLine {
 
     private final static Logger log = LoggerFactory.getLogger(LessonLine.class);
 
-
-    protected DaySheet parrent;
-
-    private RoomDateBrackets roomDateBrackets;
+    protected DaySheet parent;
+    private RoomDateBrackets child;
 
     private String line;
     private Map<Pattern, Integer> lessonOrderMap;
@@ -54,9 +51,9 @@ public abstract class LessonLine {
         }
     }
 
-    protected abstract List<Curriculum> parse();
+    public abstract List<Curriculum> parse();
 
-    LessonOrder parseOrder() {
+    public LessonOrder parseOrder() {
         LessonOrder lessonOrder = Arrays.stream(LessonOrder.values())
                 .filter(l -> (lessonOrderMap.entrySet().stream()
                         .filter(e -> e.getKey().matcher(line).find())
@@ -116,8 +113,8 @@ public abstract class LessonLine {
     }
 
     protected Set<Circumstance> parseCircumstances() {
-        roomDateBrackets.prepare(getGetSplits(false), this, parseOrder());
-        return roomDateBrackets.parseCircumstacnes();
+        child.prepare(getGetSplits(false), parseOrder());
+        return child.parseCircumstacnes();
     }
 
     public LessonLine prepare(String line) {
@@ -128,6 +125,16 @@ public abstract class LessonLine {
     public LessonLine prepare(String line, LessonOrder previousOrder) {
         this.line = normalize(line);
         this.previousOrder = previousOrder;
+        return this;
+    }
+
+    public LessonLine parent(DaySheet daySheet) {
+        this.parent = daySheet;
+        return this;
+    }
+
+    public LessonLine child(RoomDateBrackets roomDateBrackets) {
+        LessonLine.this.child = roomDateBrackets;
         return this;
     }
 
@@ -142,10 +149,7 @@ public abstract class LessonLine {
             return this;
         }
 
-        public Builder roomDateBrackets(RoomDateBrackets roomDateBrackets) {
-            LessonLine.this.roomDateBrackets = roomDateBrackets;
-            return this;
-        }
+
 
         public Builder defaultPatterns() {
             practPattern = Pattern.compile(Patterns.LessonLine.PRACT);
@@ -155,10 +159,7 @@ public abstract class LessonLine {
             return this;
         }
 
-        public Builder parent(DaySheet daySheet) {
-            LessonLine.this.parrent = daySheet;
-            return this;
-        }
+
 
         public Builder defaultOrderPatterns() {
             //ToDo move to UTIL class

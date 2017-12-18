@@ -38,7 +38,7 @@ public class LessonLineCircumstancesParserTest {
 
     @Test
     public void parseCircumstaces_four_brackets_1room__2dates__1room__1room_1SinlgeDate() throws Exception {
-        RoomDateBrackets rdb = parser.prepare(four_brackets_1room__2dates__1room__1room_1SinlgeDate, null, null);
+        RoomDateBrackets rdb = parser.prepare(four_brackets_1room__2dates__1room__1room_1SinlgeDate, null);
         HashSet<Circumstance> expected = Sets.newHashSet(
                 new Circumstance(null, new Room("ауд.358"),
                         Sets.newHashSet(
@@ -65,7 +65,7 @@ public class LessonLineCircumstancesParserTest {
 
     @Test
     public void parseCircumstances_four_brackets_1room__2dates_1room_1room() throws Exception {
-        RoomDateBrackets rdb = parser.prepare(four_brackets_1room__2dates_1room_1room, null, null);
+        RoomDateBrackets rdb = parser.prepare(four_brackets_1room__2dates_1room_1room, null);
         HashSet<Circumstance> expected = Sets.newHashSet(
                 new Circumstance(null, new Room("ауд.358"),
                         Sets.newHashSet(
@@ -100,7 +100,7 @@ public class LessonLineCircumstancesParserTest {
 
     @Test
     public void parse_twobrackets_4_dates_1_room___1_date_1_room() throws Exception {
-        RoomDateBrackets rdb = parser.prepare(twobrackets_4_dates_1_room___1_date_1_room,null,null);
+        RoomDateBrackets rdb = parser.prepare(twobrackets_4_dates_1_room___1_date_1_room,null);
         HashSet<Circumstance> expected = Sets.newHashSet(
                 new Circumstance(null, new Room("ауд.368"),
                         Sets.newHashSet(
@@ -121,7 +121,7 @@ public class LessonLineCircumstancesParserTest {
 
     @Test
     public void parseCircumstaces_two_brackets_1room__2singledate_1room() throws Exception {
-        RoomDateBrackets rdb = parser.prepare(two_brackets_1room__2singledate_1room,null,null);
+        RoomDateBrackets rdb = parser.prepare(two_brackets_1room__2singledate_1room,null);
         HashSet<Circumstance> expected = Sets.newHashSet(
                 new Circumstance(null, new Room("ауд.358"),
                         Sets.newHashSet(
@@ -141,7 +141,7 @@ public class LessonLineCircumstancesParserTest {
 
     @Test
     public void parseCircumstaces_two_brackets_2singledate_1room__1room() throws Exception {
-        RoomDateBrackets rdb = parser.prepare(two_brackets_2singledate_1room__1room,null,null);
+        RoomDateBrackets rdb = parser.prepare(two_brackets_2singledate_1room__1room,null);
         HashSet<Circumstance> expected = Sets.newHashSet(
                 new Circumstance(null, new Room("ауд.358"),
                         Sets.newHashSet(

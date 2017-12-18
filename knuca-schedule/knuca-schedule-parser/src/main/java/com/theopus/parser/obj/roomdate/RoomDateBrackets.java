@@ -136,6 +136,8 @@ public class RoomDateBrackets {
             .parseDefaulting(ChronoField.YEAR, LocalDate.now().getYear())
             .toFormatter();
 
+
+
     class Bracket {
         private Room room;
         private Set<LocalDate> dates;
@@ -197,9 +199,13 @@ public class RoomDateBrackets {
         }
     }
 
-    public RoomDateBrackets prepare(String rightSplit, LessonLine parent, LessonOrder lessonOrder) {
+    public RoomDateBrackets parent(LessonLine lessonLine) {
+        this.parent = lessonLine;
+        return this;
+    }
+
+    public RoomDateBrackets prepare(String rightSplit, LessonOrder lessonOrder) {
         this.rightSplit = rightSplit;
-        this.parent = parent;
         this.lessonOrder = lessonOrder;
         return this;
     }
