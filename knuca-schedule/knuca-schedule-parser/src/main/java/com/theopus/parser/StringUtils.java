@@ -31,6 +31,7 @@ public class StringUtils {
             String s = dow.toLowerCase().replaceAll("i", "і");
             dayOfWeek = (Date) dayOfWeekFormat.parseObject(s);
         } catch (ParseException e) {
+            //TODO hadle.
             e.printStackTrace();
         }
         return dayOfWeek

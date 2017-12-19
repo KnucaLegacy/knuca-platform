@@ -41,7 +41,7 @@ public class DaySheet<T> {
 
     public DaySheet<T> prepare(DayOfWeek dayOfWeek, String content) {
         this.dayOfWeek = dayOfWeek;
-        this.content = StringUtils.normalize(content);
+        this.content = content;
         return this;
     }
 

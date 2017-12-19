@@ -48,7 +48,6 @@ public class Sheet<T> {
     }
 
     Map<DayOfWeek, String> splitToDays() {
-        content = StringUtils.normalize(content);
         Matcher matcher = dayOfWeekSplitter.matcher(content);
         matcher.region(content.lastIndexOf(tableBound), content.length() - 1);
         Map<DayOfWeek, Pair<Integer, Integer>> map = new LinkedHashMap<>();
@@ -85,11 +84,6 @@ public class Sheet<T> {
         return this;
     }
 
-    public Sheet<T> defaultPatterns() {
-        this.dayOfWeekSplitter = Pattern.compile(Patterns.Sheet.DAY_OF_WEEK_SPLITTER);
-        return this;
-    }
-
     public static <T> Sheet<T>.Builder create() {
         return new Sheet<T>().new Builder();
     }
@@ -102,7 +96,8 @@ public class Sheet<T> {
     public class Builder {
 
         public Sheet<T>.Builder defaultPatterns() {
-            Sheet.this.dayOfWeekSplitter = Pattern.compile(Patterns.Sheet.DAY_OF_WEEK_SPLITTER, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+            Sheet.this.dayOfWeekSplitter = Pattern.compile(Patterns.Sheet.DAY_OF_WEEK_SPLITTER,
+                    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.DOTALL | Pattern.MULTILINE);
             return this;
         }
 
