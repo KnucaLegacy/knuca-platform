@@ -63,6 +63,7 @@ public class DaySheet<T> {
         return parent;
     }
 
+
     public DaySheet<T> child(LessonLine lessonLine) {
         this.child = lessonLine;
         return this;
@@ -85,7 +86,7 @@ public class DaySheet<T> {
 
         public Builder defaultPatterns() {
             begin = Pattern.compile(Patterns.LessonLine.BEGIN_LESSON_SPLITTER);
-            finish = Pattern.compile(Patterns.LessonLine.BEGIN_LESSON_SPLITTER);
+            finish = Pattern.compile(Patterns.LessonLine.END_LESSON_SPLITTER);
             return this;
         }
     }

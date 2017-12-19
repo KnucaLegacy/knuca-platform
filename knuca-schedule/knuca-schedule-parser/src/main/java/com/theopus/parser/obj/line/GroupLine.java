@@ -17,6 +17,8 @@ public class GroupLine extends LessonLine {
     public List<Curriculum> parse() {
         Sheet<Group> parent = this.parent.getParent();
         group = parent.getAnchor();
+
+
         return null;
     }
 }
