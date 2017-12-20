@@ -5,7 +5,9 @@ import com.theopus.entity.schedule.Group;
 import com.theopus.parser.StringUtils;
 import com.theopus.parser.exceptions.IllegalPDFFormatException;
 import com.theopus.parser.obj.Patterns;
+import com.theopus.parser.obj.table.SimpleTable;
 import com.theopus.parser.obj.table.Table;
+import com.theopus.parser.obj.validator.Validator;
 import javafx.util.Pair;
 
 import java.time.DayOfWeek;
@@ -34,15 +36,18 @@ public abstract class Sheet<T> {
     protected String tableBound;
 
     protected Pattern anchorPattern;
+    private Validator validator;
 
     public Table getTable() {
         return table;
     }
 
     public List<Curriculum> parse() {
+        this.table = new SimpleTable();
+        this.validator = new Validator(table);
         return splitToDays().entrySet().stream().map(dc -> {
             child.prepare(dc.getKey(), dc.getValue());
-            return child.parse();
+            return validator.validate(child.parse());
         }).reduce((c1, c2) -> {
             c1.addAll(c2);
             return c1;
