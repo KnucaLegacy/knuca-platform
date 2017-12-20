@@ -10,13 +10,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class RoomDateBrackets {
 
@@ -125,11 +131,12 @@ public class RoomDateBrackets {
         return first;
     }
 
-    private static Pattern brackets_pattern;
-    private static Pattern aud_pattern;
-    private static Pattern single_date_pattern;
-    private static Pattern from_date_pattern;
-    private static Pattern to_date_pattern;
+    private Pattern brackets_pattern;
+    private Pattern aud_pattern;
+    private Pattern single_date_pattern;
+    private Pattern fromToPatternW;
+    private String fromDelimiter;
+    private String toDelimiter;
 
     private static DateTimeFormatter dateTimeFormat = new DateTimeFormatterBuilder()
             .appendPattern("d.MM")
@@ -174,7 +181,7 @@ public class RoomDateBrackets {
         private Set<LocalDate> parseDates() {
             Set<LocalDate> localDates = new HashSet<>();
             localDates.addAll(getSingleDates());
-//            localDates.addAll(getFromToDates());
+            localDates.addAll(getFromToDates());
             return localDates;
 
         }
@@ -189,7 +196,38 @@ public class RoomDateBrackets {
         }
 
         private Set<LocalDate> getFromToDates() {
-            return null;
+            Set<LocalDate> localDates = new HashSet<>();
+            Matcher matcher = fromToPatternW.matcher(bracketContent);
+            Stack<String> fromStack = new Stack<>();
+            Stack<String> toStack = new Stack<>();
+            while (matcher.find()){
+                String group = matcher.group(1);
+                if (group.equals(fromDelimiter)){
+                    fromStack.push(matcher.group(2));
+                }
+                else if (group.equals(toDelimiter)){
+                    if (fromStack.empty()){
+
+                    } else {
+                        String from = fromStack.pop();
+                        String to =  matcher.group(2);
+                        localDates.addAll(fromToRange(convert(from), convert(to)));
+                    }
+                }
+            }
+
+            return localDates;
+        }
+
+        private LocalDate convert(String date){
+            return LocalDate.parse(date, dateTimeFormat);
+        }
+
+        private Set<LocalDate> fromToRange(LocalDate start, LocalDate end){
+            int until = (int) start.until(end, ChronoUnit.DAYS);
+            return Stream.iterate(start, d -> d.plusDays(7))
+                    .limit(until / 7 + 1)
+                    .collect(Collectors.toSet());
         }
 
         private Bracket parse() {
@@ -217,15 +255,16 @@ public class RoomDateBrackets {
     public class Builder {
 
         public RoomDateBrackets build() {
-            return new RoomDateBrackets();
+            return RoomDateBrackets.this;
         }
 
         public Builder defaultPatterns() {
             brackets_pattern = Pattern.compile(Patterns.RoomDates.BRACKETS);
             aud_pattern = Pattern.compile(Patterns.RoomDates.AUDITORY);
             single_date_pattern = Pattern.compile(Patterns.RoomDates.SINGLE_DATE);
-            from_date_pattern = Pattern.compile(Patterns.RoomDates.FROM_DATE);
-            to_date_pattern = Pattern.compile(Patterns.RoomDates.TO_DATE);
+            fromToPatternW = Pattern.compile(Patterns.RoomDates.FROM_TO_DATE_W);
+            fromDelimiter = Patterns.RoomDates.FROM_DELIMITER;
+            toDelimiter = Patterns.RoomDates.TO_DELIMITER;
             return this;
         }
     }

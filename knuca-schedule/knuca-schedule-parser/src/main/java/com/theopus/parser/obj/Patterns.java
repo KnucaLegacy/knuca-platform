@@ -12,7 +12,6 @@ public class Patterns {
 
     public static final class Sheet {
         public static final String DAY_OF_WEEK_SPLITTER = ("(понедiлок)|(Вiвторок)|(Середа)|(Четвер)|(П'ятниця)|(Субота)|(Неділя)");
-        public static final String DAY_OF_WEEK_Pattern = (DAY_OF_WEEK_SPLITTER + "(.{50,200})" + DAY_OF_WEEK_SPLITTER);
         public static final String TABLE_BOUND = ("===");
     }
 
@@ -34,8 +33,12 @@ public class Patterns {
         public static final String BRACKETS = ("\\[([^]]+)\\]");
         public static final String AUDITORY = ("ауд\\.([\\wА-я<>]+)");
         public static final String SINGLE_DATE = ("(^|([^доз]\\s))(\\d?\\d\\.\\d\\d)");
-        public static final String FROM_DATE = ("з\\s(\\d?\\d\\.\\d\\d)");
-        public static final String TO_DATE = ("до\\s(\\d?\\d\\.\\d\\d)");
+
+
+        public static final String FROM_DELIMITER = "з";
+        public static final String TO_DELIMITER = "до";
+        public static final String FROM_TO_DATE_W = ("(" + FROM_DELIMITER + "|" +TO_DELIMITER+")\\s" +
+                "(\\d?\\d\\.\\d\\d)");
 
 
     }

@@ -24,7 +24,7 @@ public class DaySheet<T> {
     private Pattern begin;
     private Pattern finish;
 
-    DaySheet() {
+    public DaySheet() {
     }
 
     public List<Curriculum> parse() {
