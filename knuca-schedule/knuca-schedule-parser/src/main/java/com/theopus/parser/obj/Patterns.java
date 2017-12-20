@@ -11,10 +11,11 @@ public class Patterns {
 
 
     public static final class Sheet {
+
         public static final String DAY_OF_WEEK_SPLITTER = ("(понедiлок)|(Вiвторок)|(Середа)|(Четвер)|(П'ятниця)|(Субота)|(Неділя)");
         public static final String TABLE_BOUND = ("===");
-
         public static final String EXACT_GROUP_PATTERN = "(академгрупа)\\s([А-яІіЇїЄє]{1,6}-\\S{1,6})";
+        public static final String SHEET_DELIMITER = "<\\s?КТОУП\\s?>";
     }
 
     public static final class LessonLine {
