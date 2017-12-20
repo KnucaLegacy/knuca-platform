@@ -6,6 +6,7 @@ import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.parser.exceptions.IllegalPDFFormatException;
 import com.theopus.parser.obj.Patterns;
 import com.theopus.parser.obj.line.LessonLine;
+import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,10 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -152,6 +150,7 @@ public class RoomDateBrackets {
         private Bracket next;
         private Bracket prev;
 
+
         public Bracket(String bracketContent) {
             this.bracketContent = bracketContent;
         }
@@ -198,20 +197,27 @@ public class RoomDateBrackets {
         private Set<LocalDate> getFromToDates() {
             Set<LocalDate> localDates = new HashSet<>();
             Matcher matcher = fromToPatternW.matcher(bracketContent);
-            Stack<String> fromStack = new Stack<>();
-            Stack<String> toStack = new Stack<>();
+            Stack<Pair<String, Boolean>> fromStack = new Stack<>();
+            Stack<Pair<String, Boolean>> toStack = new Stack<>();
             while (matcher.find()){
+                boolean weekSkip = false;
+                if (!Objects.isNull(matcher.group(3))){
+                    weekSkip = true;
+                }
+
                 String group = matcher.group(1);
                 if (group.equals(fromDelimiter)){
-                    fromStack.push(matcher.group(2));
+                    fromStack.push(new Pair<>(matcher.group(2), weekSkip));
                 }
                 else if (group.equals(toDelimiter)){
                     if (fromStack.empty()){
 
                     } else {
-                        String from = fromStack.pop();
+                        Pair<String, Boolean> from = fromStack.pop();
                         String to =  matcher.group(2);
-                        localDates.addAll(fromToRange(convert(from), convert(to)));
+                        localDates.addAll(fromToRange(
+                                convert(from.getKey()), convert(to),
+                                from.getValue() | weekSkip));
                     }
                 }
             }
@@ -223,10 +229,11 @@ public class RoomDateBrackets {
             return LocalDate.parse(date, dateTimeFormat);
         }
 
-        private Set<LocalDate> fromToRange(LocalDate start, LocalDate end){
+        private Set<LocalDate> fromToRange(LocalDate start, LocalDate end, boolean isWeekSkip){
+            int delta = isWeekSkip ? 7 * 2 : 7;
             int until = (int) start.until(end, ChronoUnit.DAYS);
-            return Stream.iterate(start, d -> d.plusDays(7))
-                    .limit(until / 7 + 1)
+            return Stream.iterate(start, d -> d.plusDays(delta))
+                    .limit(until / delta + 1)
                     .collect(Collectors.toSet());
         }
 

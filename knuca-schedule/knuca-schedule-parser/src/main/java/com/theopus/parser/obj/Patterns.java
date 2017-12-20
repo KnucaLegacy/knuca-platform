@@ -13,6 +13,8 @@ public class Patterns {
     public static final class Sheet {
         public static final String DAY_OF_WEEK_SPLITTER = ("(понедiлок)|(Вiвторок)|(Середа)|(Четвер)|(П'ятниця)|(Субота)|(Неділя)");
         public static final String TABLE_BOUND = ("===");
+
+        public static final String EXACT_GROUP_PATTERN = "(академгрупа)\\s([А-яІіЇїЄє]{1,6}-\\S{1,6})";
     }
 
     public static final class LessonLine {
@@ -34,11 +36,10 @@ public class Patterns {
         public static final String AUDITORY = ("ауд\\.([\\wА-я<>]+)");
         public static final String SINGLE_DATE = ("(^|([^доз]\\s))(\\d?\\d\\.\\d\\d)");
 
-
         public static final String FROM_DELIMITER = "з";
         public static final String TO_DELIMITER = "до";
         public static final String FROM_TO_DATE_W = ("(" + FROM_DELIMITER + "|" +TO_DELIMITER+")\\s" +
-                "(\\d?\\d\\.\\d\\d)");
+                "(\\d?\\d\\.\\d\\d)(\\(Ч/Т\\))?");
 
 
     }

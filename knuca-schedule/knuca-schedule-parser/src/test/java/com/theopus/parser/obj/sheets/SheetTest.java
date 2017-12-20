@@ -2,6 +2,7 @@ package com.theopus.parser.obj.sheets;
 
 import com.theopus.entity.schedule.Group;
 import com.theopus.parser.StringUtils;
+import com.theopus.parser.obj.Patterns;
 import org.junit.Test;
 
 import java.time.DayOfWeek;
@@ -72,7 +73,8 @@ public class SheetTest {
             "---------------------------------------------------------------------------\n";
 
     private Sheet<Group> sheet = Sheet
-            .<Group>create()
+            .<Group>createGroupSheet()
+            .anchorPattern(Patterns.Sheet.EXACT_GROUP_PATTERN)
             .deafultTableBound()
             .defaultPatterns()
             .build();
@@ -127,4 +129,12 @@ public class SheetTest {
         assertEquals(expected,actual);
     }
 
+    @Test
+    public void groupАnchorParseTest() throws Exception {
+        sheet.prepare(sheetString);
+        Group expected = new Group("АРХ-11а");
+        Group actual = sheet.parseAnchor();
+
+        assertEquals(expected, actual);
+    }
 }

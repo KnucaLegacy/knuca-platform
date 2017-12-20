@@ -18,6 +18,7 @@ import java.util.Set;
 public class FromToDatesTest {
 
     String from_to_no_room = "[з 1.11 до 29.11]";
+    String from_to_no_room_ws = "[з 1.11 до 29.11(Ч/Т)]";
 
 
     RoomDateBrackets roomDateBrackets = RoomDateBrackets
@@ -41,6 +42,25 @@ public class FromToDatesTest {
         Set<Circumstance> actual = roomDateBrackets
                 .parent(new MockLessonLine().parent(new MockDaySheet(DayOfWeek.WEDNESDAY)))
                 .prepare(from_to_no_room, null)
+                .parseBrackets();
+
+        Assert.assertEquals(expected,actual);
+    }
+
+    @Test
+    public void parseFromTo_WS() throws Exception {
+        Set<Circumstance> expected = Sets.newHashSet(
+                new Circumstance(null, new Room(Room.NO_AUDITORY),
+                        Sets.newHashSet(
+                                LocalDate.of(2017,11,1),
+                                LocalDate.of(2017,11,15),
+                                LocalDate.of(2017,11,29)
+                        ))
+        );
+
+        Set<Circumstance> actual = roomDateBrackets
+                .parent(new MockLessonLine().parent(new MockDaySheet(DayOfWeek.WEDNESDAY)))
+                .prepare(from_to_no_room_ws, null)
                 .parseBrackets();
 
         Assert.assertEquals(expected,actual);

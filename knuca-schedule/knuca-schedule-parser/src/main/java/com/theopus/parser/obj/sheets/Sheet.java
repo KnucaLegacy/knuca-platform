@@ -1,6 +1,7 @@
 package com.theopus.parser.obj.sheets;
 
 import com.theopus.entity.schedule.Curriculum;
+import com.theopus.entity.schedule.Group;
 import com.theopus.parser.StringUtils;
 import com.theopus.parser.exceptions.IllegalPDFFormatException;
 import com.theopus.parser.obj.Patterns;
@@ -20,17 +21,19 @@ import java.util.regex.Pattern;
  * @param <T> anchor type.
  */
 
-public class Sheet<T> {
+public abstract class Sheet<T> {
 
     private Table table;
-    private String content;
+    protected String content;
     private T anchor;
 
     private FileSheet<T> parent;
     private DaySheet<T> child;
 
     private Pattern dayOfWeekSplitter;
-    private String tableBound;
+    protected String tableBound;
+
+    protected Pattern anchorPattern;
 
     public Table getTable() {
         return table;
@@ -84,8 +87,10 @@ public class Sheet<T> {
         return this;
     }
 
-    public static <T> Sheet<T>.Builder create() {
-        return new Sheet<T>().new Builder();
+    abstract T parseAnchor();
+
+    public static  Sheet<Group>.Builder createGroupSheet() {
+        return new GroupSheet().new Builder();
     }
 
     public Sheet<T> prepare(String content) {
@@ -95,9 +100,16 @@ public class Sheet<T> {
 
     public class Builder {
 
+
+
         public Sheet<T>.Builder defaultPatterns() {
             Sheet.this.dayOfWeekSplitter = Pattern.compile(Patterns.Sheet.DAY_OF_WEEK_SPLITTER,
                     Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.DOTALL | Pattern.MULTILINE);
+            return this;
+        }
+
+        public Builder anchorPattern(String pattern){
+            Sheet.this.anchorPattern = Pattern.compile(pattern);
             return this;
         }
 
