@@ -25,7 +25,8 @@ public class NoDuplicateCurriculumService implements CurriculumService {
         this.repository = repository;
     }
 
-    Curriculum save(Curriculum curriculum) {
+    @Override
+    public Curriculum save(Curriculum curriculum) {
         Curriculum saved = this.safeSave(curriculum);
         saved.getCircumstances().forEach(circumstance -> circumstance.setCurriculum(saved));
         saved.setCircumstances(circumstanceService.saveAll(saved.getCircumstances()));

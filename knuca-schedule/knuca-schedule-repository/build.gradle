@@ -9,6 +9,6 @@ dependencies{
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
 
     testCompile ("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
-    compile("com.h2database:h2")
+    compile("com.h2database:h2:1.4.196")
     testCompile("junit:junit")
 }
