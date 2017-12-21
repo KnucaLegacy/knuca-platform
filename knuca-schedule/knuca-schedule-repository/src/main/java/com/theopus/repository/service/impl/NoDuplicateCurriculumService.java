@@ -31,6 +31,7 @@ public class NoDuplicateCurriculumService implements CurriculumService {
     Curriculum save(Curriculum curriculum) {
         Curriculum saved = this.safeSave(curriculum);
         saved.getCircumstances().forEach(circumstance -> circumstance.setCurriculum(saved));
+        saved.setCircumstances(circumstanceService.saveAll(saved.getCircumstances()));
         return repository.save(saved);
     }
 
