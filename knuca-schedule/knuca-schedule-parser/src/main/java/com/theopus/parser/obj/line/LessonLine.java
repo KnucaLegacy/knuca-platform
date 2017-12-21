@@ -22,7 +22,7 @@ public abstract class LessonLine {
     private final static Logger log = LoggerFactory.getLogger(LessonLine.class);
 
     protected DaySheet parent;
-    private RoomDateBrackets child;
+    protected RoomDateBrackets child;
 
     private String line;
     private Map<Pattern, Integer> lessonOrderMap;
@@ -37,7 +37,7 @@ public abstract class LessonLine {
         return line.replaceAll("\n", " ");
     }
 
-    private String getGetSplits(boolean isLeft) {
+    protected String getGetSplits(boolean isLeft) {
         String[] split = line.split(";");
         if (split.length <= 1) {
             //ToDo add to Throw message parent info(Sheet info (Group, Date, etc.))

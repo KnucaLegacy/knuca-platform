@@ -54,7 +54,9 @@ public class SimpleTable implements Table {
         now.plusDays(1);
         return null;
     }
+
     private LocalDate convert(String date){
         return LocalDate.parse(date, dateTimeFormat);
     }
+
 }

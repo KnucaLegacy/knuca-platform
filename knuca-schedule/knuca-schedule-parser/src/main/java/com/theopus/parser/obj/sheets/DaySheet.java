@@ -6,6 +6,7 @@ import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.parser.StringUtils;
 import com.theopus.parser.obj.Patterns;
 import com.theopus.parser.obj.line.LessonLine;
+import com.theopus.parser.obj.validator.Validator;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class DaySheet<T> {
 
     private Sheet<T> parent;
     private LessonLine child;
+    private Validator validator;
 
     private Pattern begin;
     private Pattern finish;
