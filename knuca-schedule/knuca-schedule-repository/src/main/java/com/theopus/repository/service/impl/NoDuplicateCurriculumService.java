@@ -4,10 +4,7 @@ import com.theopus.entity.schedule.Course;
 import com.theopus.entity.schedule.Curriculum;
 import com.theopus.entity.schedule.Group;
 import com.theopus.repository.jparepo.CurriculumRepository;
-import com.theopus.repository.service.CircumstanceService;
-import com.theopus.repository.service.CourseService;
-import com.theopus.repository.service.CurriculumService;
-import com.theopus.repository.service.SimpleService;
+import com.theopus.repository.service.*;
 import com.theopus.repository.specification.CurriculumSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,11 +14,11 @@ public class NoDuplicateCurriculumService implements CurriculumService {
 
     private CourseService courseService;
     private CircumstanceService circumstanceService;
-    private SimpleService<Group> groupService;
+    private GroupService groupService;
     private CurriculumRepository repository;
 
     public NoDuplicateCurriculumService(CourseService courseService, CircumstanceService circumstanceService,
-                                        SimpleService<Group> groupService, CurriculumRepository repository) {
+                                        GroupService groupService, CurriculumRepository repository) {
         this.courseService = courseService;
         this.circumstanceService = circumstanceService;
         this.groupService = groupService;

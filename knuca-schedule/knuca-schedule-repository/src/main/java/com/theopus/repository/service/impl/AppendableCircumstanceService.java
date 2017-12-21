@@ -4,6 +4,7 @@ import com.theopus.entity.schedule.Circumstance;
 import com.theopus.entity.schedule.Room;
 import com.theopus.repository.jparepo.CircumstanceRepository;
 import com.theopus.repository.service.CircumstanceService;
+import com.theopus.repository.service.RoomService;
 import com.theopus.repository.service.SimpleService;
 import com.theopus.repository.specification.CircumstanceSpecification;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,9 +17,9 @@ public class AppendableCircumstanceService implements CircumstanceService {
 
 
     private CircumstanceRepository circumstanceRepository;
-    private SimpleService<Room> roomService;
+    private RoomService roomService;
 
-    public AppendableCircumstanceService(CircumstanceRepository circumstanceRepository, SimpleService<Room> roomService) {
+    public AppendableCircumstanceService(CircumstanceRepository circumstanceRepository, RoomService roomService) {
         this.circumstanceRepository = circumstanceRepository;
         this.roomService = roomService;
     }

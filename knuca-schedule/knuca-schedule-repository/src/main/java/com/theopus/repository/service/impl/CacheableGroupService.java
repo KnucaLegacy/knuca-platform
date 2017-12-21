@@ -2,6 +2,7 @@ package com.theopus.repository.service.impl;
 
 import com.theopus.entity.schedule.Group;
 import com.theopus.repository.jparepo.GroupRepository;
+import com.theopus.repository.service.GroupService;
 import com.theopus.repository.service.SimpleService;
 import com.theopus.repository.specification.GroupSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
-public class CacheableGroupService implements SimpleService<Group> {
+public class CacheableGroupService implements GroupService {
 
     private GroupRepository repository;
 

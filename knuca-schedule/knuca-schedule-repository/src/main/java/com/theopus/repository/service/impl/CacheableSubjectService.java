@@ -3,6 +3,7 @@ package com.theopus.repository.service.impl;
 import com.theopus.entity.schedule.Subject;
 import com.theopus.repository.jparepo.SubjectRepository;
 import com.theopus.repository.service.SimpleService;
+import com.theopus.repository.service.SubjectService;
 import com.theopus.repository.specification.SubjectSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 
 @Service
-public class CacheableSubjectService implements SimpleService<Subject> {
+public class CacheableSubjectService implements SubjectService {
 
     private SubjectRepository repository;
 

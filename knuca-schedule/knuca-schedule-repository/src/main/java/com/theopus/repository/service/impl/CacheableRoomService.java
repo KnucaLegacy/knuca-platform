@@ -2,6 +2,7 @@ package com.theopus.repository.service.impl;
 
 import com.theopus.entity.schedule.Room;
 import com.theopus.repository.jparepo.RoomRepository;
+import com.theopus.repository.service.RoomService;
 import com.theopus.repository.service.SimpleService;
 import com.theopus.repository.specification.RoomSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 
 import java.util.Collection;
 
-public class CacheableRoomService<T> implements SimpleService<Room> {
+public class CacheableRoomService<T> implements RoomService {
 
     private RoomRepository repository;
 

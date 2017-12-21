@@ -3,13 +3,14 @@ package com.theopus.repository.service.impl;
 import com.theopus.entity.schedule.Teacher;
 import com.theopus.repository.jparepo.TeacherRepository;
 import com.theopus.repository.service.SimpleService;
+import com.theopus.repository.service.TeacherService;
 import com.theopus.repository.specification.TeacherSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.Collection;
 
-public class CacheableTeacherService implements SimpleService<Teacher> {
+public class CacheableTeacherService implements TeacherService{
 
     private TeacherRepository repository;
 
