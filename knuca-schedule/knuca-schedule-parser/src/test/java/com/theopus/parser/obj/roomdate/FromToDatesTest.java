@@ -18,7 +18,7 @@ import java.util.Set;
 public class FromToDatesTest {
 
     String from_to_no_room = "[з 1.11 до 29.11]";
-    String from_to_no_room_ws = "[з 13.10 до 24.11(Ч/Т)]";
+    String from_to_no_room_ws = "[з 1.11 до 29.11(Ч/Т)]";
 
 
     RoomDateBrackets roomDateBrackets = RoomDateBrackets
