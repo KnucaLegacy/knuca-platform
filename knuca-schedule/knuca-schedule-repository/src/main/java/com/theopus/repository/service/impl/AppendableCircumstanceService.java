@@ -1,11 +1,9 @@
 package com.theopus.repository.service.impl;
 
 import com.theopus.entity.schedule.Circumstance;
-import com.theopus.entity.schedule.Room;
 import com.theopus.repository.jparepo.CircumstanceRepository;
 import com.theopus.repository.service.CircumstanceService;
 import com.theopus.repository.service.RoomService;
-import com.theopus.repository.service.SimpleService;
 import com.theopus.repository.specification.CircumstanceSpecification;
 import org.springframework.cache.annotation.Cacheable;
 

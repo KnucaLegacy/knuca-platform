@@ -2,10 +2,8 @@ package com.theopus.repository.service;
 
 import java.util.Collection;
 
-public interface SimpleService<T> {
+public interface SimpleService<T> extends CacheableService {
     T save(T subject);
-
-    T save(String name);
 
     T findByName(String name);
 

@@ -2,15 +2,18 @@ package com.theopus.repository.service.impl;
 
 import com.theopus.entity.schedule.Teacher;
 import com.theopus.repository.jparepo.TeacherRepository;
-import com.theopus.repository.service.SimpleService;
 import com.theopus.repository.service.TeacherService;
 import com.theopus.repository.specification.TeacherSpecification;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.Collection;
 
-public class CacheableTeacherService implements TeacherService{
+public class CacheableTeacherService implements TeacherService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CacheableTeacherService.class);
 
     private TeacherRepository repository;
 
@@ -18,7 +21,7 @@ public class CacheableTeacherService implements TeacherService{
         this.repository = repository;
     }
 
-    @Cacheable
+    @Cacheable("teachers")
     @Override
     public Teacher save(Teacher teacher) {
         Teacher saved = findByName(teacher.getName());
@@ -28,19 +31,7 @@ public class CacheableTeacherService implements TeacherService{
         return repository.save(teacher);
     }
 
-    @Cacheable
-    @Override
-    public Teacher save(String name) {
-        Teacher subject = findByName(name);
-        if (subject != null) {
-            return subject;
-        }
-        subject = new Teacher();
-        subject.setName(name);
-        return repository.save(subject);
-    }
-
-    @Cacheable
+    @Cacheable("teachers")
     @Override
     public Teacher findByName(String name) {
         return (Teacher) repository.findOne(TeacherSpecification.getByName(name));
@@ -54,5 +45,11 @@ public class CacheableTeacherService implements TeacherService{
     @Override
     public Collection<Teacher> getAll() {
         return repository.findAll();
+    }
+
+    @CacheEvict(value = "teachers", allEntries = true)
+    @Override
+    public void flush() {
+        LOG.info("Cleared 'teachers' cache.");
     }
 }

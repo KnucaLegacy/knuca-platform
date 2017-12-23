@@ -4,7 +4,7 @@ import com.theopus.entity.schedule.Course;
 
 import java.util.Collection;
 
-public interface CourseService {
+public interface CourseService extends CacheableService{
 
     Course save(Course subject);
 

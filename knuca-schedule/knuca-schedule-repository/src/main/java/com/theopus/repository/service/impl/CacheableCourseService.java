@@ -6,6 +6,9 @@ import com.theopus.repository.service.CourseService;
 import com.theopus.repository.service.SubjectService;
 import com.theopus.repository.service.TeacherService;
 import com.theopus.repository.specification.CourseSpecification;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.Collection;
@@ -13,6 +16,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class CacheableCourseService implements CourseService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CacheableCourseService.class);
 
     private CourseRepository repository;
     private TeacherService teacherService;
@@ -24,7 +29,7 @@ public class CacheableCourseService implements CourseService {
         this.subjectService = subjectService;
     }
 
-    @Cacheable
+    @Cacheable("courses")
     @Override
     public Course save(Course course) {
         Course one = (Course) repository.findOne(CourseSpecification.sameCourse(course));
@@ -46,5 +51,11 @@ public class CacheableCourseService implements CourseService {
     @Override
     public Collection<Course> getAll() {
         return repository.findAll();
+    }
+
+    @CacheEvict(value = "courses", allEntries = true)
+    @Override
+    public void flush() {
+        LOG.info("Cleared 'courses' cache.");
     }
 }

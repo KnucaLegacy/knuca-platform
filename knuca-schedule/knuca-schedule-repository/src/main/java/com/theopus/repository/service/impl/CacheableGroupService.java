@@ -3,15 +3,17 @@ package com.theopus.repository.service.impl;
 import com.theopus.entity.schedule.Group;
 import com.theopus.repository.jparepo.GroupRepository;
 import com.theopus.repository.service.GroupService;
-import com.theopus.repository.service.SimpleService;
 import com.theopus.repository.specification.GroupSpecification;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
 public class CacheableGroupService implements GroupService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CacheableGroupService.class);
 
     private GroupRepository repository;
 
@@ -19,7 +21,7 @@ public class CacheableGroupService implements GroupService {
         this.repository = repository;
     }
 
-    @Cacheable
+    @Cacheable("groups")
     @Override
     public Group save(Group group) {
         Group saved = findByName(group.getName());
@@ -29,19 +31,7 @@ public class CacheableGroupService implements GroupService {
         return repository.save(group);
     }
 
-    @Cacheable
-    @Override
-    public Group save(String name) {
-        Group group = findByName(name);
-        if (group != null) {
-            return group;
-        }
-        group = new Group();
-        group.setName(name);
-        return repository.save(group);
-    }
-
-    @Cacheable
+    @Cacheable("groups")
     @Override
     public Group findByName(String name) {
         return (Group) repository.findOne(GroupSpecification.getByName(name));
@@ -55,5 +45,11 @@ public class CacheableGroupService implements GroupService {
     @Override
     public Collection<Group> getAll() {
         return repository.findAll();
+    }
+
+    @Override
+    @CacheEvict(value = "groups", allEntries = true)
+    public void flush() {
+        LOG.info("Cleared 'groups' cache.");
     }
 }
