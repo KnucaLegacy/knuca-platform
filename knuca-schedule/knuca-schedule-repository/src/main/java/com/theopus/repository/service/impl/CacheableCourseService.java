@@ -1,6 +1,7 @@
 package com.theopus.repository.service.impl;
 
 import com.theopus.entity.schedule.Course;
+import com.theopus.entity.schedule.Teacher;
 import com.theopus.repository.jparepo.CourseRepository;
 import com.theopus.repository.service.CourseService;
 import com.theopus.repository.service.SubjectService;
@@ -12,6 +13,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -32,14 +34,15 @@ public class CacheableCourseService implements CourseService {
     @Cacheable("courses")
     @Override
     public Course save(Course course) {
-        Course one = (Course) repository.findOne(CourseSpecification.sameCourse(course));
-        if (!Objects.isNull(one)) {
-            return one;
-        }
         course.setTeachers(course.getTeachers().stream()
                 .map(t -> teacherService.save(t))
                 .collect(Collectors.toSet()));
         course.setSubject(subjectService.save(course.getSubject()));
+        Course one = (Course) repository.findOne(CourseSpecification.sameCourse(course));
+        if (!Objects.isNull(one)) {
+            return one;
+        }
+
         return repository.save(course);
     }
 
@@ -52,6 +55,21 @@ public class CacheableCourseService implements CourseService {
     public Collection<Course> getAll() {
         return repository.findAll();
     }
+
+    @Override
+    public Course unenrollTeacher(Course course, Teacher teacher) {
+        course.getTeachers().remove(teacher);
+        return repository.save(course);
+    }
+
+    @Override
+    public List<Course> unenrollTeacher(Teacher teacher) {
+        return ((List<Course>) repository.findAll(CourseSpecification.withTeacher(teacher)))
+                .stream().map(o -> unenrollTeacher(o, teacher))
+                .collect(Collectors.toList());
+    }
+
+
 
     @CacheEvict(value = "courses", allEntries = true)
     @Override

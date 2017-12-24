@@ -2,6 +2,7 @@ package com.theopus.repository.specification;
 
 import com.theopus.entity.schedule.Circumstance;
 import com.theopus.entity.schedule.Course;
+import com.theopus.entity.schedule.Teacher;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
@@ -23,6 +24,16 @@ public class CourseSpecification {
 
             return cb.and(pl, pty,
                     isCollectionEquals(expressionT, course.getTeachers(), cb));
+        });
+    }
+
+    public static Specification withTeacher(Teacher teacher) {
+
+        return ((root, query, cb) -> {
+            query.distinct(true);
+            Expression<Collection<Object>> expressionT = root.get("teachers");
+
+            return cb.and(cb.isMember(teacher, expressionT));
         });
     }
 }
