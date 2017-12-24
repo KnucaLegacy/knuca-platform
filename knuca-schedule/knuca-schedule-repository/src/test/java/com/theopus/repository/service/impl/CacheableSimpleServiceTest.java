@@ -4,9 +4,14 @@ import com.theopus.entity.schedule.Group;
 import com.theopus.entity.schedule.Teacher;
 import com.theopus.repository.conf.DataBaseServiceConfigTest;
 import com.theopus.repository.jparepo.GroupRepository;
+import com.theopus.repository.jparepo.RoomRepository;
+import com.theopus.repository.jparepo.SubjectRepository;
 import com.theopus.repository.jparepo.TeacherRepository;
 import com.theopus.repository.service.GroupService;
+import com.theopus.repository.service.RoomService;
+import com.theopus.repository.service.SubjectService;
 import com.theopus.repository.service.TeacherService;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -38,6 +43,16 @@ public class CacheableSimpleServiceTest {
     @Autowired
     private TeacherRepository teacherRepository;
 
+    @Autowired
+    private RoomService roomService;
+    @Autowired
+    private RoomRepository roomRepository;
+
+    @Autowired
+    private SubjectService subjectService;
+    @Autowired
+    private SubjectRepository subjectRepository;
+
     @Before
     public void setUp() throws Exception {
         teacherRepository.deleteAll();
@@ -65,7 +80,6 @@ public class CacheableSimpleServiceTest {
         List<Group> actual = (List<Group>) groupService.getAll();
 
         assertEquals(expected,actual);
-
     }
 
     @Test

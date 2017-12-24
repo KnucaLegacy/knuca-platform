@@ -11,6 +11,7 @@ import com.theopus.repository.jparepo.CourseRepository;
 import com.theopus.repository.jparepo.SubjectRepository;
 import com.theopus.repository.jparepo.TeacherRepository;
 import com.theopus.repository.service.CourseService;
+import com.theopus.repository.specification.SubjectSpecification;
 import com.theopus.repository.specification.TeacherSpecification;
 import org.junit.After;
 import org.junit.Before;
@@ -156,6 +157,24 @@ public class CacheableCourseServiceTest {
         courseService.unenrollTeacher((Teacher) teacherRepository.findOne(TeacherSpecification.getByName(teacherName_2)));
         List<Course> actual = (List<Course>) courseService.getAll();
 
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void deleteSubject() throws Exception {
+        String subjectName = "test_subject_1";
+        String teacherName_1 = "test_teacher_1";
+        String teacherName_2 = "test_teacher_2";
+        LessonType lessonType = LessonType.LAB;
+        Course course_1 = new Course(new Subject(subjectName), lessonType, Sets.newHashSet(
+                new Teacher(teacherName_1),
+                new Teacher(teacherName_2)
+        ));
+
+        List<Course> expected = Collections.singletonList(course_1);
+        courseService.save(course_1);
+        subjectRepository.delete((Subject) subjectRepository.findOne(SubjectSpecification.getByName(subjectName)));
+        List<Course> actual = (List<Course>) courseService.getAll();
         assertEquals(expected, actual);
     }
 }

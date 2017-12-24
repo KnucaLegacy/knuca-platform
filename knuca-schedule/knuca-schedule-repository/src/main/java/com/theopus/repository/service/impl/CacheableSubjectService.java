@@ -1,6 +1,7 @@
 package com.theopus.repository.service.impl;
 
 import com.theopus.entity.schedule.Subject;
+import com.theopus.repository.exception.NotSupportedSaveOperation;
 import com.theopus.repository.jparepo.SubjectRepository;
 import com.theopus.repository.service.SubjectService;
 import com.theopus.repository.specification.SubjectSpecification;
@@ -27,6 +28,9 @@ public class CacheableSubjectService implements SubjectService {
     @Override
     public Subject save(Subject subject) {
         Subject saved = findByName(subject.getName());
+        if (!subject.getCourses().isEmpty()){
+            LOG.warn("Saving subject {} with inner courses {}.", subject, subject.getCourses());
+        }
         if (saved != null) {
             return saved;
         }

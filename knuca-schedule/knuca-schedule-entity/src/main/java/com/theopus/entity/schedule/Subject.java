@@ -6,11 +6,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by Oleksandr_Tkachov on 9/15/2017.
@@ -23,6 +22,9 @@ public class Subject {
     private Long id;
     @Column(unique = true, name = "name")
     private String name;
+
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "subject")
+    private Set<Course> courses = new HashSet<>();
 
     public Subject() {
     }
@@ -58,6 +60,14 @@ public class Subject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
     }
 
     @Override

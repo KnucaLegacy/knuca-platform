@@ -24,7 +24,7 @@ public class Course {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
-    @ManyToOne()
+    @ManyToOne
     private Subject subject;
     @Column(name = "lesson_type")
     private LessonType type;
