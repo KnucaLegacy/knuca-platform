@@ -40,13 +40,18 @@ public class CacheableSubjectService implements SubjectService {
     }
 
     @Override
-    public Long size() {
+    public Long count() {
         return repository.count();
     }
 
     @Override
     public Collection<Subject> getAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public void delete(Subject object) {
+
     }
 
     @CacheEvict(value = "subjects", allEntries = true)

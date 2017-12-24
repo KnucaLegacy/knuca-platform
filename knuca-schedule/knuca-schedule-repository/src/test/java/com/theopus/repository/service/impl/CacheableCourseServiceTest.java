@@ -6,13 +6,12 @@ import com.theopus.entity.schedule.Course;
 import com.theopus.entity.schedule.Subject;
 import com.theopus.entity.schedule.Teacher;
 import com.theopus.entity.schedule.enums.LessonType;
+import com.theopus.repository.conf.DataBaseServiceConfigTest;
 import com.theopus.repository.jparepo.CourseRepository;
 import com.theopus.repository.jparepo.SubjectRepository;
 import com.theopus.repository.jparepo.TeacherRepository;
 import com.theopus.repository.service.CourseService;
 import com.theopus.repository.specification.TeacherSpecification;
-import conf.DataBaseServiceConfigTest;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,13 +23,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Oleksandr_Tkachov on 23.12.2017.
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = DataBaseServiceConfigTest.class)
+@ContextConfiguration(classes = {DataBaseServiceConfigTest.class})
 public class CacheableCourseServiceTest {
 
     @Autowired
@@ -44,18 +43,18 @@ public class CacheableCourseServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        courseService.flush();
         courseRepository.deleteAll();
-        teacherRepository.deleteAll();
         subjectRepository.deleteAll();
+        teacherRepository.deleteAll();
+        courseService.flush();
     }
 
     @After
     public void tearDown() throws Exception {
-        courseService.flush();
         courseRepository.deleteAll();
-        teacherRepository.deleteAll();
         subjectRepository.deleteAll();
+        teacherRepository.deleteAll();
+        courseService.flush();
     }
 
     @Test
@@ -77,7 +76,6 @@ public class CacheableCourseServiceTest {
         courseService.save(course_1);
         courseService.save(course_2);
         List<Course> actual = (List<Course>) courseService.getAll();
-
         assertEquals(expected, actual);
     }
 

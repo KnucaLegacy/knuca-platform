@@ -38,6 +38,7 @@ public class CacheableCourseService implements CourseService {
                 .map(t -> teacherService.save(t))
                 .collect(Collectors.toSet()));
         course.setSubject(subjectService.save(course.getSubject()));
+        System.out.println(repository.findAll());
         Course one = (Course) repository.findOne(CourseSpecification.sameCourse(course));
         if (!Objects.isNull(one)) {
             return one;
@@ -69,11 +70,11 @@ public class CacheableCourseService implements CourseService {
                 .collect(Collectors.toList());
     }
 
-
-
     @CacheEvict(value = "courses", allEntries = true)
     @Override
     public void flush() {
+        subjectService.flush();
+        teacherService.flush();
         LOG.info("Cleared 'courses' cache.");
     }
 }

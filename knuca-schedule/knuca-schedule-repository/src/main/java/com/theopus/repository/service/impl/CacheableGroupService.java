@@ -38,13 +38,18 @@ public class CacheableGroupService implements GroupService {
     }
 
     @Override
-    public Long size() {
+    public Long count() {
         return repository.count();
     }
 
     @Override
     public Collection<Group> getAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public void delete(Group object) {
+
     }
 
     @Override

@@ -3,11 +3,13 @@ package com.theopus.repository.service;
 import java.util.Collection;
 
 public interface SimpleService<T> extends CacheableService {
-    T save(T subject);
+    T save(T object);
 
     T findByName(String name);
 
-    Long size();
+    Long count();
 
     Collection<T> getAll();
+
+    void delete(T object);
 }

@@ -1,7 +1,9 @@
 package com.theopus.repository.service.impl;
 
 import com.theopus.entity.schedule.Teacher;
+import com.theopus.repository.jparepo.CourseRepository;
 import com.theopus.repository.jparepo.TeacherRepository;
+import com.theopus.repository.service.CourseService;
 import com.theopus.repository.service.TeacherService;
 import com.theopus.repository.specification.TeacherSpecification;
 import org.slf4j.Logger;
@@ -38,13 +40,18 @@ public class CacheableTeacherService implements TeacherService {
     }
 
     @Override
-    public Long size() {
+    public Long count() {
         return repository.count();
     }
 
     @Override
     public Collection<Teacher> getAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public void delete(Teacher object) {
+        repository.delete(object);
     }
 
     @CacheEvict(value = "teachers", allEntries = true)
