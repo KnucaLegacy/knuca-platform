@@ -101,4 +101,15 @@ public class Circumstance {
     public void setDates(Set<LocalDate> dates) {
         this.dates = dates;
     }
+
+
+    @Override
+    public String toString() {
+        return "Circumstance{" +
+                "id=" + id +
+                ", lessonOrder=" + lessonOrder +
+                ", room=" + room +
+                ", dates=" + dates +
+                '}';
+    }
 }

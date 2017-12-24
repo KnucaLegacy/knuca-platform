@@ -30,10 +30,7 @@ public class Course {
     @Column(name = "lesson_type")
     private LessonType type;
 
-    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @JoinTable(name = "course_teacher",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "teacher_id"))
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Teacher> teachers = new HashSet<>();
 
     public Course() {
@@ -91,5 +88,15 @@ public class Course {
 
     public void setTeachers(Set<Teacher> teachers) {
         this.teachers = teachers;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", subject=" + subject +
+                ", type=" + type +
+                ", teachers=" + teachers +
+                '}';
     }
 }

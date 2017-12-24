@@ -82,6 +82,16 @@ public class Curriculum {
     public void setCircumstances(Set<Circumstance> circumstances) {
         this.circumstances = circumstances;
     }
+
+    @Override
+    public String toString() {
+        return "Curriculum{" +
+                "id=" + id +
+                ", course=" + course +
+                ", group=" + group +
+                ", circumstances=" + circumstances +
+                '}';
+    }
 }
 
 
