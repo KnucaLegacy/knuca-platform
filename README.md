@@ -1,7 +1,7 @@
 # knuca-platform
 [![Build Status](https://travis-ci.org/theopus/knuca-platform.svg?branch=develop)](https://travis-ci.org/theopus/knuca-platform)
 
-Developing platform of distributing schedule for Kyiv National University of Constructure and Architecture.
+Developing platform of distributing schedule for [Kyiv National University of Constructure and Architecture](http://www.knuba.edu.ua/).
 * Java 8;
 * Spring Boot 1.5.8;
 * Hibernate 5.0.12;
