@@ -26,10 +26,9 @@ public class CurriculumIsolatedCacheImpl implements CurriculumIsolatedCache {
         this.repository = repository;
     }
 
-    @Cacheable("curriculum")
     @Override
     public Curriculum findAndSave(Curriculum curriculum) {
-        Curriculum dbCuriculum = (Curriculum) repository.findAll(CurriculumSpecification.sameCurriculum(curriculum)).get(0);
+        Curriculum dbCuriculum = (Curriculum) repository.findOne(CurriculumSpecification.sameCurriculum(curriculum));
         if (dbCuriculum != null) {
             return dbCuriculum;
         } else {

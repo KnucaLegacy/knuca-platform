@@ -28,9 +28,6 @@ public class CacheableSubjectService implements SubjectService {
     @Override
     public Subject save(Subject subject) {
         Subject saved = findByName(subject.getName());
-        if (!subject.getCourses().isEmpty()){
-            LOG.warn("Saving subject {} with inner courses {}.", subject, subject.getCourses());
-        }
         if (saved != null) {
             return saved;
         }

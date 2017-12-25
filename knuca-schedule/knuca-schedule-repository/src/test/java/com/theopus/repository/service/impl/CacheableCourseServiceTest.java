@@ -115,7 +115,7 @@ public class CacheableCourseServiceTest {
         List<Teacher> expected_teachers = Lists.newArrayList(new Teacher(teacherName_1), new Teacher(teacherName_2));
         List<Subject> expected_subject = Lists.newArrayList(new Subject(subjectName));
         courseService.save(course_1);
-        courseRepository.delete(course_1);
+        courseService.delete(course_1);
         List<Teacher> actual_teachers = teacherRepository.findAll();
         List<Subject> actual_subject = subjectRepository.findAll();
 
@@ -171,9 +171,49 @@ public class CacheableCourseServiceTest {
                 new Teacher(teacherName_2)
         ));
 
+        List<Course> expected = Collections.emptyList();
+        courseService.save(course_1);
+        courseService.deleteWithSubject((Subject) subjectRepository.findOne(SubjectSpecification.getByName(subjectName)));
+        List<Course> actual = (List<Course>) courseService.getAll();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void delete() throws Exception {
+        String subjectName = "test_subject_1";
+        String teacherName_1 = "test_teacher_1";
+        String teacherName_2 = "test_teacher_2";
+        LessonType lessonType = LessonType.LAB;
+        Course course_1 = new Course(new Subject(subjectName), lessonType, Sets.newHashSet(
+                new Teacher(teacherName_1),
+                new Teacher(teacherName_2)
+        ));
+        long expected = 0L;
+        courseService.save(course_1);
+        courseService.delete(course_1);
+        long actual = courseService.count();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void doubleSaveAfterFlush() throws Exception {
+        String subjectName = "test_subject_1";
+        String teacherName_1 = "test_teacher_1";
+        String teacherName_2 = "test_teacher_2";
+        LessonType lessonType = LessonType.LAB;
+        Course course_1 = new Course(new Subject(subjectName), lessonType, Sets.newHashSet(
+                new Teacher(teacherName_1),
+                new Teacher(teacherName_2)
+        ));
+
+        Course course_2 = new Course(new Subject(subjectName), lessonType, Sets.newHashSet(
+                new Teacher(teacherName_1),
+                new Teacher(teacherName_2)
+        ));
         List<Course> expected = Collections.singletonList(course_1);
         courseService.save(course_1);
-        subjectRepository.delete((Subject) subjectRepository.findOne(SubjectSpecification.getByName(subjectName)));
+        courseService.flush();
+        courseService.save(course_2);
         List<Course> actual = (List<Course>) courseService.getAll();
         assertEquals(expected, actual);
     }

@@ -49,7 +49,7 @@ public class CacheableGroupService implements GroupService {
 
     @Override
     public void delete(Group object) {
-
+        repository.delete(object);
     }
 
     @Override

@@ -11,7 +11,8 @@ import java.util.Set;
 @Entity(name = "curriculum")
 public class Curriculum {
 
-    @Id@GeneratedValue(generator = "increment")
+    @Id
+    @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
@@ -23,7 +24,8 @@ public class Curriculum {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @OneToMany(mappedBy = "curriculum", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "curriculum", cascade = {CascadeType.REMOVE, CascadeType.DETACH},
+            fetch = FetchType.EAGER)
     private Set<Circumstance> circumstances = new HashSet<>();
 
     public Curriculum() {
@@ -40,10 +42,8 @@ public class Curriculum {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Curriculum that = (Curriculum) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(course, that.course) &&
-                Objects.equals(group, that.group) &&
-                Sets.difference(circumstances, that.circumstances).isEmpty();
+        return Objects.equals(course, that.course) &&
+                Objects.equals(group, that.group);
     }
 
     @Override

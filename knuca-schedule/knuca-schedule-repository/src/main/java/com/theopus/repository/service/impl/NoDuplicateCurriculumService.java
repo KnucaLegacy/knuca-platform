@@ -1,5 +1,6 @@
 package com.theopus.repository.service.impl;
 
+import com.theopus.entity.schedule.Circumstance;
 import com.theopus.entity.schedule.Course;
 import com.theopus.entity.schedule.Curriculum;
 import com.theopus.entity.schedule.Group;
@@ -8,7 +9,10 @@ import com.theopus.repository.service.*;
 import com.theopus.repository.specification.CurriculumSpecification;
 import org.springframework.cache.annotation.Cacheable;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class NoDuplicateCurriculumService implements CurriculumService {
@@ -37,10 +41,14 @@ public class NoDuplicateCurriculumService implements CurriculumService {
         curriculum.setGroup(group);
 
 
+        Set<Circumstance> circumstances = curriculum.getCircumstances();
+        curriculum.setCircumstances(new HashSet<>());
         Curriculum saved = curriculumIsolatedCache.findAndSave(curriculum);
-        saved.getCircumstances().forEach(circumstance -> circumstance.setCurriculum(saved));
-        saved.setCircumstances(circumstanceService.saveAll(saved.getCircumstances()));
-        return repository.save(saved);
+        circumstances.forEach(circumstance -> circumstance.setCurriculum(saved));
+        Set<Circumstance> circumstances1 = circumstanceService.saveAll(circumstances);
+        saved.getCircumstances().addAll(circumstances1);
+        Curriculum save = repository.save(saved);
+        return save;
     }
 
     @Override
@@ -50,4 +58,16 @@ public class NoDuplicateCurriculumService implements CurriculumService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void flush() {
+        courseService.flush();
+        circumstanceService.flush();
+        groupService.flush();
+        curriculumIsolatedCache.flush();
+    }
+
+    @Override
+    public void delete(Curriculum curriculum){
+        repository.delete(curriculum);
+    }
 }

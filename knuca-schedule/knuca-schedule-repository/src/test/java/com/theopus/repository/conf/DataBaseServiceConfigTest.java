@@ -65,7 +65,8 @@ public class DataBaseServiceConfigTest {
     }
 
     @Bean("circumstanceIsolatedCache")
-    public CircumstanceIsolatedCache circumstanceIsolatedCache(CircumstanceRepository circumstanceRepository) {
-        return new CircumstanceIsolatedCacheImpl(circumstanceRepository);
+    public CircumstanceIsolatedCache circumstanceIsolatedCache(CircumstanceRepository circumstanceRepository,
+                                                               CurriculumIsolatedCache curriculumIsolatedCache) {
+        return new CircumstanceIsolatedCacheImpl(circumstanceRepository, curriculumIsolatedCache);
     }
 }

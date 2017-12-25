@@ -25,15 +25,15 @@ public class Circumstance {
     @Column(name = "lesson_order")
     private LessonOrder lessonOrder;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @ManyToOne(targetEntity = Curriculum.class)
-    @JoinColumn(name = "course_id")
+    @ManyToOne(cascade = {
+            CascadeType.DETACH})
     private Curriculum curriculum;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "dates", joinColumns = @JoinColumn(name = "circumstance_id"))
     @Column(name = "date")
     private Set<LocalDate> dates = new HashSet<>();
@@ -54,6 +54,7 @@ public class Circumstance {
         Circumstance that = (Circumstance) o;
         return lessonOrder == that.lessonOrder &&
                 Objects.equals(room, that.room) &&
+                Objects.equals(curriculum, that.curriculum) &&
                 Sets.difference(dates, that.dates).isEmpty();
     }
 

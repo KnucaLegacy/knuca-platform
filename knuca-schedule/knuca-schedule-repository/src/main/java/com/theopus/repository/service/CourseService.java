@@ -1,6 +1,7 @@
 package com.theopus.repository.service;
 
 import com.theopus.entity.schedule.Course;
+import com.theopus.entity.schedule.Subject;
 import com.theopus.entity.schedule.Teacher;
 
 import java.util.Collection;
@@ -10,11 +11,17 @@ public interface CourseService extends CacheableService {
 
     Course save(Course subject);
 
-    Long size();
+    Long count();
 
     Collection<Course> getAll();
 
     Course unenrollTeacher(Course course,Teacher teacher);
 
     List<Course> unenrollTeacher(Teacher teacher);
+
+    List<Course> withSubject(Subject subject);
+
+    void deleteWithSubject(Subject subject);
+
+    void delete(Course course);
 }

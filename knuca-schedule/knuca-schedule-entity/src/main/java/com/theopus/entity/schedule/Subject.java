@@ -23,9 +23,6 @@ public class Subject {
     @Column(unique = true, name = "name")
     private String name;
 
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "subject")
-    private Set<Course> courses = new HashSet<>();
-
     public Subject() {
     }
 
@@ -60,14 +57,6 @@ public class Subject {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Set<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(Set<Course> courses) {
-        this.courses = courses;
     }
 
     @Override

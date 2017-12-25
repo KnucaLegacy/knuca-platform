@@ -11,7 +11,12 @@ public class CircumstanceSpecification {
         return (root, query, cb) -> {
             Path<Object> curriculum = root.get("curriculum");
             Path<Object> lessonOrder = root.get("lessonOrder");
-            return cb.and(cb.equal(curriculum, circumstance.getCurriculum()), cb.equal(lessonOrder, circumstance.getLessonOrder()));
+            Path<Object> room = root.get("room");
+            return cb.and(
+                    cb.equal(curriculum, circumstance.getCurriculum()),
+                    cb.equal(lessonOrder, circumstance.getLessonOrder()),
+                    cb.equal(room, circumstance.getRoom())
+            );
         };
     }
 }

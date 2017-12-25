@@ -42,9 +42,16 @@ public class AppendableCircumstanceService implements CircumstanceService {
     public Circumstance save(Circumstance circumstance){
         circumstance.setRoom(roomService.save(circumstance.getRoom()));
         Set<LocalDate> dates = circumstance.getDates();
+        System.out.println("in app");
+        System.out.println(circumstance.getCurriculum());
         Circumstance andSave = circumstanceIsolatedCache.findAndSave(circumstance);
         andSave.getDates().addAll(dates);
-        return circumstanceRepository.save(circumstance);
+        return circumstanceRepository.save(andSave);
     }
 
+    @Override
+    public void flush() {
+        roomService.flush();
+        circumstanceIsolatedCache.flush();
+    }
 }

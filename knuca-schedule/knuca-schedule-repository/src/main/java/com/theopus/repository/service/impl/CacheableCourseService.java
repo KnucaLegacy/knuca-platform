@@ -1,12 +1,14 @@
 package com.theopus.repository.service.impl;
 
 import com.theopus.entity.schedule.Course;
+import com.theopus.entity.schedule.Subject;
 import com.theopus.entity.schedule.Teacher;
 import com.theopus.repository.jparepo.CourseRepository;
 import com.theopus.repository.service.CourseService;
 import com.theopus.repository.service.SubjectService;
 import com.theopus.repository.service.TeacherService;
 import com.theopus.repository.specification.CourseSpecification;
+import com.theopus.repository.specification.SubjectSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
@@ -38,7 +40,6 @@ public class CacheableCourseService implements CourseService {
                 .map(t -> teacherService.save(t))
                 .collect(Collectors.toSet()));
         course.setSubject(subjectService.save(course.getSubject()));
-        System.out.println(repository.findAll());
         Course one = (Course) repository.findOne(CourseSpecification.sameCourse(course));
         if (!Objects.isNull(one)) {
             return one;
@@ -48,7 +49,7 @@ public class CacheableCourseService implements CourseService {
     }
 
     @Override
-    public Long size() {
+    public Long count() {
         return repository.count();
     }
 
@@ -68,6 +69,21 @@ public class CacheableCourseService implements CourseService {
         return ((List<Course>) repository.findAll(CourseSpecification.withTeacher(teacher)))
                 .stream().map(o -> unenrollTeacher(o, teacher))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Course> withSubject(Subject subject) {
+        return repository.findAll(CourseSpecification.withSubject(subject));
+    }
+
+    @Override
+    public void deleteWithSubject(Subject subject) {
+        withSubject(subject).forEach(this::delete);
+    }
+
+    @Override
+    public void delete(Course course) {
+        repository.delete(course);
     }
 
     @CacheEvict(value = "courses", allEntries = true)
