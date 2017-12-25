@@ -3,7 +3,7 @@ package com.theopus.parser.obj.roomdate;
 import com.theopus.entity.schedule.Circumstance;
 import com.theopus.entity.schedule.Room;
 import com.theopus.entity.schedule.enums.LessonOrder;
-import com.theopus.parser.exceptions.IllegalPdfFormatException;
+import com.theopus.parser.exceptions.IllegalPdfException;
 import com.theopus.parser.obj.Patterns;
 import com.theopus.parser.obj.line.LessonLine;
 import javafx.util.Pair;
@@ -121,7 +121,7 @@ public class RoomDateBrackets {
         if (matcher.find()) {
             first = new Bracket(matcher.group(1));
         } else {
-            throw new IllegalPdfFormatException("Not found brackets in line " + parent.getLine());
+            throw new IllegalPdfException("Not found brackets in line " + parent.getLine());
         }
         Bracket tmp = first;
         while (matcher.find()) {

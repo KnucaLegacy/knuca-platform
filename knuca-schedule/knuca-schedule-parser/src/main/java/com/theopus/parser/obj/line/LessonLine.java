@@ -3,7 +3,7 @@ package com.theopus.parser.obj.line;
 import com.theopus.entity.schedule.*;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.entity.schedule.enums.LessonType;
-import com.theopus.parser.exceptions.IllegalPdfFormatException;
+import com.theopus.parser.exceptions.IllegalPdfException;
 import com.theopus.parser.obj.Patterns;
 import com.theopus.parser.obj.roomdate.RoomDateBrackets;
 import com.theopus.parser.obj.sheets.DaySheet;
@@ -41,7 +41,7 @@ public abstract class LessonLine {
         String[] split = line.split(";");
         if (split.length <= 1) {
             //ToDo add to Throw message parent info(Sheet info (Group, Date, etc.))
-            throw new IllegalPdfFormatException("Lesson line '" + line + "' does not contains ';' splitting symbol.");
+            throw new IllegalPdfException("Lesson line '" + line + "' does not contains ';' splitting symbol.");
         }
 
         if (isLeft) {
@@ -63,7 +63,7 @@ public abstract class LessonLine {
             if (previousOrder != null && !previousOrder.equals(LessonOrder.NONE)) {
                 return previousOrder;
             } else {
-                throw new IllegalPdfFormatException("Lesson line " + line + "not contains any info about order");
+                throw new IllegalPdfException("Lesson line " + line + "not contains any info about order");
             }
         } else {
             return lessonOrder;
@@ -94,7 +94,7 @@ public abstract class LessonLine {
         m = lecPattern.matcher(line.toLowerCase());
         if (m.find()) {
             return LessonType.LECTURE;
-        } else throw new IllegalPdfFormatException("Lesson line '" + line + "' does not have lesson type.");
+        } else throw new IllegalPdfException("Lesson line '" + line + "' does not have lesson type.");
     }
 
     protected Set<Teacher> parseTeachers() {

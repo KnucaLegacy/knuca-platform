@@ -1,7 +1,7 @@
 package com.theopus.parser.obj.sheets;
 
 import com.theopus.entity.schedule.Group;
-import com.theopus.parser.exceptions.IllegalPdfFormatException;
+import com.theopus.parser.exceptions.IllegalPdfException;
 
 import java.util.regex.Matcher;
 
@@ -13,7 +13,7 @@ public class GroupSheet extends Sheet<Group> {
         if (matcher.find()) {
             return new Group(matcher.group(2));
         }
-        throw new IllegalPdfFormatException("Cannot parse anchor from sheet " + this);
+        throw new IllegalPdfException("Cannot parse anchor from sheet " + this);
     }
 
 }

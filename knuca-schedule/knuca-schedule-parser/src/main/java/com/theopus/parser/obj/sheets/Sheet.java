@@ -3,7 +3,7 @@ package com.theopus.parser.obj.sheets;
 import com.theopus.entity.schedule.Curriculum;
 import com.theopus.entity.schedule.Group;
 import com.theopus.parser.StringUtils;
-import com.theopus.parser.exceptions.IllegalPdfFormatException;
+import com.theopus.parser.exceptions.IllegalPdfException;
 import com.theopus.parser.obj.Patterns;
 import com.theopus.parser.obj.table.SimpleTable;
 import com.theopus.parser.obj.table.Table;
@@ -51,7 +51,7 @@ public abstract class Sheet<T> {
         }).reduce((c1, c2) -> {
             c1.addAll(c2);
             return c1;
-        }).orElseThrow(() -> new IllegalPdfFormatException("Daysheet"));
+        }).orElseThrow(() -> new IllegalPdfException("Daysheet"));
 
     }
 

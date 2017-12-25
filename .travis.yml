@@ -1,3 +1,5 @@
 language: java
-scripts: 
-      - /knuca-schedule/gradlew build
+jdk:
+  - oraclejdk8
+install: cd knuca-schedule \
+          && ./gradlew build
