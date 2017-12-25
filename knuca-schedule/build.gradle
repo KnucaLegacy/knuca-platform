@@ -13,6 +13,14 @@ buildscript {
     }
 }
 
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = "com.theopus.restservice.Runner"
+
+dependencies {
+    compile project(':knuca-schedule-rest-service')
+}
 
 
 allprojects {
@@ -38,6 +46,7 @@ allprojects {
         ignoreFailures = false
         configFile = new File(rootDir, "config/checkstyle/checkstyle.xml")
         toolVersion "8.4"
+        checkstyleTest.enabled = false
         maxErrors 0
         maxWarnings 0
 

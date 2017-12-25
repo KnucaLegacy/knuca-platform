@@ -11,7 +11,6 @@ import com.theopus.repository.service.GroupService;
 import com.theopus.repository.service.RoomService;
 import com.theopus.repository.service.SubjectService;
 import com.theopus.repository.service.TeacherService;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

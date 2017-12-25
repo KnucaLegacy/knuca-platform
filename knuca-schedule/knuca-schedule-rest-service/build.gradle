@@ -1,6 +1,6 @@
 version 'v1.0'
 
-apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
 
 sourceCompatibility = 1.8
 
@@ -11,5 +11,6 @@ repositories {
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
     compile project(':knuca-schedule-entity')
+    compile project(':knuca-schedule-parser')
     compile project(':knuca-schedule-repository')
 }

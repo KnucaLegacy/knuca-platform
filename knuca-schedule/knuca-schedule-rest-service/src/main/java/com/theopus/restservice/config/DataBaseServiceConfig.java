@@ -16,7 +16,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class DataBaseServiceConfig {
 
 
-
     @Bean("roomService")
     public RoomService roomService(RoomRepository roomRepository) {
         return new CacheableRoomService(roomRepository);
@@ -62,7 +61,8 @@ public class DataBaseServiceConfig {
     }
 
     @Bean("circumstanceIsolatedCache")
-    public CircumstanceIsolatedCache circumstanceIsolatedCache(CircumstanceRepository circumstanceRepository) {
-        return new CircumstanceIsolatedCacheImpl(circumstanceRepository);
+    public CircumstanceIsolatedCache circumstanceIsolatedCache(CircumstanceRepository circumstanceRepository,
+                                                               CurriculumIsolatedCache curriculumIsolatedCache) {
+        return new CircumstanceIsolatedCacheImpl(circumstanceRepository, curriculumIsolatedCache);
     }
 }

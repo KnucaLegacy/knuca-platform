@@ -2,15 +2,12 @@ package com.theopus.entity.schedule;
 
 import com.google.common.collect.Sets;
 import com.theopus.entity.schedule.enums.LessonType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Represents a concept of some classes at some time at some places.

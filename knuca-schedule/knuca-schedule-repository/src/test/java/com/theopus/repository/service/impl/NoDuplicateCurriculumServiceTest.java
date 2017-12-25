@@ -9,7 +9,6 @@ import com.theopus.repository.conf.DataBaseServiceConfigTest;
 import com.theopus.repository.jparepo.*;
 import com.theopus.repository.service.CourseService;
 import com.theopus.repository.service.CurriculumService;
-import org.hibernate.mapping.Collection;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Oleksandr_Tkachov on 25.12.2017.

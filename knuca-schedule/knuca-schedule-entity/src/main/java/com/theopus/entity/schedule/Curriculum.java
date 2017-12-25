@@ -1,6 +1,5 @@
 package com.theopus.entity.schedule;
 
-import com.google.common.collect.Sets;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;

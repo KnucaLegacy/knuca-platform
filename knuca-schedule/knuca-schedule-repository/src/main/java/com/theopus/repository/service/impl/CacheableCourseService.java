@@ -8,7 +8,6 @@ import com.theopus.repository.service.CourseService;
 import com.theopus.repository.service.SubjectService;
 import com.theopus.repository.service.TeacherService;
 import com.theopus.repository.specification.CourseSpecification;
-import com.theopus.repository.specification.SubjectSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;

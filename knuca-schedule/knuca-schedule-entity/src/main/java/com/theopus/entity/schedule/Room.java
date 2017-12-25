@@ -1,9 +1,5 @@
 package com.theopus.entity.schedule;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -18,6 +14,8 @@ import java.util.Objects;
 
 @Entity(name = "room")
 public class Room {
+
+    public static final String NO_AUDITORY = "NO_AUDITORY";
 
     @Id@GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")

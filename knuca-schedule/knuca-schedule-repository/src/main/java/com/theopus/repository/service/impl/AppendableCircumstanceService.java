@@ -4,15 +4,11 @@ import com.theopus.entity.schedule.Circumstance;
 import com.theopus.repository.jparepo.CircumstanceRepository;
 import com.theopus.repository.service.CircumstanceIsolatedCache;
 import com.theopus.repository.service.CircumstanceService;
-import com.theopus.repository.service.CurriculumIsolatedCache;
 import com.theopus.repository.service.RoomService;
-import com.theopus.repository.specification.CircumstanceSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.Cacheable;
 
 import java.time.LocalDate;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,14 +28,14 @@ public class AppendableCircumstanceService implements CircumstanceService {
     }
 
     @Override
-    public Set<Circumstance> saveAll(Set<Circumstance> circumstances){
+    public Set<Circumstance> saveAll(Set<Circumstance> circumstances) {
         return circumstances.stream()
                 .map(this::save)
                 .collect(Collectors.toSet());
     }
 
     @Override
-    public Circumstance save(Circumstance circumstance){
+    public Circumstance save(Circumstance circumstance) {
         circumstance.setRoom(roomService.save(circumstance.getRoom()));
         Set<LocalDate> dates = circumstance.getDates();
         System.out.println("in app");

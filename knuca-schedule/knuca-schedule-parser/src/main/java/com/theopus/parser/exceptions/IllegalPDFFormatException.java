@@ -1,7 +1,7 @@
 package com.theopus.parser.exceptions;
 
-public class IllegalPDFFormatException extends RuntimeException {
-    public IllegalPDFFormatException(String message) {
+public class IllegalPdfFormatException extends RuntimeException {
+    public IllegalPdfFormatException(String message) {
         super(message);
     }
 }

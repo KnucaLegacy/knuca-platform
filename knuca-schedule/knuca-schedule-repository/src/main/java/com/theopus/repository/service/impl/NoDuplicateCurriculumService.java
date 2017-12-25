@@ -6,10 +6,7 @@ import com.theopus.entity.schedule.Curriculum;
 import com.theopus.entity.schedule.Group;
 import com.theopus.repository.jparepo.CurriculumRepository;
 import com.theopus.repository.service.*;
-import com.theopus.repository.specification.CurriculumSpecification;
-import org.springframework.cache.annotation.Cacheable;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -52,7 +49,7 @@ public class NoDuplicateCurriculumService implements CurriculumService {
     }
 
     @Override
-    public List<Curriculum> saveAll(List<Curriculum> curriculumList){
+    public List<Curriculum> saveAll(List<Curriculum> curriculumList) {
         return curriculumList.stream()
                 .map(this::save)
                 .collect(Collectors.toList());
@@ -67,7 +64,7 @@ public class NoDuplicateCurriculumService implements CurriculumService {
     }
 
     @Override
-    public void delete(Curriculum curriculum){
+    public void delete(Curriculum curriculum) {
         repository.delete(curriculum);
     }
 }

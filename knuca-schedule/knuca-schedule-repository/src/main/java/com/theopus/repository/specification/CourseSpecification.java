@@ -1,15 +1,15 @@
 package com.theopus.repository.specification;
 
-import com.theopus.entity.schedule.Circumstance;
 import com.theopus.entity.schedule.Course;
 import com.theopus.entity.schedule.Subject;
 import com.theopus.entity.schedule.Teacher;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
 import java.util.Collection;
 
-import static com.theopus.repository.specification.SpecificationUtil.isCollectionContainsSomething;
 import static com.theopus.repository.specification.SpecificationUtil.isCollectionEquals;
 
 public class CourseSpecification {

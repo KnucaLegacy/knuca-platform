@@ -3,7 +3,7 @@ package com.theopus.repository.specification;
 import com.theopus.entity.schedule.Circumstance;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.Path;
 
 public class CircumstanceSpecification {
 

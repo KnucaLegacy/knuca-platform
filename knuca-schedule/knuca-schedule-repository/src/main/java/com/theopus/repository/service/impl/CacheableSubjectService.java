@@ -1,7 +1,6 @@
 package com.theopus.repository.service.impl;
 
 import com.theopus.entity.schedule.Subject;
-import com.theopus.repository.exception.NotSupportedSaveOperation;
 import com.theopus.repository.jparepo.SubjectRepository;
 import com.theopus.repository.service.SubjectService;
 import com.theopus.repository.specification.SubjectSpecification;

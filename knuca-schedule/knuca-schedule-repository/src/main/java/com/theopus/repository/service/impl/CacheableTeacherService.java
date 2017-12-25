@@ -1,9 +1,7 @@
 package com.theopus.repository.service.impl;
 
 import com.theopus.entity.schedule.Teacher;
-import com.theopus.repository.jparepo.CourseRepository;
 import com.theopus.repository.jparepo.TeacherRepository;
-import com.theopus.repository.service.CourseService;
 import com.theopus.repository.service.TeacherService;
 import com.theopus.repository.specification.TeacherSpecification;
 import org.slf4j.Logger;

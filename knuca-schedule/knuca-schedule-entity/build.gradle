@@ -1,4 +1,3 @@
-apply plugin: 'org.springframework.boot'
 
 version = 'v1.0'
 

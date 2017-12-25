@@ -1,7 +1,6 @@
 package com.theopus.repository.specification;
 
 import com.theopus.entity.schedule.Curriculum;
-
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Path;

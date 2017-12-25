@@ -2,7 +2,6 @@ package com.theopus.entity.schedule;
 
 import com.google.common.collect.Sets;
 import com.theopus.entity.schedule.enums.LessonOrder;
-import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;

@@ -8,7 +8,6 @@ import com.theopus.repository.specification.CircumstanceSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 
 import java.util.Objects;
 
@@ -40,7 +39,7 @@ public class CircumstanceIsolatedCacheImpl implements CircumstanceIsolatedCache 
         System.out.println("in cache");
         System.out.println(circumstance.getCurriculum());
         Circumstance saved = (Circumstance) repository.findOne(CircumstanceSpecification.sameCircumstance(circumstance));
-        if (!Objects.isNull(saved)){
+        if (!Objects.isNull(saved)) {
             return saved;
         }
         return repository.saveAndFlush(circumstance);
