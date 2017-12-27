@@ -94,7 +94,7 @@ public class SheetTest {
                 }
 
                 @Override
-                public Map<LocalDate, Integer> getScheduleMap() {
+                public Map<LocalDate, TableEntry> getScheduleMap() {
                     return null;
                 }
             })

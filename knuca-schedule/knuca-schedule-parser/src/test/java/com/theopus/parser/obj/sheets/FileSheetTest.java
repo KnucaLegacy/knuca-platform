@@ -10,6 +10,7 @@ import com.theopus.parser.obj.table.SimpleTable;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -32,6 +33,7 @@ public class FileSheetTest {
             .delimiter(Patterns.Sheet.SHEET_DELIMITER)
             .build();
 
+    @Ignore
     @Test
     public void splitToSheets() throws Exception {
         sheet.prepare(string);
