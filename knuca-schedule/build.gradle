@@ -34,6 +34,11 @@ startScripts {
 
 }
 
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
 
 allprojects {
 
@@ -75,6 +80,10 @@ allprojects {
     task copyCheckstyleReport(type: Copy) {
         from "build/reports/checkstyle/"
         into "${rootProject.rootDir}/build/reports/checkstyle/${project.name}"
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
     }
 }
 
