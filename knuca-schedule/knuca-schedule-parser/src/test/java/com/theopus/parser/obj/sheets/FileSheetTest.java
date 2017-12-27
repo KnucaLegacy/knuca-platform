@@ -1,9 +1,18 @@
 package com.theopus.parser.obj.sheets;
 
 import com.google.common.collect.Lists;
+import com.theopus.entity.schedule.Curriculum;
+import com.theopus.entity.schedule.Group;
 import com.theopus.parser.obj.Patterns;
+import com.theopus.parser.obj.line.LessonLines;
+import com.theopus.parser.obj.roomdate.RoomDateBrackets;
+import com.theopus.parser.obj.table.SimpleTable;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.pdfbox.text.PDFTextStripperByArea;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -34,6 +43,50 @@ public class FileSheetTest {
         );
         List<String> actual = sheet.splitToSheets();
 
-        assertEquals(expected,actual);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void buildTest() throws Exception {
+        String text = null;
+        try (PDDocument document = PDDocument.load(new File("src/test/resources/pdfs/Arch.pdf"))) {
+
+            document.getClass();
+
+            if (!document.isEncrypted()) {
+
+                PDFTextStripperByArea stripper = new PDFTextStripperByArea();
+                stripper.setSortByPosition(true);
+                PDFTextStripper tStripper = new PDFTextStripper();
+
+                text = tStripper.getText(document);
+
+            }
+            document.close();
+        }
+
+        FileSheet<Group> sheet = FileSheet.<Group>create()
+                .delimiter(Patterns.Sheet.SHEET_DELIMITER)
+                .build()
+                .child(GroupSheet.<Group>createGroupSheet()
+                        .deafultTableBound()
+                        .defaultPatterns()
+                        .anchorPattern(Patterns.Sheet.EXACT_GROUP_PATTERN)
+                        .table(new SimpleTable())
+                        .build()
+                        .child(DaySheet.<Group>create()
+                                .defaultPatterns()
+                                .build()
+                                .child(LessonLines.createGroupLine()
+                                        .defaultPatterns()
+                                        .defaultOrderPatterns()
+                                        .build()
+                                        .child(RoomDateBrackets.create()
+                                                .defaultPatterns()
+                                                .build()
+                                        )
+                                )
+                        )
+                );
     }
 }

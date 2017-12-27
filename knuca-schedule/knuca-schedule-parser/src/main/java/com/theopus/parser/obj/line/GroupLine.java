@@ -19,11 +19,7 @@ public class GroupLine extends LessonLine {
     public List<Curriculum> parse() {
         Sheet<Group> parent = this.parent.getParent();
 
-        Set<Circumstance> circumstances = child
-                .prepare(
-                        getGetSplits(false),
-                        parseOrder()
-                ).parseCircumstacnes();
+        Set<Circumstance> circumstances = parseCircumstances();
         return Collections
                 .singletonList(new Curriculum(
                         new Course(

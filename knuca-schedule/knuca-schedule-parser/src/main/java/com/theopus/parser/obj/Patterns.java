@@ -10,7 +10,7 @@ public class Patterns {
 
         public static final String DAY_OF_WEEK_SPLITTER = ("(понедiлок)|(Вiвторок)|(Середа)|(Четвер)|(П'ятниця)|(Субота)|(Неділя)");
         public static final String TABLE_BOUND = ("===");
-        public static final String EXACT_GROUP_PATTERN = "(академгрупа)\\s([А-яІіЇїЄє]{1,6}-\\S{1,6})";
+        public static final String EXACT_GROUP_PATTERN = "(академгрупа)\\s([А-яІіЇїЄє]{1,9}-\\S{1,6})";
         public static final String SHEET_DELIMITER = "<\\s?КТОУП\\s?>";
     }
 
@@ -20,6 +20,7 @@ public class Patterns {
         public static final String LECTURE = "\\(лек.*\\)";
         public static final String EXAM = "";
         public static final String CONSULTATION = "";
+        public static final String FACULTY = "\\((факу.*)|(інд\\.роб\\.)\\)";
         public static final String TEACHER = "\\b((([^.,\\s\\d\\p{Punct}]{2,5}.)?" +
                 "[^.,\\s\\d\\p{Punct}]{2,4}\\.)|[^.,\\d\\s]{3,}\\.)\\s[^.,\\s\\d]+(\\s[^.,\\d\\s]\\.)?" +
                 "([^.,\\d\\s]\\.?)?";

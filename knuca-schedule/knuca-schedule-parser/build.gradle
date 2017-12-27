@@ -1,6 +1,7 @@
 version = 'v1.0'
 
 dependencies {
+    compile group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.8'
     compile project(':knuca-schedule-entity')
     testCompile project(':knuca-schedule-entity')
 }

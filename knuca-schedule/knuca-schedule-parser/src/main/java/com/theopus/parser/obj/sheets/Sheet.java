@@ -2,10 +2,9 @@ package com.theopus.parser.obj.sheets;
 
 import com.theopus.entity.schedule.Curriculum;
 import com.theopus.entity.schedule.Group;
-import com.theopus.parser.StringUtils;
+import com.theopus.parser.ParserUtils;
 import com.theopus.parser.exceptions.IllegalPdfException;
 import com.theopus.parser.obj.Patterns;
-import com.theopus.parser.obj.table.SimpleTable;
 import com.theopus.parser.obj.table.Table;
 import com.theopus.parser.obj.validator.Validator;
 import javafx.util.Pair;
@@ -59,12 +58,12 @@ public abstract class Sheet<T> {
         matcher.region(content.lastIndexOf(tableBound), content.length() - 1);
         Map<DayOfWeek, Pair<Integer, Integer>> map = new LinkedHashMap<>();
         while (matcher.find()) {
-            map.put(StringUtils.converUkrDayOfWeek(matcher.group()), new Pair<>(matcher.start(), matcher.end()));
+            map.put(ParserUtils.converUkrDayOfWeek(matcher.group()), new Pair<>(matcher.start(), matcher.end()));
         }
         map.put(null, new Pair<>(content.length(), content.length()));
         Map<DayOfWeek, String> result = new LinkedHashMap<>();
         map.entrySet().stream().reduce((d1, d2) -> {
-            result.put(d1.getKey(), StringUtils
+            result.put(d1.getKey(), ParserUtils
                     .trimWhitespaces(content.substring(d1.getValue().getValue(), d2.getValue().getKey())
                             .replaceAll("---", "")));
             return d2;
@@ -78,16 +77,13 @@ public abstract class Sheet<T> {
 
     public Sheet<T> child(DaySheet<T> daySheet) {
         this.child = daySheet;
+        daySheet.parent(this);
         return this;
     }
 
-    public Sheet<T> anchor(T anchor) {
-        this.anchor = anchor;
-        return this;
-    }
-
-    public Sheet<T> parent(FileSheet<T> fileSheet) {
+    public Sheet<T> link(FileSheet<T> fileSheet) {
         this.parent = fileSheet;
+        fileSheet.child(this);
         return this;
     }
 
@@ -100,12 +96,16 @@ public abstract class Sheet<T> {
     public Sheet<T> prepare(String content) {
         this.content = content;
         this.table.prepare(content);
+        this.anchor = parseAnchor();
         return this;
     }
 
+    public Sheet<T> parent(FileSheet<T> tFileSheet) {
+        this.parent = tFileSheet;
+        return this;
+    }
 
     public class Builder {
-
 
         public Sheet<T>.Builder defaultPatterns() {
             Sheet.this.dayOfWeekSplitter = Pattern.compile(Patterns.Sheet.DAY_OF_WEEK_SPLITTER,
@@ -133,5 +133,10 @@ public abstract class Sheet<T> {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "Sheet{" +
+                "content='" + content + '\'' +
+                '}';
+    }
 }

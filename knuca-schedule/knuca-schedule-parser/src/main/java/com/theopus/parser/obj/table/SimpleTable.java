@@ -21,10 +21,6 @@ public class SimpleTable implements Table {
     private Pattern firstDate = Pattern.compile("\\d?\\d\\.\\d\\d", Pattern.DOTALL | Pattern.MULTILINE);
     private Map<LocalDate, String> daysMap;
 
-    public SimpleTable(Sheet parent) {
-        this.parent = parent;
-    }
-
     @Override
     public SimpleTable prepare(String content) {
         this.daysMap = parseToDays(parseTable(content));
@@ -82,7 +78,7 @@ public class SimpleTable implements Table {
     }
 
     @Override
-    public Map<LocalDate, Integer> getScheduleMap() {
+    public Map<LocalDate, TableEntry> getScheduleMap() {
         return null;
     }
 

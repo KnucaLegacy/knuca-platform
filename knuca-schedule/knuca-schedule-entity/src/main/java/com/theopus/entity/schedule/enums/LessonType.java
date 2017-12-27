@@ -8,5 +8,5 @@ public enum LessonType {
     PRACTICE,
     LAB,
     EXAM,
-    CONSULTATION
+    FACULTY, CONSULTATION
 }

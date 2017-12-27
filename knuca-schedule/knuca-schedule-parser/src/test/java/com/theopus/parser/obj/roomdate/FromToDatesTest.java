@@ -12,7 +12,6 @@ import com.theopus.parser.obj.table.SimpleTable;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.persistence.Table;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -146,7 +145,7 @@ class MockDaySheet extends DaySheet {
 class MockSheet extends Sheet<Group> {
 
     public MockSheet(String sheet) {
-        this.table = new SimpleTable(this);
+        this.table = new SimpleTable();
         table.prepare(sheet);
     }
 

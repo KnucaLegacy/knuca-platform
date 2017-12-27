@@ -29,9 +29,11 @@ public abstract class LessonLine {
     private Pattern practPattern;
     private Pattern labPattern;
     private Pattern lecPattern;
+    private Pattern facPattern;
 
     private Pattern teacherPattern;
     private LessonOrder previousOrder;
+
 
     private String normalize(String line) {
         return line.replaceAll("\n", " ");
@@ -94,7 +96,12 @@ public abstract class LessonLine {
         m = lecPattern.matcher(line.toLowerCase());
         if (m.find()) {
             return LessonType.LECTURE;
-        } else throw new IllegalPdfException("Lesson line '" + line + "' does not have lesson type.");
+        }
+        m = facPattern.matcher(line.toLowerCase());
+        if (m.find()) {
+            return LessonType.FACULTY;
+        }
+        throw new IllegalPdfException("Lesson line '" + line + "' does not have lesson type." + "Parent: " + parent);
     }
 
     protected Set<Teacher> parseTeachers() {
@@ -135,6 +142,7 @@ public abstract class LessonLine {
 
     public LessonLine child(RoomDateBrackets roomDateBrackets) {
         LessonLine.this.child = roomDateBrackets;
+        roomDateBrackets.parent(this);
         return this;
     }
 
@@ -144,17 +152,12 @@ public abstract class LessonLine {
             return LessonLine.this;
         }
 
-        public Builder orderChain(LessonOrder order) {
-            LessonLine.this.previousOrder = order;
-            return this;
-        }
-
-
         public Builder defaultPatterns() {
-            practPattern = Pattern.compile(Patterns.LessonLine.PRACT);
-            labPattern = Pattern.compile(Patterns.LessonLine.LAB);
-            lecPattern = Pattern.compile(Patterns.LessonLine.LECTURE);
-            teacherPattern = Pattern.compile(Patterns.LessonLine.TEACHER);
+            practPattern = Pattern.compile(Patterns.LessonLine.PRACT, Pattern.DOTALL | Pattern.MULTILINE);
+            labPattern = Pattern.compile(Patterns.LessonLine.LAB, Pattern.DOTALL | Pattern.MULTILINE);
+            lecPattern = Pattern.compile(Patterns.LessonLine.LECTURE, Pattern.DOTALL | Pattern.MULTILINE);
+            facPattern = Pattern.compile(Patterns.LessonLine.FACULTY, Pattern.DOTALL | Pattern.MULTILINE);
+            teacherPattern = Pattern.compile(Patterns.LessonLine.TEACHER, Pattern.DOTALL | Pattern.MULTILINE);
             return this;
         }
 
@@ -187,5 +190,12 @@ public abstract class LessonLine {
 
     public DaySheet getParent() {
         return parent;
+    }
+
+    @Override
+    public String toString() {
+        return "LessonLine{" +
+                "line='" + line + '\'' +
+                '}';
     }
 }

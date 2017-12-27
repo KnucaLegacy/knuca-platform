@@ -1,7 +1,7 @@
 package com.theopus.parser.obj.sheets;
 
 import com.theopus.entity.schedule.Curriculum;
-import com.theopus.parser.StringUtils;
+import com.theopus.parser.ParserUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +25,8 @@ public class FileSheet<T> {
     }
 
     public List<Curriculum> parse() {
-        sheets.get(position);
-        return new ArrayList<>();
+        child.prepare(sheets.get(position++));
+        return child.parse();
     }
 
     public boolean next() {
@@ -43,7 +43,7 @@ public class FileSheet<T> {
         }
         map.add(fullFile.length());
         map.stream().reduce((d1, d2) -> {
-            result.add(StringUtils.trimWhitespaces(fullFile.substring(d1, d2)));
+            result.add(ParserUtils.trimWhitespaces(fullFile.substring(d1, d2)));
             return d2;
         });
         return result;
@@ -52,12 +52,14 @@ public class FileSheet<T> {
 
     public FileSheet<T> prepare(String fullFile) {
         this.position = 0;
-        this.fullFile = fullFile;
+        this.fullFile = ParserUtils.replaceEngToUkr(fullFile);
         sheets = splitToSheets();
         return this;
     }
 
     public FileSheet<T> child(Sheet<T> sheet) {
+        this.child = sheet;
+        sheet.parent(this);
         return this;
     }
 

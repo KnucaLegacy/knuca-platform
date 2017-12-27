@@ -1,5 +1,7 @@
 package com.theopus.parser;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -7,7 +9,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Locale;
 
-public class StringUtils {
+public class ParserUtils {
 
     private static SimpleDateFormat dayOfWeekFormat = new SimpleDateFormat("EEEE", Locale.forLanguageTag("uk-UA"));
 
@@ -38,5 +40,11 @@ public class StringUtils {
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate()
                 .getDayOfWeek();
+    }
+
+    public static String replaceEngToUkr(String string){
+        String eng = "AaBCcEeHIiKkMOoPpTXx";
+        String ukr = "АаВСсЕеНІіКкМОоРрТХх";
+        return StringUtils.replaceChars(string, eng, ukr);
     }
 }

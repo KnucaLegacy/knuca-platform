@@ -57,6 +57,7 @@ allprojects {
         testCompile("junit:junit:${jUnitVersion}")
         compile group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}"
         compile group: 'com.google.guava', name: 'guava', version: '23.5-jre'
+        compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
     }
 
     checkstyle {

@@ -2,9 +2,11 @@ package com.theopus.parser.obj.sheets;
 
 import com.theopus.entity.schedule.Group;
 import com.theopus.parser.obj.Patterns;
+import com.theopus.parser.obj.table.Table;
 import org.junit.Test;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -75,6 +77,27 @@ public class SheetTest {
             .anchorPattern(Patterns.Sheet.EXACT_GROUP_PATTERN)
             .deafultTableBound()
             .defaultPatterns()
+            .table(new Table() {
+                @Override
+                public Table prepare(String content) {
+                    return null;
+                }
+
+                @Override
+                public LocalDate getFromBound(DayOfWeek day) {
+                    return null;
+                }
+
+                @Override
+                public LocalDate getToBound(DayOfWeek day) {
+                    return null;
+                }
+
+                @Override
+                public Map<LocalDate, Integer> getScheduleMap() {
+                    return null;
+                }
+            })
             .build();
 
     @Test

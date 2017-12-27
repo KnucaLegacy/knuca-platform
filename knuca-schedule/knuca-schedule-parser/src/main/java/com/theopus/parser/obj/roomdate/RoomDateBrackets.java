@@ -1,9 +1,9 @@
 package com.theopus.parser.obj.roomdate;
 
+import com.google.common.collect.Sets;
 import com.theopus.entity.schedule.Circumstance;
 import com.theopus.entity.schedule.Room;
 import com.theopus.entity.schedule.enums.LessonOrder;
-import com.theopus.parser.exceptions.IllegalPdfException;
 import com.theopus.parser.obj.Patterns;
 import com.theopus.parser.obj.line.LessonLine;
 import javafx.util.Pair;
@@ -90,13 +90,19 @@ public class RoomDateBrackets {
                 cacheDates = current.dates;
                 emptyRooms.add(circumstance);
             }
-            if (current.dates.isEmpty() && current.room.equals(dummyRoom)) {
-                log.warn("Empty [] brackets in {}", parent);
-            }
+
             if (current.next == null) {
                 circumstance.setRoom(cacheRoom);
                 circumstance.setDates(cacheDates);
                 result.add(circumstance);
+
+                if (current.dates.isEmpty() && cacheDates.isEmpty()) {
+                    log.debug("No dates brackets in {} ,setting max range.", parent);
+                    cacheDates.addAll(Sets.newHashSet(fromToRange(
+                            parent.getParent().getParent().getTable().getFromBound(parent.getParent().getDayOfWeek()),
+                            parent.getParent().getParent().getTable().getToBound(parent.getParent().getDayOfWeek()),
+                            false)));
+                }
 
                 Room finalCacheRoom = cacheRoom;
                 emptyRooms.forEach(c -> {
@@ -110,8 +116,16 @@ public class RoomDateBrackets {
                     result.add(c);
                 });
                 emptyDates.clear();
+
             }
         }
+        result.stream().filter(circumstance -> circumstance.getDates().isEmpty()).forEach(circumstance -> {
+            log.error("Empty dates {} = {}, setting  max range.", parent, circumstance);
+            circumstance.setDates(Sets.newHashSet(fromToRange(
+                    parent.getParent().getParent().getTable().getFromBound(parent.getParent().getDayOfWeek()),
+                    parent.getParent().getParent().getTable().getToBound(parent.getParent().getDayOfWeek()),
+                    false)));
+        });
         return result;
     }
 
@@ -121,7 +135,7 @@ public class RoomDateBrackets {
         if (matcher.find()) {
             first = new Bracket(matcher.group(1));
         } else {
-            throw new IllegalPdfException("Not found brackets in line " + parent.getLine());
+            first = new Bracket("");
         }
         Bracket tmp = first;
         while (matcher.find()) {
@@ -170,8 +184,7 @@ public class RoomDateBrackets {
                 room.setName(matcher2.group());
                 return room;
             } else {
-                //ToDo: add Info which line
-                log.warn("No room avalible for line {} . Default has been setted. ", parent.getLine());
+                log.debug("No room avalible for line {} . Default has been setted. ", parent.getLine());
                 Room room = new Room();
                 room.setName(Room.NO_AUDITORY);
                 return room;
@@ -234,26 +247,26 @@ public class RoomDateBrackets {
             return localDates;
         }
 
-        private LocalDate convert(String date) {
-            return LocalDate.parse(date, dateTimeFormat);
-        }
-
-        private Set<LocalDate> fromToRange(LocalDate start, LocalDate end, boolean isWeekSkip) {
-            System.out.println(start);
-            System.out.println(end);
-            int delta = isWeekSkip ? 7 * 2 : 7;
-            int until = (int) start.until(end, ChronoUnit.DAYS);
-            return Stream.iterate(start, d -> d.plusDays(delta))
-                    .limit(until / delta + 1)
-                    .collect(Collectors.toSet());
-        }
-
         private Bracket parse() {
             this.room = parseRoom();
             this.dates = parseDates();
             return this;
         }
     }
+
+
+    private LocalDate convert(String date) {
+        return LocalDate.parse(date, dateTimeFormat);
+    }
+
+    private Set<LocalDate> fromToRange(LocalDate start, LocalDate end, boolean isWeekSkip) {
+        int delta = isWeekSkip ? 7 * 2 : 7;
+        int until = (int) start.until(end, ChronoUnit.DAYS);
+        return Stream.iterate(start, d -> d.plusDays(delta))
+                .limit(until / delta + 1)
+                .collect(Collectors.toSet());
+    }
+
 
     public RoomDateBrackets parent(LessonLine lessonLine) {
         this.parent = lessonLine;

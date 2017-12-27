@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class SimpleTableTest {
 
-    SimpleTable simpleTable = new SimpleTable(null);
+    SimpleTable simpleTable = new SimpleTable();
     String file =  new String(Files.readAllBytes(Paths.get("src/test/resources/pdfs/test_file.txt")), "UTF-8");
 
     public SimpleTableTest() throws IOException {

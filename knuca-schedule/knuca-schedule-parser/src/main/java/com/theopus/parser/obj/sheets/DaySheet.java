@@ -2,7 +2,7 @@ package com.theopus.parser.obj.sheets;
 
 import com.theopus.entity.schedule.Curriculum;
 import com.theopus.entity.schedule.enums.LessonOrder;
-import com.theopus.parser.StringUtils;
+import com.theopus.parser.ParserUtils;
 import com.theopus.parser.obj.Patterns;
 import com.theopus.parser.obj.line.LessonLine;
 import com.theopus.parser.obj.validator.Validator;
@@ -42,7 +42,7 @@ public class DaySheet<T> {
 
     public DaySheet<T> prepare(DayOfWeek dayOfWeek, String content) {
         this.dayOfWeek = dayOfWeek;
-        this.content = content;
+        this.content = ParserUtils.normalize(content);
         return this;
     }
 
@@ -52,9 +52,9 @@ public class DaySheet<T> {
         List<String> result = new ArrayList<>();
         while (mb.find()) {
             if (mf.find(mb.end())) {
-                result.add(StringUtils.trimWhitespaces(content.substring(mb.start(), mf.start())));
+                result.add(ParserUtils.trimWhitespaces(content.substring(mb.start(), mf.start())));
             } else {
-                result.add(StringUtils.trimWhitespaces(content.substring(mb.start())));
+                result.add(ParserUtils.trimWhitespaces(content.substring(mb.start())));
             }
         }
         return result;
@@ -65,8 +65,9 @@ public class DaySheet<T> {
     }
 
 
-    public DaySheet<T> child(LessonLine lessonLine) {
+    public DaySheet<T> parent(LessonLine lessonLine) {
         this.child = lessonLine;
+        lessonLine.parent(this);
         return this;
     }
 
@@ -83,6 +84,13 @@ public class DaySheet<T> {
         return dayOfWeek;
     }
 
+    public DaySheet<T> child(LessonLine lessonLine) {
+        this.child = lessonLine;
+        lessonLine.parent(this);
+        return this;
+    }
+
+
     public class Builder {
 
         public DaySheet<T> build() {
@@ -90,10 +98,16 @@ public class DaySheet<T> {
         }
 
         public Builder defaultPatterns() {
-            begin = Pattern.compile(Patterns.LessonLine.BEGIN_LESSON_SPLITTER);
-            finish = Pattern.compile(Patterns.LessonLine.END_LESSON_SPLITTER);
+            begin = Pattern.compile(Patterns.LessonLine.BEGIN_LESSON_SPLITTER,Pattern.DOTALL | Pattern.MULTILINE);
+            finish = Pattern.compile(Patterns.LessonLine.END_LESSON_SPLITTER, Pattern.DOTALL | Pattern.MULTILINE);
             return this;
         }
     }
 
+    @Override
+    public String toString() {
+        return "DaySheet{" +
+                "content='" + content + '\'' +
+                '}';
+    }
 }
