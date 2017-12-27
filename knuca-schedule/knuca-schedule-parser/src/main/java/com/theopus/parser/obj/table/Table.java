@@ -6,6 +6,8 @@ import java.util.Map;
 
 public interface Table {
 
+    Table prepare(String content);
+
     LocalDate getFromBound(DayOfWeek day);
 
     LocalDate getToBound(DayOfWeek day);

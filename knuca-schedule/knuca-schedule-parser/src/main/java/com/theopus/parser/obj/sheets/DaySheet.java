@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 public class DaySheet<T> {
 
-    private DayOfWeek dayOfWeek;
+    protected DayOfWeek dayOfWeek;
     private String content;
 
     private Sheet<T> parent;
@@ -77,6 +77,10 @@ public class DaySheet<T> {
 
     public static <T> DaySheet<T>.Builder create() {
         return new DaySheet<T>().new Builder();
+    }
+
+    public DayOfWeek getDayOfWeek() {
+        return dayOfWeek;
     }
 
     public class Builder {

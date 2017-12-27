@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 
 public class GroupSheet extends Sheet<Group> {
     @Override
-    Group parseAnchor() {
+    public Group parseAnchor() {
         Matcher matcher = anchorPattern.matcher(content);
         matcher.region(0, content.indexOf(tableBound));
         if (matcher.find()) {

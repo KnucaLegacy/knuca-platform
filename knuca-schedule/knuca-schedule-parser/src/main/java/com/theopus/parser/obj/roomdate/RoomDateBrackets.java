@@ -211,7 +211,7 @@ public class RoomDateBrackets {
                     fromStack.push(new Pair<>(matcher.group(2), weekSkip));
                 } else if (group.equals(toDelimiter)) {
                     if (fromStack.empty()) {
-                        //TODO:
+                        toStack.add(new Pair<>(matcher.group(2), weekSkip));
                     } else {
                         Pair<String, Boolean> from = fromStack.pop();
                         String to = matcher.group(2);
@@ -221,7 +221,16 @@ public class RoomDateBrackets {
                     }
                 }
             }
-
+            fromStack.forEach(pair -> localDates.addAll(fromToRange(
+                    convert(pair.getKey()),
+                    parent.getParent().getParent().getTable().getToBound(parent.getParent().getDayOfWeek()),
+                    pair.getValue()
+            )));
+            toStack.forEach(pair -> localDates.addAll(fromToRange(
+                    parent.getParent().getParent().getTable().getFromBound(parent.getParent().getDayOfWeek()),
+                    convert(pair.getKey()),
+                    pair.getValue()
+            )));
             return localDates;
         }
 
@@ -230,6 +239,8 @@ public class RoomDateBrackets {
         }
 
         private Set<LocalDate> fromToRange(LocalDate start, LocalDate end, boolean isWeekSkip) {
+            System.out.println(start);
+            System.out.println(end);
             int delta = isWeekSkip ? 7 * 2 : 7;
             int until = (int) start.until(end, ChronoUnit.DAYS);
             return Stream.iterate(start, d -> d.plusDays(delta))

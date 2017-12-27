@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 
 public abstract class Sheet<T> {
 
-    private Table table;
+    protected Table table;
     protected String content;
     private T anchor;
 
@@ -43,7 +43,6 @@ public abstract class Sheet<T> {
     }
 
     public List<Curriculum> parse() {
-        this.table = new SimpleTable();
         this.validator = new Validator(table);
         return splitToDays().entrySet().stream().map(dc -> {
             child.prepare(dc.getKey(), dc.getValue());
@@ -92,7 +91,7 @@ public abstract class Sheet<T> {
         return this;
     }
 
-    abstract T parseAnchor();
+    public abstract T parseAnchor();
 
     public static Sheet<Group>.Builder createGroupSheet() {
         return new GroupSheet().new Builder();
@@ -100,8 +99,10 @@ public abstract class Sheet<T> {
 
     public Sheet<T> prepare(String content) {
         this.content = content;
+        this.table.prepare(content);
         return this;
     }
+
 
     public class Builder {
 
@@ -119,6 +120,11 @@ public abstract class Sheet<T> {
 
         public Sheet<T>.Builder deafultTableBound() {
             Sheet.this.tableBound = Patterns.Sheet.TABLE_BOUND;
+            return this;
+        }
+
+        public Sheet<T>.Builder table(Table table){
+            Sheet.this.table = table;
             return this;
         }
 

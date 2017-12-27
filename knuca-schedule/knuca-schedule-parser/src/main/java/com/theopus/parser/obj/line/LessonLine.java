@@ -184,4 +184,8 @@ public abstract class LessonLine {
     public String getLine() {
         return line;
     }
+
+    public DaySheet getParent() {
+        return parent;
+    }
 }
