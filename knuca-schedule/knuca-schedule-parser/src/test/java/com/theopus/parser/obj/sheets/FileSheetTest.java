@@ -74,7 +74,7 @@ public class FileSheetTest {
                         .deafultTableBound()
                         .defaultPatterns()
                         .anchorPattern(Patterns.Sheet.EXACT_GROUP_PATTERN)
-                        .table(new SimpleTable())
+                        .table(new SimpleTable().defaultPatternsMap())
                         .build()
                         .child(DaySheet.<Group>create()
                                 .defaultPatterns()
@@ -90,5 +90,6 @@ public class FileSheetTest {
                                 )
                         )
                 );
+        sheet.prepare(text).parseAll();
     }
 }

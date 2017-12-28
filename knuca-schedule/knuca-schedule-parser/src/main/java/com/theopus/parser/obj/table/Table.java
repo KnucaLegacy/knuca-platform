@@ -18,7 +18,9 @@ public interface Table {
 
     LocalDate getToBound(DayOfWeek day);
 
-    Map<LocalDate, List<TableEntry>> getScheduleMap();
+    Map<LocalDate, Set<TableEntry>> getScheduleMap();
+
+    Map<LocalDate, String> getDaysMap();
 
     class TableEntry {
         private LessonOrder lessonOrder;

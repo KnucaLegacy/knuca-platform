@@ -23,7 +23,7 @@ public class SimpleTable implements Table {
 
     private Sheet parent;
     private Pattern pattern = Pattern.compile("={1,4}(.+)={1,4}", Pattern.DOTALL | Pattern.MULTILINE);
-    private Pattern patternDays = Pattern.compile("\\|([\\\\.А-я]{1,8})\\|", Pattern.DOTALL | Pattern.MULTILINE);
+    private Pattern patternDays = Pattern.compile("\\|([\\\\.А-яЛA-z]{1,8})\\|", Pattern.DOTALL | Pattern.MULTILINE);
     private Pattern firstDate = Pattern.compile("\\d?\\d\\.\\d\\d", Pattern.DOTALL | Pattern.MULTILINE);
     private Map<LocalDate, String> daysMap;
     private Map<String, LessonType> lessonTypeMap;
@@ -85,7 +85,7 @@ public class SimpleTable implements Table {
     }
 
     @Override
-    public Map<LocalDate, List<TableEntry>> getScheduleMap() {
+    public Map<LocalDate, Set<TableEntry>> getScheduleMap() {
         return daysMap.entrySet().stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
@@ -93,18 +93,17 @@ public class SimpleTable implements Table {
                 ));
     }
 
-    private List<TableEntry> parseEntries(String string) {
+    private Set<TableEntry> parseEntries(String string) {
         LessonOrder[] values = LessonOrder.values();
         AtomicInteger index = new AtomicInteger(1);
         return Lists.charactersOf(string).stream()
                 .map(character -> new TableEntry(
-                                values[index.getAndIncrement()],
-                                Optional.ofNullable(lessonTypeMap.get(character.toString()))
-                                        .orElse(LessonType.NONE)
+                                values[index.getAndIncrement()],Optional.ofNullable(lessonTypeMap.get(character.toString()))
+                        .orElse(LessonType.NONE)
                         )
                 )
                 .filter(tableEntry -> !tableEntry.getLessonType().equals(LessonType.NONE))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     public SimpleTable patternsMap(Map<String, LessonType> lessonTypeMap) {
@@ -117,8 +116,9 @@ public class SimpleTable implements Table {
         lessonTypeMap.put("Л", LessonType.LECTURE);
         lessonTypeMap.put("л", LessonType.LAB);
         lessonTypeMap.put("П", LessonType.PRACTICE);
-        lessonTypeMap.put("Ф", LessonType.PRACTICE);
+        lessonTypeMap.put("Ф", LessonType.FACULTY);
         lessonTypeMap.put("І", LessonType.PRACTICE);
+        lessonTypeMap.put("Н", LessonType.PRACTICE);
         return this;
     }
 
@@ -131,4 +131,8 @@ public class SimpleTable implements Table {
             .parseDefaulting(ChronoField.YEAR, LocalDate.now().getYear())
             .toFormatter();
 
+    @Override
+    public Map<LocalDate, String> getDaysMap() {
+        return daysMap;
+    }
 }

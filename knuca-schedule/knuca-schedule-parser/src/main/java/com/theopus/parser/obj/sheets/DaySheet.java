@@ -6,6 +6,8 @@ import com.theopus.parser.ParserUtils;
 import com.theopus.parser.obj.Patterns;
 import com.theopus.parser.obj.line.LessonLine;
 import com.theopus.parser.obj.validator.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.regex.Pattern;
 
 public class DaySheet<T> {
 
+    private static final Logger LOG = LoggerFactory.getLogger(DaySheet.class);
     protected DayOfWeek dayOfWeek;
     private String content;
 

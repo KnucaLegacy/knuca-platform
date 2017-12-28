@@ -162,9 +162,11 @@ public class NoDuplicateCurriculumServiceTest {
         LessonType lessonType1 = LessonType.CONSULTATION;
 
         Course course_1 = new Course(new Subject(subjectName1), lessonType1, Collections.emptySet());
+        Circumstance circumstance = new Circumstance(LessonOrder.FIRST, new Room("1"), Sets.newHashSet());
         Curriculum curriculum_1 = new Curriculum(course_1, new Group(groupName1), Sets.newHashSet(
-                new Circumstance(LessonOrder.FIRST, new Room("1"), Sets.newHashSet())
+               circumstance
         ));
+        circumstance.setCurriculum(curriculum_1);
 
         Course course_2 = new Course(new Subject(subjectName1), lessonType1, Collections.emptySet());
         Curriculum curriculum_2 = new Curriculum(course_2, new Group(groupName1), Sets.newHashSet(

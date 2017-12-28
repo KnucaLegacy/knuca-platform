@@ -97,7 +97,10 @@ public class RoomDateBrackets {
                 result.add(circumstance);
 
                 if (current.dates.isEmpty() && cacheDates.isEmpty()) {
-                    log.debug("No dates brackets in {} ,setting max range.", parent);
+                    log.debug("No dates brackets in {} ,setting max range.{}", parent, fromToRange(
+                            parent.getParent().getParent().getTable().getFromBound(parent.getParent().getDayOfWeek()),
+                            parent.getParent().getParent().getTable().getToBound(parent.getParent().getDayOfWeek()),
+                            false));
                     cacheDates.addAll(Sets.newHashSet(fromToRange(
                             parent.getParent().getParent().getTable().getFromBound(parent.getParent().getDayOfWeek()),
                             parent.getParent().getParent().getTable().getToBound(parent.getParent().getDayOfWeek()),

@@ -8,6 +8,8 @@ import com.theopus.parser.obj.Patterns;
 import com.theopus.parser.obj.table.Table;
 import com.theopus.parser.obj.validator.Validator;
 import javafx.util.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.DayOfWeek;
 import java.util.LinkedHashMap;
@@ -24,6 +26,7 @@ import java.util.regex.Pattern;
 
 public abstract class Sheet<T> {
 
+    private static final Logger LOG = LoggerFactory.getLogger(Sheet.class);
     protected Table table;
     protected String content;
     private T anchor;
@@ -42,14 +45,15 @@ public abstract class Sheet<T> {
     }
 
     public List<Curriculum> parse() {
+        System.out.println(content);
         this.validator = new Validator(table);
-        return splitToDays().entrySet().stream().map(dc -> {
+        return validator.validate(splitToDays().entrySet().stream().map(dc -> {
             child.prepare(dc.getKey(), dc.getValue());
-            return validator.validate(child.parse());
+            return child.parse();
         }).reduce((c1, c2) -> {
             c1.addAll(c2);
             return c1;
-        }).orElseThrow(() -> new IllegalPdfException("Daysheet"));
+        }).orElseThrow(() -> new IllegalPdfException("Daysheet")));
 
     }
 
@@ -108,7 +112,7 @@ public abstract class Sheet<T> {
     public class Builder {
 
         public Sheet<T>.Builder defaultPatterns() {
-            Sheet.this.dayOfWeekSplitter = Pattern.compile(Patterns.Sheet.DAY_OF_WEEK_SPLITTER,
+            Sheet.this.dayOfWeekSplitter = Pattern.compile(ParserUtils.replaceEngToUkr(Patterns.Sheet.DAY_OF_WEEK_SPLITTER),
                     Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.DOTALL | Pattern.MULTILINE);
             return this;
         }

@@ -1,6 +1,7 @@
 package com.theopus.parser.obj.table;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.entity.schedule.enums.LessonType;
 import org.junit.Assert;
@@ -35,44 +36,44 @@ public class SimpleTableTest {
     public void parseDayLocal() throws Exception {
         simpleTable.prepare(table);
 
-        Map<LocalDate, List<Table.TableEntry>> expected  = new HashMap<>();
-        expected.put(LocalDate.of(2017, 10, 6), Lists.newArrayList(
+        Map<LocalDate, Set<Table.TableEntry>> expected  = new HashMap<>();
+        expected.put(LocalDate.of(2017, 10, 6), Sets.newHashSet(
                 new Table.TableEntry(LessonOrder.FIRST, LessonType.PRACTICE),
                 new Table.TableEntry(LessonOrder.SECOND, LessonType.PRACTICE),
                 new Table.TableEntry(LessonOrder.THIRD, LessonType.LAB)
         ));
-        expected.put(LocalDate.of(2017, 10, 7), Lists.newArrayList(
+        expected.put(LocalDate.of(2017, 10, 7), Sets.newHashSet(
 
         ));
-        expected.put(LocalDate.of(2017, 10, 9), Lists.newArrayList(
+        expected.put(LocalDate.of(2017, 10, 9), Sets.newHashSet(
                 new Table.TableEntry(LessonOrder.SECOND, LessonType.LAB),
                 new Table.TableEntry(LessonOrder.THIRD, LessonType.LECTURE),
                 new Table.TableEntry(LessonOrder.FORUTH, LessonType.PRACTICE)
         ));
-        expected.put(LocalDate.of(2017, 10, 10), Lists.newArrayList(
+        expected.put(LocalDate.of(2017, 10, 10), Sets.newHashSet(
                 new Table.TableEntry(LessonOrder.FIRST, LessonType.LECTURE),
                 new Table.TableEntry(LessonOrder.SECOND, LessonType.PRACTICE),
                 new Table.TableEntry(LessonOrder.THIRD, LessonType.PRACTICE),
                 new Table.TableEntry(LessonOrder.FORUTH, LessonType.PRACTICE)
         ));
-        expected.put(LocalDate.of(2017, 10, 11), Lists.newArrayList(
+        expected.put(LocalDate.of(2017, 10, 11), Sets.newHashSet(
                 new Table.TableEntry(LessonOrder.FIRST, LessonType.LECTURE),
                 new Table.TableEntry(LessonOrder.SECOND, LessonType.LECTURE),
                 new Table.TableEntry(LessonOrder.THIRD, LessonType.LECTURE)
         ));
-        expected.put(LocalDate.of(2017, 10, 12), Lists.newArrayList(
+        expected.put(LocalDate.of(2017, 10, 12), Sets.newHashSet(
                 new Table.TableEntry(LessonOrder.FIRST, LessonType.LECTURE),
                 new Table.TableEntry(LessonOrder.THIRD, LessonType.LECTURE)
         ));
-        expected.put(LocalDate.of(2017, 10, 13), Lists.newArrayList(
+        expected.put(LocalDate.of(2017, 10, 13), Sets.newHashSet(
                 new Table.TableEntry(LessonOrder.FIRST, LessonType.LAB),
                 new Table.TableEntry(LessonOrder.SECOND, LessonType.PRACTICE)
         ));
-        expected.put(LocalDate.of(2017, 10, 14), Lists.newArrayList(
+        expected.put(LocalDate.of(2017, 10, 14), Sets.newHashSet(
 
         ));
 
-        Map<LocalDate, List<Table.TableEntry>> actual = simpleTable.getScheduleMap();
+        Map<LocalDate, Set<Table.TableEntry>> actual = simpleTable.getScheduleMap();
 
         assertEquals(expected, actual);
     }
