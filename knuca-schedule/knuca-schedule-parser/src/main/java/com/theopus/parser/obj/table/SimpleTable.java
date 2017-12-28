@@ -1,8 +1,11 @@
 package com.theopus.parser.obj.table;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.theopus.entity.schedule.enums.LessonOrder;
+import com.theopus.entity.schedule.enums.LessonType;
 import com.theopus.parser.exceptions.IllegalPdfException;
 import com.theopus.parser.obj.sheets.Sheet;
-import org.springframework.cglib.core.Local;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -10,8 +13,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class SimpleTable implements Table {
 
@@ -20,6 +26,7 @@ public class SimpleTable implements Table {
     private Pattern patternDays = Pattern.compile("\\|([\\\\.А-я]{1,8})\\|", Pattern.DOTALL | Pattern.MULTILINE);
     private Pattern firstDate = Pattern.compile("\\d?\\d\\.\\d\\d", Pattern.DOTALL | Pattern.MULTILINE);
     private Map<LocalDate, String> daysMap;
+    private Map<String, LessonType> lessonTypeMap;
 
     @Override
     public SimpleTable prepare(String content) {
@@ -78,8 +85,41 @@ public class SimpleTable implements Table {
     }
 
     @Override
-    public Map<LocalDate, TableEntry> getScheduleMap() {
-        return null;
+    public Map<LocalDate, List<TableEntry>> getScheduleMap() {
+        return daysMap.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        v -> parseEntries(v.getValue())
+                ));
+    }
+
+    private List<TableEntry> parseEntries(String string) {
+        LessonOrder[] values = LessonOrder.values();
+        AtomicInteger index = new AtomicInteger(1);
+        return Lists.charactersOf(string).stream()
+                .map(character -> new TableEntry(
+                                values[index.getAndIncrement()],
+                                Optional.ofNullable(lessonTypeMap.get(character.toString()))
+                                        .orElse(LessonType.NONE)
+                        )
+                )
+                .filter(tableEntry -> !tableEntry.getLessonType().equals(LessonType.NONE))
+                .collect(Collectors.toList());
+    }
+
+    public SimpleTable patternsMap(Map<String, LessonType> lessonTypeMap) {
+        this.lessonTypeMap = lessonTypeMap;
+        return this;
+    }
+
+    public SimpleTable defaultPatternsMap() {
+        this.lessonTypeMap = new HashMap<>();
+        lessonTypeMap.put("Л", LessonType.LECTURE);
+        lessonTypeMap.put("л", LessonType.LAB);
+        lessonTypeMap.put("П", LessonType.PRACTICE);
+        lessonTypeMap.put("Ф", LessonType.PRACTICE);
+        lessonTypeMap.put("І", LessonType.PRACTICE);
+        return this;
     }
 
     private LocalDate convert(String date) {

@@ -42,7 +42,7 @@ public class ParserUtils {
                 .getDayOfWeek();
     }
 
-    public static String replaceEngToUkr(String string){
+    public static String replaceEngToUkr(String string) {
         String eng = "AaBCcEeHIiKkMOoPpTXx";
         String ukr = "АаВСсЕеНІіКкМОоРрТХх";
         return StringUtils.replaceChars(string, eng, ukr);

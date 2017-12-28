@@ -100,8 +100,8 @@ public abstract class Sheet<T> {
         return this;
     }
 
-    public Sheet<T> parent(FileSheet<T> tFileSheet) {
-        this.parent = tFileSheet;
+    public Sheet<T> parent(FileSheet<T> fileSheet) {
+        this.parent = fileSheet;
         return this;
     }
 
@@ -123,7 +123,7 @@ public abstract class Sheet<T> {
             return this;
         }
 
-        public Sheet<T>.Builder table(Table table){
+        public Sheet<T>.Builder table(Table table) {
             Sheet.this.table = table;
             return this;
         }

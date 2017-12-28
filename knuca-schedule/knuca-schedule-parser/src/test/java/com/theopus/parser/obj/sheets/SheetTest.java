@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -94,7 +95,7 @@ public class SheetTest {
                 }
 
                 @Override
-                public Map<LocalDate, TableEntry> getScheduleMap() {
+                public Map<LocalDate, List<TableEntry>> getScheduleMap() {
                     return null;
                 }
             })
