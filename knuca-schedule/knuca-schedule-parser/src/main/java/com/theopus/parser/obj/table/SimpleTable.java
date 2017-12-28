@@ -23,7 +23,7 @@ public class SimpleTable implements Table {
 
     private Sheet parent;
     private Pattern pattern = Pattern.compile("={1,4}(.+)={1,4}", Pattern.DOTALL | Pattern.MULTILINE);
-    private Pattern patternDays = Pattern.compile("\\|([\\\\.А-яЛA-z]{1,8})\\|", Pattern.DOTALL | Pattern.MULTILINE);
+    private Pattern patternDays = Pattern.compile("\\|([\\\\.А-яІA-z]{1,8})\\|", Pattern.DOTALL | Pattern.MULTILINE);
     private Pattern firstDate = Pattern.compile("\\d?\\d\\.\\d\\d", Pattern.DOTALL | Pattern.MULTILINE);
     private Map<LocalDate, String> daysMap;
     private Map<String, LessonType> lessonTypeMap;
@@ -118,7 +118,7 @@ public class SimpleTable implements Table {
         lessonTypeMap.put("П", LessonType.PRACTICE);
         lessonTypeMap.put("Ф", LessonType.FACULTY);
         lessonTypeMap.put("І", LessonType.PRACTICE);
-        lessonTypeMap.put("Н", LessonType.PRACTICE);
+        lessonTypeMap.put("Н", LessonType.LECTURE);
         return this;
     }
 

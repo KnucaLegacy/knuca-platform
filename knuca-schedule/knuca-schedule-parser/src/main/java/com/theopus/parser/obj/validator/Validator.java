@@ -30,7 +30,7 @@ public class Validator {
                 LOG.error("{} \n {} \n {} \n {} \n {} \n", localDate, tableEntries, result, table, curriculums);
                 table.getDaysMap().forEach((localDate1, s) -> System.out.println(localDate1 + "=" + s));
                 LOG.error("{}");
-//                throw new IllegalPdfException("Parse result not equals to table representation");
+                throw new IllegalPdfException("Parse result not equals to table representation");
             }
 
         });

@@ -44,13 +44,12 @@ public interface Table {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             TableEntry that = (TableEntry) o;
-            return lessonOrder == that.lessonOrder &&
-                    lessonType == that.lessonType;
+            return lessonOrder.equals(lessonOrder);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(lessonOrder, lessonType);
+            return Objects.hash(lessonOrder);
         }
 
         @Override
