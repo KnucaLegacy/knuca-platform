@@ -3,10 +3,12 @@ package com.theopus.parser.obj.sheets;
 import com.google.common.collect.Lists;
 import com.theopus.entity.schedule.Curriculum;
 import com.theopus.entity.schedule.Group;
+import com.theopus.parser.ParserUtils;
 import com.theopus.parser.obj.Patterns;
 import com.theopus.parser.obj.line.LessonLines;
 import com.theopus.parser.obj.roomdate.RoomDateBrackets;
 import com.theopus.parser.obj.table.SimpleTable;
+import com.theopus.parser.obj.validator.Validator;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
@@ -16,10 +18,15 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 public class FileSheetTest {
@@ -33,15 +40,13 @@ public class FileSheetTest {
             .delimiter(Patterns.Sheet.SHEET_DELIMITER)
             .build();
 
-    @Ignore
     @Test
     public void splitToSheets() throws Exception {
-        sheet.prepare(string);
-
+        sheet.prepare( ParserUtils.replaceEngToUkr(string));
         List<String> expected = Lists.newArrayList(
-                new String(Files.readAllBytes(Paths.get("src/test/resources/pdfs/pt1_file_test.txt")), "UTF-8"),
-                new String(Files.readAllBytes(Paths.get("src/test/resources/pdfs/pt2_file_test.txt")), "UTF-8"),
-                new String(Files.readAllBytes(Paths.get("src/test/resources/pdfs/pt3_file_test.txt")), "UTF-8")
+                ParserUtils.replaceEngToUkr(new String(Files.readAllBytes(Paths.get("src/test/resources/pdfs/pt1_file_test.txt")), "UTF-8")),
+                ParserUtils.replaceEngToUkr(new String(Files.readAllBytes(Paths.get("src/test/resources/pdfs/pt2_file_test.txt")), "UTF-8")),
+                ParserUtils.replaceEngToUkr(new String(Files.readAllBytes(Paths.get("src/test/resources/pdfs/pt3_file_test.txt")), "UTF-8"))
         );
         List<String> actual = sheet.splitToSheets();
 
@@ -49,24 +54,34 @@ public class FileSheetTest {
     }
 
     @Test
-    public void buildTest() throws Exception {
-        String text = null;
-        try (PDDocument document = PDDocument.load(new File("src/test/resources/pdfs/Arch.pdf"))) {
+    public void fullFileParseTest() throws Exception {
+        StringBuilder text = null;
 
-            document.getClass();
+        try (Stream<Path> paths = Files.walk(Paths.get("src/test/resources/pdfs/full"))) {
+            Set<Path> collect = paths
+                    .filter(path -> Files.isRegularFile(path)).collect(Collectors.toSet());
+            for (Path path : collect) {
+                try (PDDocument document = PDDocument.load(new File(path.toString()))) {
 
-            if (!document.isEncrypted()) {
+                    document.getClass();
 
-                PDFTextStripperByArea stripper = new PDFTextStripperByArea();
-                stripper.setSortByPosition(true);
-                PDFTextStripper tStripper = new PDFTextStripper();
+                    if (!document.isEncrypted()) {
 
-                text = tStripper.getText(document);
+                        PDFTextStripperByArea stripper = new PDFTextStripperByArea();
+                        stripper.setSortByPosition(true);
+                        PDFTextStripper tStripper = new PDFTextStripper();
 
+                        text = new StringBuilder(text + tStripper.getText(document) + "\n");
+
+                    }
+                    document.close();
+                }
             }
-            document.close();
         }
 
+
+
+        Validator validator = new Validator();
         FileSheet<Group> sheet = FileSheet.<Group>create()
                 .delimiter(Patterns.Sheet.SHEET_DELIMITER)
                 .build()
@@ -76,6 +91,7 @@ public class FileSheetTest {
                         .anchorPattern(Patterns.Sheet.EXACT_GROUP_PATTERN)
                         .table(new SimpleTable().defaultPatternsMap())
                         .build()
+                        .validator(validator)
                         .child(DaySheet.<Group>create()
                                 .defaultPatterns()
                                 .build()
@@ -90,6 +106,7 @@ public class FileSheetTest {
                                 )
                         )
                 );
-        sheet.prepare(text).parseAll();
+        sheet.prepare(text.toString()).parseAll();
+        assertTrue(validator.getErrorCount() < 5);
     }
 }

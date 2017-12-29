@@ -1,6 +1,7 @@
 package com.theopus.parser.obj.sheets;
 
 import com.theopus.entity.schedule.Group;
+import com.theopus.parser.ParserUtils;
 import com.theopus.parser.obj.Patterns;
 import com.theopus.parser.obj.table.Table;
 import org.junit.Test;
@@ -11,6 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
 
@@ -104,6 +106,16 @@ public class SheetTest {
                 public Map<LocalDate, String> getDaysMap() {
                     return null;
                 }
+
+                @Override
+                public Sheet getParent() {
+                    return null;
+                }
+
+                @Override
+                public Table parent(Sheet sheet) {
+                    return null;
+                }
             })
             .build();
 
@@ -134,7 +146,7 @@ public class SheetTest {
                         "13:50 Теорiя архiтектури АП (Лекцiї); [ ауд.101<A>] АРХ-11б, АРХ-12а,\n" +
                         " АРХ-12б, АРХ-13а, АРХ-13б доц. Щербаков О.В.");
         expected.put(DayOfWeek.WEDNESDAY,
-                        "9:00 Композицiя (Лекцiї); [ ауд.101<A>] АРХ-11б, АРХ-12а, АРХ-12б, АРХ-13а,\n" +
+                        "\n9:00 Композицiя (Лекцiї); [ ауд.101<A>] АРХ-11б, АРХ-12а, АРХ-12б, АРХ-13а,\n" +
                         " АРХ-13б проф. Зимiна С.Б.\n" +
                         "10:30 Архiтектурне проектування (Практ.з.); [ ауд.107<A>] ас. Козятник I.П.,\n" +
                         " ас. Сингаевська М.А., доц. Василенко Л.Г.\n" +
@@ -151,8 +163,10 @@ public class SheetTest {
                         "13:50 Нарисна геометрiя (Практ.з.); [22.09, 29.09 ауд.107<A>]\n" +
                         " доц. Mоcтовенко О.В.");
 
-        Map<DayOfWeek, String> actual = sheet.prepare(sheetString).splitToDays();
-        expected.forEach((dayOfWeek, s) -> expected.put(dayOfWeek,s));
+        Map<DayOfWeek, String> actual = sheet.prepare(ParserUtils.replaceEngToUkr(sheetString)).splitToDays();
+
+        actual.forEach((dayOfWeek, s) -> actual.put(dayOfWeek, ParserUtils.replaceEngToUkr(ParserUtils.trimWhitespaces(ParserUtils.normalize(s)))));
+        expected.forEach((dayOfWeek, s) -> expected.put(dayOfWeek, ParserUtils.replaceEngToUkr(ParserUtils.trimWhitespaces(ParserUtils.normalize(s)))));
 
         assertEquals(expected,actual);
     }

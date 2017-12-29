@@ -22,7 +22,8 @@ import java.util.stream.Collectors;
 public class SimpleTable implements Table {
 
     private Sheet parent;
-    private Pattern pattern = Pattern.compile("={1,4}(.+)={1,4}", Pattern.DOTALL | Pattern.MULTILINE);
+    private Pattern pattern = Pattern.compile("={1,40}(.+)={1,40}", Pattern.DOTALL | Pattern.MULTILINE);
+    private Pattern equalSpattern = Pattern.compile("={10,}", Pattern.DOTALL | Pattern.MULTILINE);
     private Pattern patternDays = Pattern.compile("\\|([\\\\.А-яІA-z]{1,8})\\|", Pattern.DOTALL | Pattern.MULTILINE);
     private Pattern firstDate = Pattern.compile("\\d?\\d\\.\\d\\d", Pattern.DOTALL | Pattern.MULTILINE);
     private Map<LocalDate, String> daysMap;
@@ -36,10 +37,18 @@ public class SimpleTable implements Table {
 
     String parseTable(String content) {
         Matcher matcher = pattern.matcher(content);
-        if (matcher.find()) {
-            return matcher.group();
+        Matcher eq = equalSpattern.matcher(content);
+        if (eq.find()) {
+            if (matcher.find(eq.end())) {
+                return matcher.group();
+            }
         }
         throw new IllegalPdfException("Not found table in sheet");
+    }
+
+    public SimpleTable parent(Sheet sheet) {
+        this.parent = sheet;
+        return this;
     }
 
     Map<LocalDate, String> parseToDays(String content) {
@@ -98,8 +107,8 @@ public class SimpleTable implements Table {
         AtomicInteger index = new AtomicInteger(1);
         return Lists.charactersOf(string).stream()
                 .map(character -> new TableEntry(
-                                values[index.getAndIncrement()],Optional.ofNullable(lessonTypeMap.get(character.toString()))
-                        .orElse(LessonType.NONE)
+                                values[index.getAndIncrement()], Optional.ofNullable(lessonTypeMap.get(character.toString()))
+                                .orElse(LessonType.NONE)
                         )
                 )
                 .filter(tableEntry -> !tableEntry.getLessonType().equals(LessonType.NONE))
@@ -117,8 +126,9 @@ public class SimpleTable implements Table {
         lessonTypeMap.put("л", LessonType.LAB);
         lessonTypeMap.put("П", LessonType.PRACTICE);
         lessonTypeMap.put("Ф", LessonType.FACULTY);
-        lessonTypeMap.put("І", LessonType.PRACTICE);
-        lessonTypeMap.put("Н", LessonType.LECTURE);
+        lessonTypeMap.put("І", LessonType.UNIDENTIFIED);
+        lessonTypeMap.put("Н", LessonType.UNIDENTIFIED);
+        lessonTypeMap.put("Е", LessonType.EXAM);
         return this;
     }
 
@@ -134,5 +144,9 @@ public class SimpleTable implements Table {
     @Override
     public Map<LocalDate, String> getDaysMap() {
         return daysMap;
+    }
+
+    public Sheet getParent() {
+        return parent;
     }
 }

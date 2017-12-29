@@ -45,8 +45,6 @@ public abstract class Sheet<T> {
     }
 
     public List<Curriculum> parse() {
-        System.out.println(content);
-        this.validator = new Validator(table);
         return validator.validate(splitToDays().entrySet().stream().map(dc -> {
             child.prepare(dc.getKey(), dc.getValue());
             return child.parse();
@@ -109,6 +107,16 @@ public abstract class Sheet<T> {
         return this;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public Sheet<T> validator(Validator validator) {
+        this.validator = validator;
+        validator.parent(this);
+        return this;
+    }
+
     public class Builder {
 
         public Sheet<T>.Builder defaultPatterns() {
@@ -129,6 +137,7 @@ public abstract class Sheet<T> {
 
         public Sheet<T>.Builder table(Table table) {
             Sheet.this.table = table;
+            table.parent(Sheet.this);
             return this;
         }
 

@@ -32,12 +32,14 @@ public class RoomDateBrackets {
     private LessonLine parent;
     private LessonOrder lessonOrder;
 
+
     protected RoomDateBrackets() {
     }
 
     public Set<Circumstance> parseCircumstacnes() {
         Set<Circumstance> circumstances = parseBrackets();
         circumstances.forEach(c -> c.setLessonOrder(lessonOrder));
+        log.info("{} = {}", circumstances);
         return circumstances;
     }
 
@@ -137,11 +139,13 @@ public class RoomDateBrackets {
         Bracket first = null;
         if (matcher.find()) {
             first = new Bracket(matcher.group(1));
+            log.debug("Found bracket {}={}", rightSplit, matcher.group(1));
         } else {
             first = new Bracket("");
         }
         Bracket tmp = first;
         while (matcher.find()) {
+            log.debug("Found bracket {}={}", rightSplit, matcher.group(1));
             tmp.next = new Bracket(matcher.group(1), null, tmp);
             tmp = tmp.next;
         }
@@ -153,6 +157,7 @@ public class RoomDateBrackets {
     private Pattern singleDatePattern;
     private Pattern fromToPatternW;
     private String fromDelimiter;
+    private Pattern weekSkipPattern;
     private String toDelimiter;
 
     private static DateTimeFormatter dateTimeFormat = new DateTimeFormatterBuilder()
@@ -170,11 +175,11 @@ public class RoomDateBrackets {
 
 
         public Bracket(String bracketContent) {
-            this.bracketContent = bracketContent;
+            this.bracketContent = bracketContent.trim();
         }
 
         public Bracket(String bracketContent, Bracket next, Bracket prev) {
-            this.bracketContent = bracketContent;
+            this.bracketContent = bracketContent.trim();
             this.next = next;
             this.prev = prev;
         }
@@ -187,7 +192,7 @@ public class RoomDateBrackets {
                 room.setName(matcher2.group());
                 return room;
             } else {
-                log.debug("No room avalible for line {} . Default has been setted. ", parent.getLine());
+                log.debug("No room avalible for line {} . Default has been setted. ", bracketContent);
                 Room room = new Room();
                 room.setName(Room.NO_AUDITORY);
                 return room;
@@ -222,6 +227,7 @@ public class RoomDateBrackets {
                     weekSkip = true;
                 }
 
+                log.debug("From to dates {}={}={}", matcher.group(1), matcher.group(2), matcher.group(3));
                 String group = matcher.group(1);
                 if (group.equals(fromDelimiter)) {
                     fromStack.push(new Pair<>(matcher.group(2), weekSkip));
@@ -236,6 +242,9 @@ public class RoomDateBrackets {
                                 from.getValue() | weekSkip));
                     }
                 }
+                if (weekSkip) {
+                    log.debug("Week skip detected at {} ", bracketContent);
+                }
             }
             fromStack.forEach(pair -> localDates.addAll(fromToRange(
                     convert(pair.getKey()),
@@ -247,12 +256,24 @@ public class RoomDateBrackets {
                     convert(pair.getKey()),
                     pair.getValue()
             )));
+            if (localDates.isEmpty()) {
+                Matcher ws = weekSkipPattern.matcher(bracketContent);
+                if (ws.find()) {
+                    Set<LocalDate> fromToMax = fromToRange(
+                            parent.getParent().getParent().getTable().getFromBound(parent.getParent().getDayOfWeek()),
+                            parent.getParent().getParent().getTable().getToBound(parent.getParent().getDayOfWeek()),
+                            true);
+                    log.warn("Week skip without date definition {},  setting max ", bracketContent, fromToMax);
+                    localDates.addAll(fromToMax);
+                }
+            }
             return localDates;
         }
 
         private Bracket parse() {
             this.room = parseRoom();
             this.dates = parseDates();
+            log.debug("Parsed bracket in {}={},{}", bracketContent, room, dates);
             return this;
         }
     }
@@ -299,6 +320,7 @@ public class RoomDateBrackets {
             fromToPatternW = Pattern.compile(Patterns.RoomDates.FROM_TO_DATE_W);
             fromDelimiter = Patterns.RoomDates.FROM_DELIMITER;
             toDelimiter = Patterns.RoomDates.TO_DELIMITER;
+            weekSkipPattern = Pattern.compile(Patterns.RoomDates.WEAK_SKIP_PATTERN);
             return this;
         }
     }

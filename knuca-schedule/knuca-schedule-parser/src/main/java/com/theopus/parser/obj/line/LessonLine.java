@@ -19,17 +19,18 @@ import java.util.regex.Pattern;
 
 public abstract class LessonLine {
 
-    private static final Logger LOG = LoggerFactory.getLogger(LessonLine.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(LessonLine.class);
 
     protected DaySheet parent;
     protected RoomDateBrackets child;
 
-    private String line;
+    protected String line;
     private Map<Pattern, Integer> lessonOrderMap;
     private Pattern practPattern;
     private Pattern labPattern;
     private Pattern lecPattern;
     private Pattern facPattern;
+    private Pattern exPattern;
 
     private Pattern teacherPattern;
     private LessonOrder previousOrder;
@@ -49,7 +50,9 @@ public abstract class LessonLine {
         if (isLeft) {
             return split[0];
         } else {
-            return Arrays.stream(split).skip(1).reduce(String::concat).get();
+            String s = Arrays.stream(split).skip(1).reduce(String::concat).get();
+            LOG.debug("{}={}", line, s);
+            return s;
         }
     }
 
@@ -100,6 +103,10 @@ public abstract class LessonLine {
         m = facPattern.matcher(line.toLowerCase());
         if (m.find()) {
             return LessonType.FACULTY;
+        }
+        m = exPattern.matcher(line.toLowerCase());
+        if (m.find()) {
+            return LessonType.EXAM;
         }
         throw new IllegalPdfException("Lesson line '" + line + "' does not have lesson type." + "Parent: " + parent);
     }
@@ -158,6 +165,7 @@ public abstract class LessonLine {
             lecPattern = Pattern.compile(Patterns.LessonLine.LECTURE, Pattern.DOTALL | Pattern.MULTILINE);
             facPattern = Pattern.compile(Patterns.LessonLine.FACULTY, Pattern.DOTALL | Pattern.MULTILINE);
             teacherPattern = Pattern.compile(Patterns.LessonLine.TEACHER, Pattern.DOTALL | Pattern.MULTILINE);
+            exPattern = Pattern.compile(Patterns.LessonLine.EXAM, Pattern.DOTALL | Pattern.MULTILINE);
             return this;
         }
 

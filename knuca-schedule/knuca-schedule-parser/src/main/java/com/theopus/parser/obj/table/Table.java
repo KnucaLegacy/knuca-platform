@@ -2,6 +2,8 @@ package com.theopus.parser.obj.table;
 
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.entity.schedule.enums.LessonType;
+import com.theopus.parser.obj.Patterns;
+import com.theopus.parser.obj.sheets.Sheet;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -21,6 +23,10 @@ public interface Table {
     Map<LocalDate, Set<TableEntry>> getScheduleMap();
 
     Map<LocalDate, String> getDaysMap();
+
+    Sheet getParent();
+
+    Table parent(Sheet sheet);
 
     class TableEntry {
         private LessonOrder lessonOrder;
@@ -44,7 +50,10 @@ public interface Table {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             TableEntry that = (TableEntry) o;
-            return lessonOrder.equals(lessonOrder);
+            if (!lessonOrder.equals(lessonOrder)) return false;
+            if (lessonType == LessonType.UNIDENTIFIED) return true;
+            if (that.lessonType == LessonType.UNIDENTIFIED) return true;
+            return lessonType == that.lessonType;
         }
 
         @Override

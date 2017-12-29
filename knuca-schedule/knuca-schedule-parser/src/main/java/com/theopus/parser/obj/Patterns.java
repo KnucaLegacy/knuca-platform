@@ -10,7 +10,7 @@ public class Patterns {
 
         public static final String DAY_OF_WEEK_SPLITTER = ("(понедiлок)|(Вiвторок)|(Середа)|(Четвер)|(П'ятниця)|(Субота)|(Неділя)");
         public static final String TABLE_BOUND = ("===");
-        public static final String EXACT_GROUP_PATTERN = "(академгрупа)\\s([А-яA-zIiІіЇїЄє]{1,9}-\\S{1,6})";
+        public static final String EXACT_GROUP_PATTERN = "(академгрупа)\\s([А-яA-zIiІіЇїЄє()]{1,9}-\\S{1,6})";
         public static final String SHEET_DELIMITER = "<\\s?КТОУП\\s?>";
     }
 
@@ -18,7 +18,7 @@ public class Patterns {
         public static final String LAB = "\\(лаб.*\\)";
         public static final String PRACT = "\\(пра.*\\)";
         public static final String LECTURE = "\\(лек.*\\)";
-        public static final String EXAM = "";
+        public static final String EXAM = "\\(екз.*\\)";
         public static final String CONSULTATION = "";
         public static final String FACULTY = "\\((факу.*)|(інд\\.роб\\.)\\)";
         public static final String TEACHER = "\\b((([^.,\\s\\d\\p{Punct}]{2,5}.)?" +
@@ -31,7 +31,7 @@ public class Patterns {
 
     public static final class RoomDates {
         public static final String BRACKETS = ("\\[([^]]+)\\]");
-        public static final String AUDITORY = ("ауд\\.([\\wА-я<>]+)");
+        public static final String AUDITORY = ("ауд\\.([\\wА-я<>0-9]+)");
         public static final String SINGLE_DATE = ("(^|([^доз]\\s))(\\d?\\d\\.\\d\\d)");
 
         public static final String FROM_DELIMITER = "з";
@@ -40,5 +40,6 @@ public class Patterns {
                 "(\\d?\\d\\.\\d\\d)(\\(Ч/Т\\))?");
 
 
+        public static final String WEAK_SKIP_PATTERN = "(\\(Ч/Т\\))";
     }
 }
