@@ -30,7 +30,9 @@ public class LessonLineParserTest {
     private String line2 = "--\"-- Iсторiя української державностi i культу (Тыхуй) (Лекцiї); [з 18.09 ауд.302]";
     private String subjectName2 = "Iсторiя української державностi i культу (Тыхуй)";
     private LessonOrder lo2 = LessonOrder.THIRD;
-    private String line3 = "--\"-- Iсторiя української державностisssssssss i культу (Лекцiї) [з 18.09 ауд.302]";
+    private String line3 = "--\"-- Iсторiя української державностisssssssss i культу (Лекцiї) ;[з 18.09 ауд.302]";
+
+    private String lineNOComa = "--\"-- Iсторiя української державностisssssssss i культу (Лекцiї) [з 18.09 ауд.302]";
     private String no_order_line = "Iсторiя української державностisssssssss i культу (Лекцiї) [з 18.09 ауд.302]";
     private String no_lesson_type = "--\"-- Iсторiя української державностisssssssss i культу [з 18.09 ауд.302]";
     private String line4 = "10:30 Алгоритмiзацiя та програмування (лабор.з.); [8.09, 22.09 ауд.374];";
@@ -76,7 +78,7 @@ public class LessonLineParserTest {
 
     @Test
     public void parseTeacher_SEREGA_edition() throws Exception {
-        String SergLie = "--\"-- Iсторiя української державностisssssssss i культу (Лекцiї) [з 18.09 ауд.302] хуй.хуй. ЦЮЦЮРА";
+        String SergLie = "--\"-- Iсторiя української державностisssssssss i культу (Лекцiї); [з 18.09 ауд.302] хуй.хуй. ЦЮЦЮРА";
         LessonLine line = lessonLine.prepare(SergLie);
         Set<Teacher> expected = new HashSet<>();
         expected.add(new Teacher("хуй.хуй. ЦЮЦЮРА"));
@@ -149,7 +151,7 @@ public class LessonLineParserTest {
 
     @Test(expected = IllegalPdfException.class)
     public void parseLesssonSubject_NO_dotcoma() throws Exception {
-        LessonLine line = lessonLine.prepare(line3);
+        LessonLine line = lessonLine.prepare(lineNOComa);
 
         line.parseSubject();
         fail("Exception not trowed");
