@@ -13,4 +13,6 @@ dependencies {
     compile project(':knuca-schedule-entity')
     compile project(':knuca-schedule-parser')
     compile project(':knuca-schedule-repository')
+
+    testCompile ("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
 }
