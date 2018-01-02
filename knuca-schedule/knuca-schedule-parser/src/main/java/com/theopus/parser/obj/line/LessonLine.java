@@ -112,7 +112,7 @@ public abstract class LessonLine {
     }
 
     protected Set<Teacher> parseTeachers() {
-        Matcher m = teacherPattern.matcher(line);
+        Matcher m = teacherPattern.matcher(getGetSplits(false));
         Set<Teacher> result = new HashSet<>();
         while (m.find()) {
             String teacherName = m.group();
