@@ -67,6 +67,10 @@ public class FileSheet<T> {
         return new FileSheet<T>().new Builder();
     }
 
+    public Integer getTotal() {
+        return sheets.size();
+    }
+
     public class Builder {
 
         public FileSheet<T> build() {

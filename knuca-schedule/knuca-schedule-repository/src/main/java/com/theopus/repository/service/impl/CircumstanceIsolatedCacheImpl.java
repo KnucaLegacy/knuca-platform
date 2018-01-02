@@ -36,8 +36,6 @@ public class CircumstanceIsolatedCacheImpl implements CircumstanceIsolatedCache 
 
     @Override
     public Circumstance findAndSave(Circumstance circumstance) {
-        System.out.println("in cache");
-        System.out.println(circumstance.getCurriculum());
         Circumstance saved = (Circumstance) repository.findOne(CircumstanceSpecification.sameCircumstance(circumstance));
         if (!Objects.isNull(saved)) {
             return saved;
