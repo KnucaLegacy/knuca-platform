@@ -31,7 +31,8 @@ public class FromToDatesTest {
     RoomDateBrackets roomDateBrackets = RoomDateBrackets
             .create()
             .defaultPatterns()
-            .build();
+            .build()
+            .parent(new LineMock(new DaySheetMock(new SheetMock(2017))));
 
     public FromToDatesTest() throws IOException {
     }
@@ -52,7 +53,7 @@ public class FromToDatesTest {
                         ))
         );
         Set<Circumstance> actual = roomDateBrackets
-                .parent(new MockLessonLine().parent(new MockDaySheet(DayOfWeek.FRIDAY).parent(new MockSheet(file))))
+                .parent(new LineMock(new MockDaySheet(DayOfWeek.FRIDAY, new MockSheet(file, 2017))))
                 .prepare(toOnly, null)
                 .parseBrackets();
 
@@ -77,7 +78,7 @@ public class FromToDatesTest {
                         ))
         );
         Set<Circumstance> actual = roomDateBrackets
-                .parent(new MockLessonLine().parent(new MockDaySheet(DayOfWeek.FRIDAY).parent(new MockSheet(file))))
+                .parent(new LineMock((new MockDaySheet(DayOfWeek.FRIDAY,new MockSheet(file, 2017)))))
                 .prepare(fromOnly, null)
                 .parseBrackets();
 
@@ -98,7 +99,6 @@ public class FromToDatesTest {
         );
 
         Set<Circumstance> actual = roomDateBrackets
-                .parent(new MockLessonLine())
                 .prepare(from_to_no_room, null)
                 .parseBrackets();
 
@@ -117,7 +117,6 @@ public class FromToDatesTest {
         );
 
         Set<Circumstance> actual = roomDateBrackets
-                .parent(new MockLessonLine())
                 .prepare(from_to_no_room_ws, null)
                 .parseBrackets();
 
@@ -137,16 +136,18 @@ class MockLessonLine extends LessonLine {
 class MockDaySheet extends DaySheet {
 
 
-    public MockDaySheet(DayOfWeek dayOfWeek) {
+    public MockDaySheet(DayOfWeek dayOfWeek, MockSheet mockSheet) {
         this.dayOfWeek = dayOfWeek;
+        this.parent = mockSheet;
     }
 }
 
 class MockSheet extends Sheet<Group> {
 
-    public MockSheet(String sheet) {
-        this.table = new SimpleTable();
-        table.prepare(sheet);
+    public MockSheet(String file, Integer year) {
+        this.content = file;
+        this.sheetYear = year;
+        this.table = new SimpleTable().parent(this).prepare(file);
     }
 
     @Override

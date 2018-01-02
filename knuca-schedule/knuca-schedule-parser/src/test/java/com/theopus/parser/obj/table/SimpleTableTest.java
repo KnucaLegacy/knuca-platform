@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.entity.schedule.enums.LessonType;
+import com.theopus.parser.obj.sheets.Sheet;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -21,7 +22,17 @@ import static org.junit.Assert.assertEquals;
 
 public class SimpleTableTest {
 
-    SimpleTable simpleTable = new SimpleTable().defaultPatternsMap();
+    SimpleTable simpleTable = new SimpleTable()
+            .defaultPatternsMap()
+            .parent(new Sheet() {
+                {
+                    this.sheetYear = 2017;
+                }
+                @Override
+                public Object parseAnchor() {
+                    return null;
+                }
+            });
     String file =  new String(Files.readAllBytes(Paths.get("src/test/resources/pdfs/test_file.txt")), "UTF-8");
 
     String table = "" +

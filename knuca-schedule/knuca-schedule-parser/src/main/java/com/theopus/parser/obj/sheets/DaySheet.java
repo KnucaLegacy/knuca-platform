@@ -21,7 +21,7 @@ public class DaySheet<T> {
     protected DayOfWeek dayOfWeek;
     private String content;
 
-    private Sheet<T> parent;
+    protected Sheet<T> parent;
     private LessonLine child;
     private Validator validator;
 

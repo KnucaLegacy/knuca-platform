@@ -31,6 +31,10 @@ public class SimpleTable implements Table {
 
     @Override
     public SimpleTable prepare(String content) {
+        this.dateTimeFormat = new DateTimeFormatterBuilder()
+                .appendPattern("d.MM")
+                .parseDefaulting(ChronoField.YEAR, parent.getSheetYear())
+                .toFormatter();
         this.daysMap = parseToDays(parseTable(content));
         return this;
     }
@@ -48,6 +52,7 @@ public class SimpleTable implements Table {
 
     public SimpleTable parent(Sheet sheet) {
         this.parent = sheet;
+
         return this;
     }
 
@@ -136,10 +141,7 @@ public class SimpleTable implements Table {
         return LocalDate.parse(date, dateTimeFormat);
     }
 
-    private static DateTimeFormatter dateTimeFormat = new DateTimeFormatterBuilder()
-            .appendPattern("d.MM")
-            .parseDefaulting(ChronoField.YEAR, LocalDate.now().getYear())
-            .toFormatter();
+    private DateTimeFormatter dateTimeFormat;
 
     @Override
     public Map<LocalDate, String> getDaysMap() {

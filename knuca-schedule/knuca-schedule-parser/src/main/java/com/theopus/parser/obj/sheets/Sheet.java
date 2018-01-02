@@ -39,6 +39,7 @@ public abstract class Sheet<T> {
 
     protected Pattern anchorPattern;
     private Validator validator;
+    protected Integer sheetYear;
 
     public Table getTable() {
         return table;
@@ -97,9 +98,19 @@ public abstract class Sheet<T> {
 
     public Sheet<T> prepare(String content) {
         this.content = content;
+        this.sheetYear = parseYear();
         this.table.prepare(content);
         this.anchor = parseAnchor();
         return this;
+    }
+
+    private Integer parseYear() {
+        Matcher matcher = Pattern.compile("\\d\\d\\d\\d").matcher(content);
+        matcher.region(0, content.indexOf(tableBound));
+        if (matcher.find()) {
+            return Integer.valueOf(matcher.group(0));
+        }
+        throw new IllegalPdfException("Cannot parse date from sheet " + this);
     }
 
     public Sheet<T> parent(FileSheet<T> fileSheet) {
@@ -151,5 +162,9 @@ public abstract class Sheet<T> {
         return "Sheet{" +
                 "content='" + content + '\'' +
                 '}';
+    }
+
+    public Integer getSheetYear() {
+        return sheetYear;
     }
 }
