@@ -1,8 +1,7 @@
-package com.theopus.parser.obj.table;
+package com.theopus.parser.obj;
 
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.entity.schedule.enums.LessonType;
-import com.theopus.parser.obj.sheets.Sheet;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

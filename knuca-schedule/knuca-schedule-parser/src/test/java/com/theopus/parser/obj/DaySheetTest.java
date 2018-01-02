@@ -1,7 +1,8 @@
-package com.theopus.parser.obj.sheets;
+package com.theopus.parser.obj;
 
 import com.google.common.collect.Lists;
 import com.theopus.entity.schedule.Group;
+import com.theopus.parser.obj.DaySheet;
 import org.junit.Test;
 
 import java.util.List;

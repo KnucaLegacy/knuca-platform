@@ -1,13 +1,8 @@
-package com.theopus.parser.obj.sheets;
+package com.theopus.parser.obj;
 
 import com.google.common.collect.Lists;
 import com.theopus.entity.schedule.Group;
 import com.theopus.parser.ParserUtils;
-import com.theopus.parser.obj.Patterns;
-import com.theopus.parser.obj.line.LessonLines;
-import com.theopus.parser.obj.roomdate.RoomDateBrackets;
-import com.theopus.parser.obj.table.SimpleTable;
-import com.theopus.parser.obj.validator.Validator;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
@@ -95,7 +90,7 @@ public class FileSheetTest {
                                 .build()
                                 .child(LessonLines.createGroupLine()
                                         .defaultPatterns()
-                                        .defaultOrderPatterns()
+                                        .orderPatterns("src/main/resources/parser-lessonorder.properties")
                                         .build()
                                         .child(RoomDateBrackets.create()
                                                 .defaultPatterns()

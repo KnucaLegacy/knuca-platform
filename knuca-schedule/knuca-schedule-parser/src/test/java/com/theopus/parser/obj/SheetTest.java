@@ -1,9 +1,10 @@
-package com.theopus.parser.obj.sheets;
+package com.theopus.parser.obj;
 
 import com.theopus.entity.schedule.Group;
 import com.theopus.parser.ParserUtils;
 import com.theopus.parser.obj.Patterns;
-import com.theopus.parser.obj.table.Table;
+import com.theopus.parser.obj.Sheet;
+import com.theopus.parser.obj.Table;
 import org.junit.Test;
 
 import java.time.DayOfWeek;

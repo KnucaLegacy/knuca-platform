@@ -1,20 +1,23 @@
-package com.theopus.restservice.config;
+package com.theopus.repository.config;
 
 import com.theopus.repository.jparepo.*;
 import com.theopus.repository.service.*;
 import com.theopus.repository.service.impl.*;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+@EnableAutoConfiguration
+@EnableCaching
 @Configuration
+@ComponentScan
 @EnableJpaRepositories("com.theopus.repository.jparepo")
 @EntityScan("com.theopus.entity.schedule")
-@EnableCaching
 public class DataBaseServiceConfig {
-
 
     @Bean("roomService")
     public RoomService roomService(RoomRepository roomRepository) {
