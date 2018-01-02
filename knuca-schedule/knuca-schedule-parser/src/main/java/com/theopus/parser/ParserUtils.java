@@ -43,8 +43,8 @@ public class ParserUtils {
     }
 
     public static String replaceEngToUkr(String string) {
-        String eng = "AaBCcEeHIiKkMOoPpTXx";
-        String ukr = "АаВСсЕеНІіКкМОоРрТХх";
+        String eng = "AaBCcEeHIiKkMOoPpTXx?";
+        String ukr = "АаВСсЕеНІіКкМОоРрТХхі";
         return StringUtils.replaceChars(string, eng, ukr);
     }
 }
