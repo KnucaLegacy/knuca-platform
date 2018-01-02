@@ -6,6 +6,7 @@ import com.theopus.entity.schedule.Curriculum;
 import com.theopus.entity.schedule.Group;
 import com.theopus.repository.jparepo.CurriculumRepository;
 import com.theopus.repository.service.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -49,6 +50,7 @@ public class NoDuplicateCurriculumService implements CurriculumService {
     }
 
     @Override
+    @Transactional
     public List<Curriculum> saveAll(List<Curriculum> curriculumList) {
         return curriculumList.stream()
                 .map(this::save)

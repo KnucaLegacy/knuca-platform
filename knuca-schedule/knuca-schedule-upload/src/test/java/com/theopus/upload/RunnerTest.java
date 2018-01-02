@@ -32,7 +32,8 @@ public class RunnerTest {
         int i = 1;
         while (parser.next()){
             service.saveAll(parser.parse());
-            System.out.println(" " + i++ + "of " + parser.getTotal() + " sheet parsed.");
+            service.flush();
+            System.out.println(" " + i++ + " - of - " + parser.getTotal() + " sheets saved.");
         }
     }
 }

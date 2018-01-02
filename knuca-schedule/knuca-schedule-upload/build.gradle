@@ -5,6 +5,10 @@ repositories {
     mavenCentral()
 }
 
+test {
+    maxHeapSize = '128m'
+}
+
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
     compile project(':knuca-schedule-entity')
