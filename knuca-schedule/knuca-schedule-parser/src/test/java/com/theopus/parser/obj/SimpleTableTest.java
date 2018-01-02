@@ -1,9 +1,11 @@
-package com.theopus.parser.obj.table;
+package com.theopus.parser.obj;
 
 import com.google.common.collect.Sets;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.entity.schedule.enums.LessonType;
-import com.theopus.parser.obj.sheets.Sheet;
+import com.theopus.parser.obj.Sheet;
+import com.theopus.parser.obj.SimpleTable;
+import com.theopus.parser.obj.Table;
 import org.junit.Test;
 
 import java.io.IOException;

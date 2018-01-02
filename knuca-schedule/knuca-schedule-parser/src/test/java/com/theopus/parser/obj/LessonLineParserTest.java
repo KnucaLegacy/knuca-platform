@@ -1,4 +1,4 @@
-package com.theopus.parser.obj.line;
+package com.theopus.parser.obj;
 
 
 import com.theopus.entity.schedule.Subject;
@@ -6,6 +6,8 @@ import com.theopus.entity.schedule.Teacher;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.entity.schedule.enums.LessonType;
 import com.theopus.parser.exceptions.IllegalPdfException;
+import com.theopus.parser.obj.LessonLine;
+import com.theopus.parser.obj.LessonLines;
 import org.junit.Test;
 
 import java.util.HashSet;

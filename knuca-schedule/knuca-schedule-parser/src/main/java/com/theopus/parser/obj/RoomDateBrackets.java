@@ -1,11 +1,9 @@
-package com.theopus.parser.obj.roomdate;
+package com.theopus.parser.obj;
 
 import com.google.common.collect.Sets;
 import com.theopus.entity.schedule.Circumstance;
 import com.theopus.entity.schedule.Room;
 import com.theopus.entity.schedule.enums.LessonOrder;
-import com.theopus.parser.obj.Patterns;
-import com.theopus.parser.obj.line.LessonLine;
 import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,10 +1,9 @@
-package com.theopus.parser.obj.line;
+package com.theopus.parser.obj;
 
 import com.theopus.entity.schedule.Circumstance;
 import com.theopus.entity.schedule.Course;
 import com.theopus.entity.schedule.Curriculum;
 import com.theopus.entity.schedule.Group;
-import com.theopus.parser.obj.sheets.Sheet;
 
 import java.util.Collections;
 import java.util.List;

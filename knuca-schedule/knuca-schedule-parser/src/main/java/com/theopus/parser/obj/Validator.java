@@ -1,9 +1,7 @@
-package com.theopus.parser.obj.validator;
+package com.theopus.parser.obj;
 
 import com.google.common.collect.Sets;
 import com.theopus.entity.schedule.Curriculum;
-import com.theopus.parser.obj.sheets.Sheet;
-import com.theopus.parser.obj.table.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

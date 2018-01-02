@@ -1,12 +1,9 @@
-package com.theopus.parser.obj.line;
+package com.theopus.parser.obj;
 
 import com.theopus.entity.schedule.*;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.entity.schedule.enums.LessonType;
 import com.theopus.parser.exceptions.IllegalPdfException;
-import com.theopus.parser.obj.Patterns;
-import com.theopus.parser.obj.roomdate.RoomDateBrackets;
-import com.theopus.parser.obj.sheets.DaySheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

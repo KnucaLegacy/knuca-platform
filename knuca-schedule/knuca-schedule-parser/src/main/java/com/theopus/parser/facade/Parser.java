@@ -3,14 +3,8 @@ package com.theopus.parser.facade;
 import com.google.common.collect.ImmutableMap;
 import com.theopus.entity.schedule.Group;
 import com.theopus.entity.schedule.enums.LessonOrder;
-import com.theopus.parser.obj.Patterns;
-import com.theopus.parser.obj.line.LessonLines;
-import com.theopus.parser.obj.roomdate.RoomDateBrackets;
-import com.theopus.parser.obj.sheets.DaySheet;
-import com.theopus.parser.obj.sheets.FileSheet;
-import com.theopus.parser.obj.sheets.GroupSheet;
-import com.theopus.parser.obj.table.SimpleTable;
-import com.theopus.parser.obj.validator.Validator;
+import com.theopus.parser.obj.*;
+
 public class Parser {
 
     public static FileSheet<Group> groupDefaultPatternsParser() {
