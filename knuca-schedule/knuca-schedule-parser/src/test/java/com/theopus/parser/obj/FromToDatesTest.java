@@ -1,14 +1,10 @@
-package com.theopus.parser.obj.roomdate;
+package com.theopus.parser.obj;
 
 import com.google.common.collect.Sets;
 import com.theopus.entity.schedule.Circumstance;
 import com.theopus.entity.schedule.Curriculum;
 import com.theopus.entity.schedule.Group;
 import com.theopus.entity.schedule.Room;
-import com.theopus.parser.obj.line.LessonLine;
-import com.theopus.parser.obj.sheets.DaySheet;
-import com.theopus.parser.obj.sheets.Sheet;
-import com.theopus.parser.obj.table.SimpleTable;
 import org.junit.Assert;
 import org.junit.Test;
 

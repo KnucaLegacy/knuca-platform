@@ -1,12 +1,9 @@
-package com.theopus.parser.obj.line;
+package com.theopus.parser.obj;
 
 import com.theopus.entity.schedule.*;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.entity.schedule.enums.LessonType;
 import com.theopus.parser.exceptions.IllegalPdfException;
-import com.theopus.parser.obj.Patterns;
-import com.theopus.parser.obj.roomdate.RoomDateBrackets;
-import com.theopus.parser.obj.sheets.DaySheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -170,10 +167,10 @@ public abstract class LessonLine {
         }
 
 
-        public Builder defaultOrderPatterns() {
+        public Builder orderPatterns(String filePath) {
             //ToDo move to UTIL class
             HashMap<Pattern, Integer> patternMap = new HashMap<>();
-            try (FileInputStream fileInputStream = new FileInputStream("src/main/resources/parser-lessonorder.properties")) {
+            try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
                 Properties prop = new Properties();
                 prop.load(fileInputStream);
                 Enumeration<?> e = prop.propertyNames();
@@ -186,6 +183,15 @@ public abstract class LessonLine {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            LessonLine.this.lessonOrderMap = patternMap;
+            return this;
+        }
+
+        public Builder orderPatterns(Map<String, LessonOrder> orderMap) {
+            HashMap<Pattern, Integer> patternMap = new HashMap<>();
+            orderMap.forEach((s, order) -> {
+                patternMap.put(Pattern.compile(s), order.ordinal());
+            });
             LessonLine.this.lessonOrderMap = patternMap;
             return this;
         }

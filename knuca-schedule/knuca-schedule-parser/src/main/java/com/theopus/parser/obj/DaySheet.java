@@ -1,11 +1,8 @@
-package com.theopus.parser.obj.sheets;
+package com.theopus.parser.obj;
 
 import com.theopus.entity.schedule.Curriculum;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.parser.ParserUtils;
-import com.theopus.parser.obj.Patterns;
-import com.theopus.parser.obj.line.LessonLine;
-import com.theopus.parser.obj.validator.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

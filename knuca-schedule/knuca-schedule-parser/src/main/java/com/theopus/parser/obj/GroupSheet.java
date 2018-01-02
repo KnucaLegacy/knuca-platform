@@ -1,4 +1,4 @@
-package com.theopus.parser.obj.sheets;
+package com.theopus.parser.obj;
 
 import com.theopus.entity.schedule.Group;
 import com.theopus.parser.exceptions.IllegalPdfException;
