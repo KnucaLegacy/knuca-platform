@@ -2,12 +2,10 @@ package com.theopus.parser.obj.table;
 
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.entity.schedule.enums.LessonType;
-import com.theopus.parser.obj.Patterns;
 import com.theopus.parser.obj.sheets.Sheet;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;

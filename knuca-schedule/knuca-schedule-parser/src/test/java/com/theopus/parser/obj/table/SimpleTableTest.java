@@ -1,11 +1,9 @@
 package com.theopus.parser.obj.table;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.entity.schedule.enums.LessonType;
 import com.theopus.parser.obj.sheets.Sheet;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -14,7 +12,6 @@ import java.nio.file.Paths;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 

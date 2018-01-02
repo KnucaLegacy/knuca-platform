@@ -1,19 +1,16 @@
 package com.theopus.parser.obj.validator;
 
 import com.google.common.collect.Sets;
-import com.theopus.entity.schedule.Circumstance;
 import com.theopus.entity.schedule.Curriculum;
-import com.theopus.entity.schedule.enums.LessonType;
-import com.theopus.parser.exceptions.IllegalPdfException;
 import com.theopus.parser.obj.sheets.Sheet;
 import com.theopus.parser.obj.table.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Validator {
 
