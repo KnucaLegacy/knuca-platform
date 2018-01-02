@@ -40,7 +40,7 @@ public class LessonLineParserTest {
     private LessonLine lessonLine = LessonLines
             .createGroupLine()
             .defaultPatterns()
-            .defaultOrderPatterns()
+            .orderPatterns("src/main/resources/parser-lessonorder.properties")
             .build();
 
     @Test

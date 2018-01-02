@@ -95,7 +95,7 @@ public class FileSheetTest {
                                 .build()
                                 .child(LessonLines.createGroupLine()
                                         .defaultPatterns()
-                                        .defaultOrderPatterns()
+                                        .orderPatterns("src/main/resources/parser-lessonorder.properties")
                                         .build()
                                         .child(RoomDateBrackets.create()
                                                 .defaultPatterns()
