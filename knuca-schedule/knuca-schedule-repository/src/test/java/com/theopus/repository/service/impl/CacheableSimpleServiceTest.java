@@ -2,7 +2,7 @@ package com.theopus.repository.service.impl;
 
 import com.theopus.entity.schedule.Group;
 import com.theopus.entity.schedule.Teacher;
-import com.theopus.repository.conf.DataBaseServiceConfigTest;
+import com.theopus.repository.config.DataBaseServiceConfig;
 import com.theopus.repository.jparepo.GroupRepository;
 import com.theopus.repository.jparepo.RoomRepository;
 import com.theopus.repository.jparepo.SubjectRepository;
@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals;
  * Created by Oleksandr_Tkachov on 23.12.2017.
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {DataBaseServiceConfigTest.class})
+@ContextConfiguration(classes = {DataBaseServiceConfig.class})
 public class CacheableSimpleServiceTest {
 
     @Autowired

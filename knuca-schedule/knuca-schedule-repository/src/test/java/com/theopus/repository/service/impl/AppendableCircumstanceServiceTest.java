@@ -5,14 +5,10 @@ import com.google.common.collect.Sets;
 import com.theopus.entity.schedule.*;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.entity.schedule.enums.LessonType;
-import com.theopus.repository.conf.DataBaseServiceConfigTest;
+import com.theopus.repository.config.DataBaseServiceConfig;
 import com.theopus.repository.jparepo.*;
-import com.theopus.repository.service.CircumstanceService;
-import com.theopus.repository.service.CourseService;
-import com.theopus.repository.service.CurriculumService;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import com.theopus.repository.service.*;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -28,7 +24,7 @@ import static org.junit.Assert.assertEquals;
  * Created by Oleksandr_Tkachov on 25.12.2017.
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {DataBaseServiceConfigTest.class})
+@ContextConfiguration(classes = {DataBaseServiceConfig.class})
 public class AppendableCircumstanceServiceTest {
 
     @Autowired

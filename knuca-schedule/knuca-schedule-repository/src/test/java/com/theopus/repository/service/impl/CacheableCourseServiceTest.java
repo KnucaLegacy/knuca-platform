@@ -6,7 +6,7 @@ import com.theopus.entity.schedule.Course;
 import com.theopus.entity.schedule.Subject;
 import com.theopus.entity.schedule.Teacher;
 import com.theopus.entity.schedule.enums.LessonType;
-import com.theopus.repository.conf.DataBaseServiceConfigTest;
+import com.theopus.repository.config.DataBaseServiceConfig;
 import com.theopus.repository.jparepo.CourseRepository;
 import com.theopus.repository.jparepo.SubjectRepository;
 import com.theopus.repository.jparepo.TeacherRepository;
@@ -30,7 +30,7 @@ import static org.junit.Assert.assertEquals;
  * Created by Oleksandr_Tkachov on 23.12.2017.
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {DataBaseServiceConfigTest.class})
+@ContextConfiguration(classes = {DataBaseServiceConfig.class})
 public class CacheableCourseServiceTest {
 
     @Autowired

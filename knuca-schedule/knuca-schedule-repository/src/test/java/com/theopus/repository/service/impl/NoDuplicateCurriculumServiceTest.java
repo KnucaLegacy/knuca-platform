@@ -5,7 +5,7 @@ import com.google.common.collect.Sets;
 import com.theopus.entity.schedule.*;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.entity.schedule.enums.LessonType;
-import com.theopus.repository.conf.DataBaseServiceConfigTest;
+import com.theopus.repository.config.DataBaseServiceConfig;
 import com.theopus.repository.jparepo.*;
 import com.theopus.repository.service.CourseService;
 import com.theopus.repository.service.CurriculumService;
@@ -26,7 +26,7 @@ import static org.junit.Assert.assertEquals;
  * Created by Oleksandr_Tkachov on 25.12.2017.
  */
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {DataBaseServiceConfigTest.class})
+@ContextConfiguration(classes = {DataBaseServiceConfig.class})
 public class NoDuplicateCurriculumServiceTest {
 
     @Autowired
