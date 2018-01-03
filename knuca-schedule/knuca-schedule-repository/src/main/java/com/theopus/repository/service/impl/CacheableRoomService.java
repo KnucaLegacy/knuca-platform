@@ -55,6 +55,6 @@ public class CacheableRoomService implements RoomService {
     @CacheEvict(value = "rooms", allEntries = true)
     @Override
     public void flush() {
-        LOG.info("Cleared 'rooms' cache.");
+        LOG.debug("Cleared 'rooms' cache.");
     }
 }

@@ -55,6 +55,6 @@ public class CacheableGroupService implements GroupService {
     @Override
     @CacheEvict(value = "groups", allEntries = true)
     public void flush() {
-        LOG.info("Cleared 'groups' cache.");
+        LOG.debug("Cleared 'groups' cache.");
     }
 }

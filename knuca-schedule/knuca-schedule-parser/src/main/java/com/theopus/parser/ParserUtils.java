@@ -84,4 +84,24 @@ public class ParserUtils {
         }
         return text.toString();
     }
+
+    public static String pdfFileToString(File file) throws IOException {
+        StringBuilder text = new StringBuilder();
+        try (PDDocument document = PDDocument.load(file)) {
+            document.getClass();
+
+            if (!document.isEncrypted()) {
+
+                PDFTextStripperByArea stripper = new PDFTextStripperByArea();
+                stripper.setSortByPosition(true);
+                PDFTextStripper tStripper = new PDFTextStripper();
+
+                text = new StringBuilder(text + tStripper.getText(document) + "\n");
+
+            }
+            document.close();
+        }
+
+        return text.toString();
+    }
 }

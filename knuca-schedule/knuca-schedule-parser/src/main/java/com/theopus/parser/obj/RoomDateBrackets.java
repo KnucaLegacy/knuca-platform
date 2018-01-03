@@ -37,7 +37,7 @@ public class RoomDateBrackets {
     public Set<Circumstance> parseCircumstacnes() {
         Set<Circumstance> circumstances = parseBrackets();
         circumstances.forEach(c -> c.setLessonOrder(lessonOrder));
-        log.info("{} = {}", circumstances);
+        log.debug("{} = {}", circumstances);
         return circumstances;
     }
 

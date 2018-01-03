@@ -57,6 +57,6 @@ public class CacheableSubjectService implements SubjectService {
     @CacheEvict(value = "subjects", allEntries = true)
     @Override
     public void flush() {
-        LOG.info("Cleared 'subjects' cache.");
+        LOG.debug("Cleared 'subjects' cache.");
     }
 }

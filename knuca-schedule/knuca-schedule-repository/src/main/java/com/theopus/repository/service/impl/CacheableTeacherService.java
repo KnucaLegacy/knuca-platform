@@ -55,6 +55,6 @@ public class CacheableTeacherService implements TeacherService {
     @CacheEvict(value = "teachers", allEntries = true)
     @Override
     public void flush() {
-        LOG.info("Cleared 'teachers' cache.");
+        LOG.debug("Cleared 'teachers' cache.");
     }
 }

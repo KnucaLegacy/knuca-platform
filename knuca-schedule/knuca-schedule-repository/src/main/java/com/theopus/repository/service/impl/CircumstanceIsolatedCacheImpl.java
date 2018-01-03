@@ -31,7 +31,7 @@ public class CircumstanceIsolatedCacheImpl implements CircumstanceIsolatedCache 
     @Override
     public void flush() {
         curriculumIsolatedCache.flush();
-        LOG.info("Cleared 'circumstance' cache.");
+        LOG.debug("Cleared 'circumstance' cache.");
     }
 
     @Override

@@ -11,6 +11,7 @@ import com.theopus.upload.config.PersistenceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -20,20 +21,5 @@ import java.util.List;
 @ContextConfiguration(classes = PersistenceConfig.class)
 public class RunnerTest {
 
-    @Autowired
-    private CurriculumService service;
 
-    @Test
-    public void name() throws Exception {
-        String text = ParserUtils.readPdfsFromFolder("src/test/resources/pdfs/full");
-        FileSheet<Group> parser = Parser.groupDefaultPatternsParser();
-        parser.prepare(text.toString());
-
-        int i = 1;
-        while (parser.next()){
-            service.saveAll(parser.parse());
-            service.flush();
-            System.out.println(" " + i++ + " - of - " + parser.getTotal() + " sheets saved.");
-        }
-    }
 }

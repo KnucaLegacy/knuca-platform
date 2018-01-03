@@ -34,6 +34,6 @@ public class CurriculumIsolatedCacheImpl implements CurriculumIsolatedCache {
     @CacheEvict(value = "curriculum", allEntries = true)
     @Override
     public void flush() {
-        LOG.info("Cleared 'curriculum' cache.");
+        LOG.debug("Cleared 'curriculum' cache.");
     }
 }

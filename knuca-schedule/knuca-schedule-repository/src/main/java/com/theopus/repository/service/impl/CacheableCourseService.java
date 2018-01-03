@@ -90,6 +90,6 @@ public class CacheableCourseService implements CourseService {
     public void flush() {
         subjectService.flush();
         teacherService.flush();
-        LOG.info("Cleared 'courses' cache.");
+        LOG.debug("Cleared 'courses' cache.");
     }
 }
