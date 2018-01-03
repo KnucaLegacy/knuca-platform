@@ -60,3 +60,5 @@ knuca-schedule-parser/build/
 /knuca-schedule-rest-service/build/
 /knuca-schedule-rest-service/build/resources/
 /knuca-schedule-rest-service/build/resources/main/application.yml
+/knuca-schedule-upload/build/
+/knuca-schedule-upload/out/
