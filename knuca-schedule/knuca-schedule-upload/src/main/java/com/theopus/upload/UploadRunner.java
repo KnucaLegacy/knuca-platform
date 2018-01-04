@@ -8,10 +8,10 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan(basePackageClasses = DataBaseServiceConfig.class)
 @ComponentScan("com.theopus.upload.service")
-public class Runner {
+public class UploadRunner {
 
     public static void main(String[] args) {
-        SpringApplication.run(Runner.class);
+        SpringApplication.run(UploadRunner.class);
     }
 
 }

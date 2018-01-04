@@ -54,6 +54,11 @@ public class CacheableSubjectService implements SubjectService {
 
     }
 
+    @Override
+    public Subject get(Long id) {
+        return repository.getOne(id);
+    }
+
     @CacheEvict(value = "subjects", allEntries = true)
     @Override
     public void flush() {

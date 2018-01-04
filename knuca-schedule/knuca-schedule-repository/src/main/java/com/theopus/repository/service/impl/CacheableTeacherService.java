@@ -52,6 +52,11 @@ public class CacheableTeacherService implements TeacherService {
         repository.delete(object);
     }
 
+    @Override
+    public Teacher get(Long id) {
+        return repository.getOne(id);
+    }
+
     @CacheEvict(value = "teachers", allEntries = true)
     @Override
     public void flush() {

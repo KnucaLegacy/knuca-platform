@@ -53,6 +53,11 @@ public class CacheableGroupService implements GroupService {
     }
 
     @Override
+    public Group get(Long id) {
+        return repository.getOne(id);
+    }
+
+    @Override
     @CacheEvict(value = "groups", allEntries = true)
     public void flush() {
         LOG.debug("Cleared 'groups' cache.");

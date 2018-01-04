@@ -6,8 +6,10 @@ import com.theopus.entity.schedule.Curriculum;
 import com.theopus.entity.schedule.Group;
 import com.theopus.repository.jparepo.CurriculumRepository;
 import com.theopus.repository.service.*;
+import com.theopus.repository.specification.CurriculumSpecification;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -68,5 +70,10 @@ public class NoDuplicateCurriculumService implements CurriculumService {
     @Override
     public void delete(Curriculum curriculum) {
         repository.delete(curriculum);
+    }
+
+    @Override
+    public List<Curriculum> getByGroup(LocalDate date, Group group) {
+        return repository.findAll(CurriculumSpecification.withDateAndGroup(date, group));
     }
 }

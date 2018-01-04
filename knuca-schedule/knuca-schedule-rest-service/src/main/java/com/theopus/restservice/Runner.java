@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan("com.theopus.repository.config")
+@ComponentScan("com.theopus.restservice.controller")
 public class Runner {
     public static void main(String[] args) {
         SpringApplication.run(Runner.class);

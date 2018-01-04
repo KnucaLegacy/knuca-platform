@@ -52,6 +52,11 @@ public class CacheableRoomService implements RoomService {
 
     }
 
+    @Override
+    public Room get(Long id) {
+        return repository.getOne(id);
+    }
+
     @CacheEvict(value = "rooms", allEntries = true)
     @Override
     public void flush() {

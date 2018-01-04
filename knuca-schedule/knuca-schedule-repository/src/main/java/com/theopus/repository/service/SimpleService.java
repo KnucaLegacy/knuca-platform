@@ -1,5 +1,7 @@
 package com.theopus.repository.service;
 
+import com.theopus.entity.schedule.Teacher;
+
 import java.util.Collection;
 
 public interface SimpleService<T> extends CacheableService {
@@ -12,4 +14,6 @@ public interface SimpleService<T> extends CacheableService {
     Collection<T> getAll();
 
     void delete(T object);
+
+    T get(Long id);
 }

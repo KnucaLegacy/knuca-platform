@@ -69,4 +69,9 @@ public class DataBaseServiceConfig {
                                                                CurriculumIsolatedCache curriculumIsolatedCache) {
         return new CircumstanceIsolatedCacheImpl(circumstanceRepository, curriculumIsolatedCache);
     }
+
+    @Bean("lessonService")
+    public LessonService lessonService(CurriculumService curriculumService){
+        return new LessonServiceImpl(curriculumService);
+    }
 }
