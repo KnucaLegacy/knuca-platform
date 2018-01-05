@@ -5,6 +5,7 @@ import com.theopus.entity.schedule.enums.LessonType;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -59,6 +60,23 @@ public class Lesson {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Lesson lesson = (Lesson) o;
+        return order == lesson.order &&
+                Objects.equals(rooms, lesson.rooms) &&
+                Objects.equals(groups, lesson.groups) &&
+                Objects.equals(date, lesson.date) &&
+                Objects.equals(course, lesson.course);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(order, rooms, groups, date, course);
     }
 
     @Override

@@ -33,20 +33,17 @@ public class Runner {
         SpringApplication.run(Runner.class);
     }
 
-
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
-
+        mapper.registerModule(new JSR310Module());
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         SimpleModule module = new SimpleModule("custom",
                 Version.unknownVersion());
         module.addSerializer(Group.class, new GroupSerializer());
         module.addSerializer(Teacher.class, new TeacherSerializer());
         module.addDeserializer(LocalDate.class, new MyLocalDateDeserializer());
-
         mapper.registerModule(module);
-        mapper.registerModule(new JSR310Module());
-        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         return mapper;
     }
 
@@ -85,7 +82,7 @@ public class Runner {
     }
 
     @Bean
-    public DateTimeFormatConfiguration dateTimeFormatConfiguration(){
+    public DateTimeFormatConfiguration dateTimeFormatConfiguration() {
         return new DateTimeFormatConfiguration();
     }
 
@@ -98,6 +95,4 @@ public class Runner {
             registrar.registerFormatters(registry);
         }
     }
-
-
 }

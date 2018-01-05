@@ -3,9 +3,6 @@ package com.theopus.parser.obj;
 import com.google.common.collect.Sets;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.entity.schedule.enums.LessonType;
-import com.theopus.parser.obj.Sheet;
-import com.theopus.parser.obj.SimpleTable;
-import com.theopus.parser.obj.Table;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -61,13 +58,13 @@ public class SimpleTableTest {
         expected.put(LocalDate.of(2017, 10, 9), Sets.newHashSet(
                 new Table.TableEntry(LessonOrder.SECOND, LessonType.LAB),
                 new Table.TableEntry(LessonOrder.THIRD, LessonType.LECTURE),
-                new Table.TableEntry(LessonOrder.FORUTH, LessonType.PRACTICE)
+                new Table.TableEntry(LessonOrder.FORTH, LessonType.PRACTICE)
         ));
         expected.put(LocalDate.of(2017, 10, 10), Sets.newHashSet(
                 new Table.TableEntry(LessonOrder.FIRST, LessonType.LECTURE),
                 new Table.TableEntry(LessonOrder.SECOND, LessonType.PRACTICE),
                 new Table.TableEntry(LessonOrder.THIRD, LessonType.PRACTICE),
-                new Table.TableEntry(LessonOrder.FORUTH, LessonType.PRACTICE)
+                new Table.TableEntry(LessonOrder.FORTH, LessonType.PRACTICE)
         ));
         expected.put(LocalDate.of(2017, 10, 11), Sets.newHashSet(
                 new Table.TableEntry(LessonOrder.FIRST, LessonType.LECTURE),

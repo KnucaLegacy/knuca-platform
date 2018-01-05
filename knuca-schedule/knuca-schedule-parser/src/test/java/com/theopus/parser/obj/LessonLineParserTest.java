@@ -6,8 +6,6 @@ import com.theopus.entity.schedule.Teacher;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.entity.schedule.enums.LessonType;
 import com.theopus.parser.exceptions.IllegalPdfException;
-import com.theopus.parser.obj.LessonLine;
-import com.theopus.parser.obj.LessonLines;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -22,7 +20,7 @@ public class LessonLineParserTest {
 
     private String line1 = "13:50 Архiтектурне проектування (Практ.з.); [ ауд.305<C>] ас. Коляда Т.С.,\n " +
             "      доц. Кузьмiна Г.В., ас. Козакова О.М. ";
-    private LessonOrder lo1 = LessonOrder.FORUTH;
+    private LessonOrder lo1 = LessonOrder.FORTH;
     private LessonType lt1 = LessonType.PRACTICE;
     private String Fname1 = "доц. Кузьмiна Г.В.";
     private String Sname1 = "ас. Козакова О.М.";

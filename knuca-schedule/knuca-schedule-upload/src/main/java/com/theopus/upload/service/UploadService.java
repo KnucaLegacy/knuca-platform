@@ -9,5 +9,6 @@ import java.io.IOException;
 public interface UploadService {
 
     Integer upload(String string);
+
     Integer upload(MultipartFile multipartFile) throws IOException;
 }

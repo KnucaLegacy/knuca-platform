@@ -71,7 +71,7 @@ public class DataBaseServiceConfig {
     }
 
     @Bean("lessonService")
-    public LessonService lessonService(CurriculumService curriculumService){
+    public LessonService lessonService(CurriculumService curriculumService) {
         return new LessonServiceImpl(curriculumService);
     }
 }

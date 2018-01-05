@@ -16,7 +16,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'application'
 
-//mainClassName = "com.theopus.restservice.Runner"
+mainClassName = "com.theopus.restservice.Runner"
 
 dependencies {
     compile project(':knuca-schedule-rest-service')

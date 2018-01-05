@@ -73,9 +73,9 @@ public class ParserUtils {
 
                         PDFTextStripperByArea stripper = new PDFTextStripperByArea();
                         stripper.setSortByPosition(true);
-                        PDFTextStripper tStripper = new PDFTextStripper();
+                        PDFTextStripper pdfTextStripper = new PDFTextStripper();
 
-                        text = new StringBuilder(text + tStripper.getText(document) + "\n");
+                        text = new StringBuilder(text + pdfTextStripper.getText(document) + "\n");
 
                     }
                     document.close();
@@ -94,9 +94,9 @@ public class ParserUtils {
 
                 PDFTextStripperByArea stripper = new PDFTextStripperByArea();
                 stripper.setSortByPosition(true);
-                PDFTextStripper tStripper = new PDFTextStripper();
+                PDFTextStripper pdfTextStripper = new PDFTextStripper();
 
-                text = new StringBuilder(text + tStripper.getText(document) + "\n");
+                text = new StringBuilder(text + pdfTextStripper.getText(document) + "\n");
 
             }
             document.close();
