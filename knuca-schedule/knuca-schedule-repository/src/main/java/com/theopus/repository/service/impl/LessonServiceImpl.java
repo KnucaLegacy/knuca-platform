@@ -6,9 +6,7 @@ import com.theopus.repository.service.CurriculumService;
 import com.theopus.repository.service.LessonService;
 
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class LessonServiceImpl implements LessonService {
@@ -26,11 +24,24 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
+    public Map<LocalDate, List<Lesson>> getByGroup(Set<LocalDate> date, Group group) {
+        return new TreeMap<>(date.stream()
+                .flatMap(localDate -> byOneDay(curriculumService.getByGroup(localDate, group), localDate).stream())
+                .collect(Collectors.groupingBy(Lesson::getDate)));
+    }
+
+    @Override
     public List<Lesson> getByTeacher(LocalDate date, Teacher teacher) {
         List<Curriculum> byGroup = curriculumService.getByTeacher(date, teacher);
         return byOneDay(byGroup, date);
     }
 
+    @Override
+    public Map<LocalDate, List<Lesson>> getByTeacher(Set<LocalDate> date, Teacher teacher) {
+        return new TreeMap<>(date.stream()
+                .flatMap(localDate -> byOneDay(curriculumService.getByTeacher(localDate, teacher), localDate).stream())
+                .collect(Collectors.groupingBy(Lesson::getDate)));
+    }
 
     private List<Lesson> byOneDay(List<Curriculum> curriculumList, LocalDate localDate) {
         return curriculumList.stream()
@@ -67,8 +78,6 @@ public class LessonServiceImpl implements LessonService {
                 .sorted(Comparator.comparing(Lesson::getOrder))
                 .collect(Collectors.toList());
     }
-
-
 
     private Lesson circumstanceToLesson(Circumstance circumstance, LocalDate localDate) {
         Lesson lesson = new Lesson();
