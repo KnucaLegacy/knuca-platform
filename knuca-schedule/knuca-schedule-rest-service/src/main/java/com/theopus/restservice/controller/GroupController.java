@@ -1,10 +1,12 @@
 package com.theopus.restservice.controller;
 
 import com.theopus.entity.schedule.Group;
+import com.theopus.entity.schedule.Teacher;
 import com.theopus.repository.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,5 +26,10 @@ public class GroupController {
     @GetMapping
     public List<Group> all() {
         return (List<Group>) service.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public Group byId(@PathVariable Long id) {
+        return service.get(id);
     }
 }

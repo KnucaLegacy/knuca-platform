@@ -1,9 +1,7 @@
 package com.theopus.repository.service.impl;
 
-import com.theopus.entity.schedule.Circumstance;
-import com.theopus.entity.schedule.Course;
-import com.theopus.entity.schedule.Curriculum;
-import com.theopus.entity.schedule.Group;
+import com.theopus.entity.schedule.*;
+import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.repository.jparepo.CurriculumRepository;
 import com.theopus.repository.service.*;
 import com.theopus.repository.specification.CurriculumSpecification;
@@ -75,5 +73,15 @@ public class NoDuplicateCurriculumService implements CurriculumService {
     @Override
     public List<Curriculum> getByGroup(LocalDate date, Group group) {
         return repository.findAll(CurriculumSpecification.withDateAndGroup(date, group));
+    }
+
+    @Override
+    public List<Curriculum> getWithCourseAtDate(LocalDate date, Course course, LessonOrder order) {
+        return repository.findAll(CurriculumSpecification.atDateWithCourse(date, course, order));
+    }
+
+    @Override
+    public List<Curriculum> getByTeacher(LocalDate date, Teacher teacher) {
+        return repository.findAll(CurriculumSpecification.withDateAndTeacher(date, teacher));
     }
 }

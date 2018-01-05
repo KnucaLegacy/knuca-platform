@@ -24,11 +24,11 @@ public class Circumstance {
     @Column(name = "lesson_order")
     private LessonOrder lessonOrder;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @ManyToOne(cascade = {
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {
             CascadeType.DETACH})
     private Curriculum curriculum;
 

@@ -1,6 +1,9 @@
 group 'com.theopus'
 sourceCompatibility = 1.8
 
+apply plugin: 'org.springframework.boot'
+
+
 repositories {
     mavenCentral()
 }

@@ -5,6 +5,7 @@ import com.theopus.repository.service.GroupService;
 import com.theopus.repository.service.LessonService;
 import com.theopus.repository.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,16 +31,21 @@ public class LessonController {
 
     @GetMapping("/group/{id}")
     public List<Lesson> byGroup(@PathVariable Long id) {
-        LocalDate date = LocalDate.of(2017, 9, 1);
-        for (int i = 0; i < 40; i++) {
-            service.getByGroup(date, groupService.get(id));
-            date = date.plusDays(1);
-        }
-        return null;
+        return service.getByGroup(LocalDate.now(), groupService.get(id));
+    }
+
+    @GetMapping("/{localDate}/group/{id}")
+    public List<Lesson> byGroupAndDate(@PathVariable Long id, @PathVariable LocalDate localDate) {
+        return service.getByGroup(localDate, groupService.get(id));
     }
 
     @GetMapping("/teacher/{id}")
     public List<Lesson> byTeacher(@PathVariable Long id) {
         return service.getByTeacher(LocalDate.now(), teacherService.get(id));
+    }
+
+    @GetMapping("/{localDate}/teacher/{id}")
+    public List<Lesson> byTeacherAndDate(@PathVariable Long id, @PathVariable LocalDate localDate) {
+        return service.getByTeacher(localDate, teacherService.get(id));
     }
 }

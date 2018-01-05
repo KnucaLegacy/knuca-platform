@@ -15,11 +15,11 @@ public class Curriculum {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
-    @ManyToOne(targetEntity = Course.class)
+    @ManyToOne(targetEntity = Course.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @ManyToOne(targetEntity = Group.class)
+    @ManyToOne(targetEntity = Group.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "group_id")
     private Group group;
 

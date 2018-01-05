@@ -3,6 +3,8 @@ package com.theopus.repository.specification;
 import com.theopus.entity.schedule.Course;
 import com.theopus.entity.schedule.Curriculum;
 import com.theopus.entity.schedule.Group;
+import com.theopus.entity.schedule.Teacher;
+import com.theopus.entity.schedule.enums.LessonOrder;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
@@ -36,13 +38,35 @@ public class CurriculumSpecification {
         };
     }
 
-//    public static Specification<Curriculum> withDateAndCourse(LocalDate date, Course course) {
-//        return (root, query, cb) -> {
-//            Path<Object> groupPath = root.get("group");
-//            Path<Object> circumstances = root.join("circumstances");
-//            Expression<Collection<Object>> dates = circumstances.get("dates");
-//            return cb.and(CourseSpecification.sameCourse(course).toPredicate(query.from(), ),
-//                    SpecificationUtil.isCollectionContainsSomething(dates, Collections.singleton(date),cb));
-//        };
-//    }
+    public static Specification<Curriculum> atDateWithCourse(LocalDate date, Course course, LessonOrder order) {
+        return (root, query, cb) -> {
+            Path<Object> groupPath = root.get("group");
+            Path<Object> circumstances = root.join("circumstances");
+            Path<Object> order1 = circumstances.get("lessonOrder");
+            Expression<Collection<Object>> dates = circumstances.get("dates");
+            Path<Object> course1 = root.get("course");
+
+            Subquery<Long> subquery = query.subquery(Long.class);
+            Root<Course> from = subquery.from(Course.class);
+
+            return cb.and(cb.equal(course1, course), cb.equal(order1, order),
+                    SpecificationUtil.isCollectionContainsSomething(dates, Collections.singleton(date),cb));
+        };
+    }
+
+    public static Specification<Curriculum> withDateAndTeacher(LocalDate date, Teacher teacher) {
+        return (root, query, cb) -> {
+            query.distinct(true);
+            Path<Object> course = root.join("course");
+            Expression<Collection<Object>> teachers = course.get("teachers");
+
+
+            Path<Object> circumstances = root.join("circumstances");
+            Expression<Collection<Object>> dates = circumstances.get("dates");
+            return cb.and(
+                    SpecificationUtil.isCollectionContainsSomething(teachers, Collections.singleton(teacher), cb),
+                    SpecificationUtil.isCollectionContainsSomething(dates, Collections.singleton(date),cb)
+            );
+        };
+    }
 }

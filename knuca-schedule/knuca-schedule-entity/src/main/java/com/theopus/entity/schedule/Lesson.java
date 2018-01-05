@@ -5,29 +5,20 @@ import com.theopus.entity.schedule.enums.LessonType;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 /**
  * DTO for future.
  */
 public class Lesson {
 
-    private Subject subject;
     private LessonOrder order;
-    private LessonType type;
-    private List<Room> roomList;
-    private List<Teacher> teachers;
-    private List<Group> groups;
-    private LocalDate localDate;
+    private Set<Room> rooms;
+    private Set<Group> groups;
+    private LocalDate date;
+    private Course course;
 
     public Lesson() {
-    }
-
-    public Subject getSubject() {
-        return subject;
-    }
-
-    public void setSubject(Subject subject) {
-        this.subject = subject;
     }
 
     public LessonOrder getOrder() {
@@ -38,48 +29,46 @@ public class Lesson {
         this.order = order;
     }
 
-    public LessonType getType() {
-        return type;
+    public Set<Room> getRooms() {
+        return rooms;
     }
 
-    public void setType(LessonType type) {
-        this.type = type;
+    public void setRooms(Set<Room> rooms) {
+        this.rooms = rooms;
     }
 
-    public List<Room> getRoomList() {
-        return roomList;
-    }
-
-    public void setRoomList(List<Room> roomList) {
-        this.roomList = roomList;
-    }
-
-    public List<Teacher> getTeachers() {
-        return teachers;
-    }
-
-    public void setTeachers(List<Teacher> teachers) {
-        this.teachers = teachers;
-    }
-
-    public List<Group> getGroups() {
+    public Set<Group> getGroups() {
         return groups;
     }
 
-    public void setGroups(List<Group> groups) {
+    public void setGroups(Set<Group> groups) {
         this.groups = groups;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     @Override
     public String toString() {
         return "Lesson{" +
-                "subject=" + subject +
-                ", order=" + order +
-                ", type=" + type +
-                ", roomList=" + roomList +
-                ", teachers=" + teachers +
+                "order=" + order +
+                ", rooms=" + rooms +
                 ", groups=" + groups +
-                ", localDate=" + localDate +
+                ", date=" + date +
+                ", course=" + course +
                 '}';
     }
 }
