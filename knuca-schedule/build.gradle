@@ -16,10 +16,21 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'application'
 
-mainClassName = "com.theopus.restservice.Runner"
+mainClassName = "com.theopus.restservice.RestRunner"
+
+task otherStartScripts(type: CreateStartScripts) {
+    description "Creates OS specific scripts to call the 'other' entry point"
+    classpath = startScripts.classpath
+    outputDir = startScripts.outputDir
+    mainClassName = 'com.theopus.upload.UploadRunner'
+    applicationName = 'knuca-uploader'
+}
+
+applicationDistribution.from(otherStartScripts) {into 'bin'}
 
 dependencies {
     compile project(':knuca-schedule-rest-service')
+    compile project(':knuca-schedule-upload')
 }
 
 distTar {
@@ -31,7 +42,7 @@ distZip {
 }
 
 startScripts {
-
+    startScripts.classpath = ""
 }
 
 compileJava.options.encoding = 'UTF-8'

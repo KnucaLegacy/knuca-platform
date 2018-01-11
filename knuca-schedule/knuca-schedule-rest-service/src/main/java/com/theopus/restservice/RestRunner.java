@@ -7,7 +7,6 @@ import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.theopus.entity.schedule.Group;
 import com.theopus.entity.schedule.Teacher;
 import org.springframework.boot.SpringApplication;
@@ -16,21 +15,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @SpringBootApplication
 @ComponentScan("com.theopus.repository.config")
 @ComponentScan("com.theopus.restservice.controller")
-public class Runner {
+public class RestRunner {
     public static void main(String[] args) {
-        SpringApplication.run(Runner.class);
+        SpringApplication.run(RestRunner.class);
     }
 
     @Bean
