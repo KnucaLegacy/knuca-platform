@@ -16,33 +16,73 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'application'
 
+version = '0.0.1-SNAPSHOT'
 mainClassName = "com.theopus.restservice.RestRunner"
 
-task otherStartScripts(type: CreateStartScripts) {
+task runnerStartScript(type: CreateStartScripts) {
     description "Creates OS specific scripts to call the 'other' entry point"
     classpath = startScripts.classpath
     outputDir = startScripts.outputDir
     mainClassName = 'com.theopus.upload.UploadRunner'
     applicationName = 'knuca-uploader'
+    defaultJvmOpts = ["-Xmx64m", "-Xms64m", "-Dspring.config.location=../conf/knuca-upload.yml"]
 }
 
-applicationDistribution.from(otherStartScripts) {into 'bin'}
+task uploaderStartScript(type: CreateStartScripts) {
+    description "Creates OS specific scripts to call the 'other' entry point"
+    classpath = startScripts.classpath
+    outputDir = startScripts.outputDir
+    mainClassName = 'com.theopus.restservice.RestRunner'
+    applicationName = 'knuca-rest'
+    defaultJvmOpts = ["-Xmx64m", "-Xms64m", "-Dspring.config.location=../conf/knuca-rest.yml"]
+}
 
+applicationDistribution.into("bin") {
+    duplicatesStrategy= DuplicatesStrategy.EXCLUDE
+    from(runnerStartScript)
+    from(uploaderStartScript)
+    fileMode = 0755
+}
 dependencies {
     compile project(':knuca-schedule-rest-service')
     compile project(':knuca-schedule-upload')
 }
 
 distTar {
-
+    into("${project.name}-${version}/conf") {
+        from "knuca-schedule-rest-service/src/main/resources/"
+        include "application.yml"
+        filter {it.replaceAll("classpath:","../conf/")}
+        rename ('application.yml', "knuca-rest.yml")
+    }
+    into("${project.name}-${version}/conf") {
+        from "knuca-schedule-upload/src/main/resources/"
+        include "application.yml"
+        filter {it.replaceAll("classpath:","../conf/")}
+        rename ('application.yml', "knuca-upload.yml")
+    }
 }
 
 distZip {
-
+    into("${project.name}-${version}/conf") {
+        from "knuca-schedule-rest-service/src/main/resources/"
+        include "application.yml"
+        filter {it.replaceAll("classpath:","../conf/")}
+        rename ('application.yml', "knuca-rest.yml")
+    }
+    into("${project.name}-${version}/conf") {
+        from "knuca-schedule-upload/src/main/resources/"
+        include "application.yml"
+        filter {it.replaceAll("classpath:","../conf/")}
+        rename ('application.yml', "knuca-upload.yml")
+    }
 }
 
 startScripts {
-    startScripts.classpath = ""
+    doLast {
+        windowsScript.delete()
+        unixScript.delete()
+    }
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -57,7 +97,6 @@ allprojects {
     apply plugin: 'checkstyle'
 
     group = 'com.theopus'
-    version = '0.0.1-SNAPSHOT'
     sourceCompatibility = 1.8
 
     repositories {

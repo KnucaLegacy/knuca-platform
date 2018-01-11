@@ -2,7 +2,6 @@ version '1.0'
 
 apply plugin: 'org.springframework.boot'
 
-
 repositories {
     mavenCentral()
 }

@@ -15,3 +15,5 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       ddl-auto: update
+logging:
+  file: ../logs/knuca-upload.log
