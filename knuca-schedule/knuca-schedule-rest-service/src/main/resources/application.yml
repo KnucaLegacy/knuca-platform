@@ -1,4 +1,5 @@
 spring:
+  profiles.active: upload
   datasource:
     url: jdbc:mysql://localhost:3306/knuca?useSSL=true
     username: root
