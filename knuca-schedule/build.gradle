@@ -4,6 +4,7 @@ buildscript {
         springBootVersion = '1.5.8.RELEASE'
         jUnitVersion = '4.12'
         lombokVersion = '1.16.18'
+        swaggerVersion = '2.6.1'
     }
     repositories {
         mavenCentral()

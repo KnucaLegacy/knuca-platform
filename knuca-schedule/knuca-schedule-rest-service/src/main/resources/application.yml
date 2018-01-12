@@ -16,3 +16,7 @@ spring:
       ddl-auto: update
 logging:
   file: ../logs/knuca-rest.log
+api:
+  swagger:
+    path: "/api/docs"
+    basePackage: "com.theopus"
