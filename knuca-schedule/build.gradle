@@ -62,6 +62,7 @@ distTar {
         filter {it.replaceAll("classpath:","../conf/")}
         rename ('application.yml', "knuca-upload.yml")
     }
+    compression = Compression.GZIP
 }
 
 distZip {
@@ -84,6 +85,27 @@ startScripts {
         windowsScript.delete()
         unixScript.delete()
     }
+}
+
+task dockerfile(type: Copy){
+    delete "docker/Dockerfile"
+    from "docker/template/Dockerfile"
+    filter {it.replaceFirst("TAR\$","TAR ${project.name}-${version}.tgz")}
+    into "docker"
+}
+
+build.finalizedBy {
+    copyArtifact
+}
+
+build.finalizedBy {
+    dockerfile
+}
+
+
+task copyArtifact (type: Copy){
+    from distTar
+    into "docker/knuca-platform"
 }
 
 compileJava.options.encoding = 'UTF-8'
