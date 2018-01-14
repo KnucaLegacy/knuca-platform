@@ -7,3 +7,8 @@ Developing platform of distributing schedule for [Kyiv National University of Co
 * Hibernate 5.0.12;
 * Gradle 4.4;
 * MySQL 5.6;
+
+Other links:
+ * [Docker repository.](https://hub.docker.com/r/theopus/knuca-platform/);
+ * [Dev machine](http://159.89.7.190:8080);
+ * [CI-CD](https://travis-ci.org/theopus/knuca-platform);
