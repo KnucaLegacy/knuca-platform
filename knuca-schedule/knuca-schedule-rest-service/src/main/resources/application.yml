@@ -1,7 +1,7 @@
 spring:
   profiles.active: upload
   datasource:
-    url: jdbc:mysql://localhost:3306/knuca?useSSL=true
+    url: jdbc:mysql://localhost:3306/knuca?useSSL=true&useUnicode=true&characterEncoding=utf8
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver

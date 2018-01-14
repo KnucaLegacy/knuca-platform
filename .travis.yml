@@ -1,10 +1,22 @@
 language: java
+sudo: required
+services:
+  - docker
+branches:
+  only:
+  - master
+  - develop
 jdk:
   - oraclejdk8
 install: cd knuca-schedule \
           && ./gradlew build
-          
-branches:
-  only:
-  - master
-  - develop          
+after_success:
+    ./gradlew dockerfile;
+    docker login -u "$DOCKER_HUB_USERNAME" -p "$DOCKER_HUB_PASSWORD";
+    docker build -t knuca-image docker/.;
+    docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER;
+    docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:latest;
+    docker push $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER;
+    docker push $DOCKER_HUB_USERNAME/knuca-platform:latest;
+
+
