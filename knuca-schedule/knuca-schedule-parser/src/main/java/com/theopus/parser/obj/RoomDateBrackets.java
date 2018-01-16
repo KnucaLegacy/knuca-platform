@@ -272,9 +272,8 @@ public class RoomDateBrackets {
         }
     }
 
-
     private LocalDate convert(String date) {
-        return LocalDate.parse(date, dateTimeFormat);
+        return parent.getParent().getParent().convert(date);
     }
 
     private Set<LocalDate> fromToRange(LocalDate start, LocalDate end, boolean isWeekSkip) {
@@ -284,7 +283,6 @@ public class RoomDateBrackets {
                 .limit(until / delta + 1)
                 .collect(Collectors.toSet());
     }
-
 
     public RoomDateBrackets parent(LessonLine lessonLine) {
         this.parent = lessonLine;

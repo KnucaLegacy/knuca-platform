@@ -3,6 +3,10 @@ package com.theopus.parser.obj;
 import com.theopus.entity.schedule.Curriculum;
 import com.theopus.parser.ParserUtils;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -10,11 +14,17 @@ import java.util.regex.Pattern;
 
 public class FileSheet<T> {
 
-    private Sheet<T> child;
+    protected Sheet<T> child;
     private String fullFile;
     private Pattern delimiterPattern;
     private int position;
     private List<String> sheets;
+    private DateTimeFormatter dateTimeFormat;
+    private boolean autumn;
+
+    public FileSheet() {
+
+    }
 
     public List<Curriculum> parseAll() {
         List<Curriculum> result = new ArrayList<>();
@@ -49,7 +59,6 @@ public class FileSheet<T> {
         return result;
     }
 
-
     public FileSheet<T> prepare(String fullFile) {
         this.position = 0;
         this.fullFile = ParserUtils.replaceEngToUkr(fullFile);
@@ -69,6 +78,14 @@ public class FileSheet<T> {
 
     public Integer getTotal() {
         return sheets.size();
+    }
+
+    public boolean isAutumn() {
+        return autumn;
+    }
+
+    public void setAutumn(boolean autumn) {
+        this.autumn = autumn;
     }
 
     public class Builder {

@@ -23,12 +23,14 @@ public class SimpleTableTest {
             .parent(new Sheet() {
                 {
                     this.sheetYear = 2017;
+                    this.initFormatter();
                 }
                 @Override
                 public Object parseAnchor() {
                     return null;
                 }
-            });
+            }.parent(new FileSheet(){
+            }));
     String file =  new String(Files.readAllBytes(Paths.get("src/test/resources/pdfs/test_file.txt")), "UTF-8");
 
     String table = "" +

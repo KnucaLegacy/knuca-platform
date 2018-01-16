@@ -22,6 +22,7 @@ public class FromToDatesTest {
     String from_to_no_room_ws = "[з 1.11 до 29.11(Ч/Т)]";
     String toOnly = "[до 24.11]";
     String fromOnly = "[з 6.10]";
+    String from_to_no_room_autmn = "[з 1.11 до 17.01]";
     String file = new String(Files.readAllBytes(Paths.get("src/test/resources/pdfs/test_file.txt")), "UTF-8");
 
     RoomDateBrackets roomDateBrackets = RoomDateBrackets
@@ -49,7 +50,7 @@ public class FromToDatesTest {
                         ))
         );
         Set<Circumstance> actual = roomDateBrackets
-                .parent(new LineMock(new MockDaySheet(DayOfWeek.FRIDAY, new MockSheet(file, 2017))))
+                .parent(new LineMock(new MockDaySheet(DayOfWeek.FRIDAY, new MockSheet(file, 2017, new FileSheet()))))
                 .prepare(toOnly, null)
                 .parseBrackets();
 
@@ -74,7 +75,7 @@ public class FromToDatesTest {
                         ))
         );
         Set<Circumstance> actual = roomDateBrackets
-                .parent(new LineMock((new MockDaySheet(DayOfWeek.FRIDAY,new MockSheet(file, 2017)))))
+                .parent(new LineMock((new MockDaySheet(DayOfWeek.FRIDAY,new MockSheet(file, 2017, new FileSheet())))))
                 .prepare(fromOnly, null)
                 .parseBrackets();
 
@@ -118,6 +119,39 @@ public class FromToDatesTest {
 
         Assert.assertEquals(expected, actual);
     }
+
+    @Test
+    public void fromToParseAutumn() throws Exception {
+        Set<Circumstance> expected = Sets.newHashSet(
+                new Circumstance(null, new Room(Room.NO_AUDITORY),
+                        Sets.newHashSet(
+                                LocalDate.of(2017, 11, 1),
+                                LocalDate.of(2017, 11, 8),
+                                LocalDate.of(2017, 11, 15),
+                                LocalDate.of(2017, 11, 22),
+                                LocalDate.of(2017, 11, 29),
+                                LocalDate.of(2017, 12, 6),
+                                LocalDate.of(2017, 12, 13),
+                                LocalDate.of(2017, 12, 20),
+                                LocalDate.of(2017, 12, 27),
+                                LocalDate.of(2018, 1, 3),
+                                LocalDate.of(2018, 1, 10),
+                                LocalDate.of(2018, 1, 17)
+                        ))
+        );
+        Set<Circumstance> actual = roomDateBrackets
+                .parent(new LineMock((new MockDaySheet(DayOfWeek.FRIDAY,new MockSheet(file, 2017, new FileSheet())))))
+                .prepare(from_to_no_room_autmn, null)
+                .parseBrackets();
+
+        Assert.assertEquals(expected, actual);
+    }
+}
+
+class FileSheetMock extends FileSheet {
+    public FileSheetMock(Sheet sheet) {
+        this.child = sheet;
+    }
 }
 
 
@@ -140,9 +174,12 @@ class MockDaySheet extends DaySheet {
 
 class MockSheet extends Sheet<Group> {
 
-    public MockSheet(String file, Integer year) {
+    public MockSheet(String file, Integer year, FileSheet fileSheet) {
         this.content = file;
+        fileSheet.child(this);
+        this.parent(fileSheet);
         this.sheetYear = year;
+        this.initFormatter();
         this.table = new SimpleTable().parent(this).prepare(file);
     }
 
@@ -151,3 +188,4 @@ class MockSheet extends Sheet<Group> {
         return null;
     }
 }
+

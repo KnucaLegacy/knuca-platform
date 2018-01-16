@@ -184,6 +184,10 @@ class SheetMock extends Sheet {
 
     public SheetMock(Integer year) {
         this.sheetYear = year;
+        FileSheet<Object> objectFileSheet = new FileSheet<>();
+        this.parent(objectFileSheet);
+        objectFileSheet.child(this);
+        this.initFormatter();
     }
 
     @Override

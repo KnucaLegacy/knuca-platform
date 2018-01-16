@@ -28,10 +28,6 @@ public class SimpleTable implements Table {
 
     @Override
     public SimpleTable prepare(String content) {
-        this.dateTimeFormat = new DateTimeFormatterBuilder()
-                .appendPattern("d.MM")
-                .parseDefaulting(ChronoField.YEAR, parent.getSheetYear())
-                .toFormatter();
         this.daysMap = parseToDays(parseTable(content));
         return this;
     }
@@ -60,7 +56,7 @@ public class SimpleTable implements Table {
 
         LocalDate convert;
         if (firstDay.find()) {
-            convert = convert(firstDay.group());
+            convert = parent.convert(firstDay.group());
         } else {
             throw new IllegalPdfException("No date at table.");
         }
@@ -133,12 +129,6 @@ public class SimpleTable implements Table {
         lessonTypeMap.put("Е", LessonType.EXAM);
         return this;
     }
-
-    private LocalDate convert(String date) {
-        return LocalDate.parse(date, dateTimeFormat);
-    }
-
-    private DateTimeFormatter dateTimeFormat;
 
     @Override
     public Map<LocalDate, String> getDaysMap() {

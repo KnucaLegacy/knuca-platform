@@ -9,6 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +41,7 @@ public abstract class Sheet<T> {
     protected Pattern anchorPattern;
     private Validator validator;
     protected Integer sheetYear;
+    private DateTimeFormatter dateTimeFormat;
 
     public Table getTable() {
         return table;
@@ -96,9 +101,17 @@ public abstract class Sheet<T> {
     public Sheet<T> prepare(String content) {
         this.content = content;
         this.sheetYear = parseYear();
+        this.initFormatter();
         this.table.prepare(content);
         this.anchor = parseAnchor();
         return this;
+    }
+
+    public void initFormatter() {
+        this.dateTimeFormat = new DateTimeFormatterBuilder()
+                .appendPattern("d.MM")
+                .parseDefaulting(ChronoField.YEAR, sheetYear)
+                .toFormatter();
     }
 
     private Integer parseYear() {
@@ -123,6 +136,24 @@ public abstract class Sheet<T> {
         this.validator = validator;
         validator.parent(this);
         return this;
+    }
+
+    public FileSheet<T> getParent() {
+        return parent;
+    }
+
+    public LocalDate convert(String date) {
+        LocalDate parse = LocalDate.parse(date, dateTimeFormat);
+        if (parent.isAutumn()) {
+            if (parse.getMonthValue() < 3) {
+                parse = parse.plusYears(1);
+            }
+        } else {
+            if (parse.getMonthValue() >= 8) {
+                parent.setAutumn(true);
+            }
+        }
+        return parse;
     }
 
     public class Builder {
