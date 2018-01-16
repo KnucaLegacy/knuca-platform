@@ -88,6 +88,10 @@ public class FileSheet<T> {
         this.autumn = autumn;
     }
 
+    public Sheet<T> getCurrent() {
+        return child.prepare(sheets.get(position));
+    }
+
     public class Builder {
 
         public FileSheet<T> build() {

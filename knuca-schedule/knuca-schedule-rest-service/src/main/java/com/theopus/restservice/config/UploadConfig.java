@@ -1,6 +1,8 @@
 package com.theopus.restservice.config;
 
+import com.theopus.repository.service.CircumstanceService;
 import com.theopus.repository.service.CurriculumService;
+import com.theopus.repository.service.GroupService;
 import com.theopus.upload.controller.UploadController;
 import com.theopus.upload.service.UploadService;
 import com.theopus.upload.service.UploadServiceImpl;
@@ -20,7 +22,7 @@ public class UploadConfig {
 
     @Bean
     @Autowired
-    public UploadService service(CurriculumService service) {
-        return new UploadServiceImpl(service);
+    public UploadService service(CurriculumService service, CircumstanceService circumstanceService, GroupService groupService) {
+        return new UploadServiceImpl(service, circumstanceService, groupService);
     }
 }
