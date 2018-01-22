@@ -39,8 +39,8 @@ public class LessonController {
         return ResponseEntity.ok(service.getByGroup(LocalDate.now(), groupService.get(id)));
     }
 
-    @GetMapping("/{localDate}/group/{id}")
-    public ResponseEntity<List<Lesson>> byGroupAndDate(@PathVariable Long id, @PathVariable LocalDate localDate) {
+    @GetMapping("/{yyyy-MM-dd}/group/{id}")
+    public ResponseEntity<List<Lesson>> byGroupAndDate(@PathVariable Long id, @PathVariable("yyyy-MM-dd") LocalDate localDate) {
         return ResponseEntity.ok(service.getByGroup(localDate, groupService.get(id)));
     }
 
@@ -54,8 +54,8 @@ public class LessonController {
         return ResponseEntity.ok(service.getByTeacher(LocalDate.now(), teacherService.get(id)));
     }
 
-    @GetMapping("/{localDate}/teacher/{id}")
-    public ResponseEntity<List<Lesson>> byTeacherAndDate(@PathVariable Long id, @PathVariable LocalDate localDate) {
+    @GetMapping("/{yyyy-MM-dd}/teacher/{id}")
+    public ResponseEntity<List<Lesson>> byTeacherAndDate(@PathVariable Long id, @PathVariable("yyyy-MM-dd") LocalDate localDate) {
         return ResponseEntity.ok(service.getByTeacher(localDate, teacherService.get(id)));
     }
 
