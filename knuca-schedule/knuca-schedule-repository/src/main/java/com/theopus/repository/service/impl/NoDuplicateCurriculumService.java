@@ -84,4 +84,9 @@ public class NoDuplicateCurriculumService implements CurriculumService {
     public List<Curriculum> getByTeacher(LocalDate date, Teacher teacher) {
         return repository.findAll(CurriculumSpecification.withDateAndTeacher(date, teacher));
     }
+
+    @Override
+    public List<Curriculum> getByRoom(LocalDate date, Room room) {
+        return repository.findAll(CurriculumSpecification.withDateAndRoom(date, room));
+    }
 }

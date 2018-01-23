@@ -1,9 +1,6 @@
 package com.theopus.repository.specification;
 
-import com.theopus.entity.schedule.Course;
-import com.theopus.entity.schedule.Curriculum;
-import com.theopus.entity.schedule.Group;
-import com.theopus.entity.schedule.Teacher;
+import com.theopus.entity.schedule.*;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -65,6 +62,20 @@ public class CurriculumSpecification {
             Expression<Collection<Object>> dates = circumstances.get("dates");
             return cb.and(
                     SpecificationUtil.isCollectionContainsSomething(teachers, Collections.singleton(teacher), cb),
+                    SpecificationUtil.isCollectionContainsSomething(dates, Collections.singleton(date),cb)
+            );
+        };
+    }
+
+    public static Specification<Curriculum> withDateAndRoom(LocalDate date, Room room) {
+        return (root, query, cb) -> {
+            query.distinct(true);
+
+            Path<Object> circumstances = root.join("circumstances");
+            Path<Object> roomCirc = circumstances.get("room");
+            Expression<Collection<Object>> dates = circumstances.get("dates");
+            return cb.and(
+                    cb.equal(roomCirc,room),
                     SpecificationUtil.isCollectionContainsSomething(dates, Collections.singleton(date),cb)
             );
         };

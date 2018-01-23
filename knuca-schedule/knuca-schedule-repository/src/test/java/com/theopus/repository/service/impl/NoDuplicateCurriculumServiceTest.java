@@ -9,6 +9,7 @@ import com.theopus.repository.config.DataBaseServiceConfig;
 import com.theopus.repository.jparepo.*;
 import com.theopus.repository.service.CourseService;
 import com.theopus.repository.service.CurriculumService;
+import com.theopus.repository.specification.GroupSpecification;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -164,7 +165,7 @@ public class NoDuplicateCurriculumServiceTest {
         Course course_1 = new Course(new Subject(subjectName1), lessonType1, Collections.emptySet());
         Circumstance circumstance = new Circumstance(LessonOrder.FIRST, new Room("1"), Sets.newHashSet());
         Curriculum curriculum_1 = new Curriculum(course_1, new Group(groupName1), Sets.newHashSet(
-               circumstance
+                circumstance
         ));
         circumstance.setCurriculum(curriculum_1);
 
@@ -206,7 +207,7 @@ public class NoDuplicateCurriculumServiceTest {
                         new Circumstance(LessonOrder.FIRST, new Room("1"), Sets.newHashSet()),
                         new Circumstance(LessonOrder.FIRST, new Room("2"), Sets.newHashSet()),
                         new Circumstance(LessonOrder.FIRST, new Room("3"), Sets.newHashSet())
-                        ))
+                ))
         );
         expected.get(0).getCircumstances().forEach(circumstance -> circumstance.setCurriculum(curriculum_1));
 

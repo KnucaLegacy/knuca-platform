@@ -2,6 +2,7 @@ package com.theopus.repository.service;
 
 import com.theopus.entity.schedule.Group;
 import com.theopus.entity.schedule.Lesson;
+import com.theopus.entity.schedule.Room;
 import com.theopus.entity.schedule.Teacher;
 
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public interface LessonService {
 
     Map<LocalDate, List<Lesson>> getByTeacher(Set<LocalDate> date, Teacher teacher);
 
+    List<Lesson> getByRoom(LocalDate date, Room room);
 
-
+    Map<LocalDate, List<Lesson>> getByRoom(Set<LocalDate> dates, Room room);
 }

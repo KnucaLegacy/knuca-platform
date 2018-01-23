@@ -9,14 +9,17 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}"){
+        exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
+    }
+    compile("org.springframework.boot:spring-boot-starter-jetty:${springBootVersion}")
     compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.4.0")
     compile("io.springfox:springfox-swagger2:${swaggerVersion}")
     compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
+
     compile project(':knuca-schedule-entity')
     compile project(':knuca-schedule-parser')
     compile project(':knuca-schedule-repository')
     compile project(':knuca-schedule-upload')
-
     testCompile ("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
 }

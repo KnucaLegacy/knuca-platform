@@ -1,9 +1,6 @@
 package com.theopus.repository.service;
 
-import com.theopus.entity.schedule.Course;
-import com.theopus.entity.schedule.Curriculum;
-import com.theopus.entity.schedule.Group;
-import com.theopus.entity.schedule.Teacher;
+import com.theopus.entity.schedule.*;
 import com.theopus.entity.schedule.enums.LessonOrder;
 
 import java.time.LocalDate;
@@ -21,4 +18,6 @@ public interface CurriculumService extends CacheableService {
     List<Curriculum> getWithCourseAtDate(LocalDate date, Course course, LessonOrder order);
 
     List<Curriculum> getByTeacher(LocalDate date, Teacher teacher);
+
+    List<Curriculum> getByRoom(LocalDate date, Room room);
 }

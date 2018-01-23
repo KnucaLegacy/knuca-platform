@@ -4,12 +4,16 @@ import com.google.common.collect.Sets;
 import com.theopus.entity.schedule.*;
 import com.theopus.repository.service.CurriculumService;
 import com.theopus.repository.service.LessonService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class LessonServiceImpl implements LessonService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(LessonServiceImpl.class);
 
     private CurriculumService curriculumService;
 
@@ -43,6 +47,20 @@ public class LessonServiceImpl implements LessonService {
                 .collect(Collectors.groupingBy(Lesson::getDate)));
     }
 
+    @Override
+    public List<Lesson> getByRoom(LocalDate date, Room room) {
+        List<Curriculum> byGroup = curriculumService.getByRoom(date, room);
+        return byOneDay(byGroup, date);
+    }
+
+    @Override
+    public Map<LocalDate, List<Lesson>> getByRoom(Set<LocalDate> dates, Room room) {
+        return new TreeMap<>(dates.stream()
+                .flatMap(localDate -> byOneDay(curriculumService.getByRoom(localDate, room), localDate).stream())
+                .collect(Collectors.groupingBy(Lesson::getDate)));
+    }
+
+    //bullshit
     private List<Lesson> byOneDay(List<Curriculum> curriculumList, LocalDate localDate) {
         return curriculumList.stream()
                 .flatMap(cur ->
@@ -65,9 +83,7 @@ public class LessonServiceImpl implements LessonService {
                                     .map(cir -> circumstanceToLesson(cir, localDate))
                                     .reduce((lesson, lesson2) -> {
                                         if (!Objects.equals(lesson.getCourse(), lesson2.getCourse())) {
-                                            System.out.println(lesson);
-                                            System.out.println(lesson2);
-                                            throw new RuntimeException("Date conflict");
+                                            LOG.error("Conflict with: \n -{}; \n -{};", lesson, lesson2);
                                         }
                                         lesson.getGroups().addAll(lesson2.getGroups());
                                         lesson.getRooms().addAll(lesson2.getRooms());
