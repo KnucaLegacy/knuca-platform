@@ -1,18 +1,22 @@
 package com.theopus.repository.service.impl;
 
 import com.theopus.entity.schedule.Course;
+import com.theopus.entity.schedule.Curriculum;
 import com.theopus.entity.schedule.Subject;
 import com.theopus.entity.schedule.Teacher;
 import com.theopus.repository.jparepo.CourseRepository;
+import com.theopus.repository.jparepo.CurriculumRepository;
 import com.theopus.repository.service.CourseService;
 import com.theopus.repository.service.SubjectService;
 import com.theopus.repository.service.TeacherService;
 import com.theopus.repository.specification.CourseSpecification;
+import com.theopus.repository.specification.CurriculumSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -25,11 +29,16 @@ public class CacheableCourseService implements CourseService {
     private CourseRepository repository;
     private TeacherService teacherService;
     private SubjectService subjectService;
+    private CurriculumRepository curriculumRepository;
 
-    public CacheableCourseService(CourseRepository repository, TeacherService teacherService, SubjectService subjectService) {
+    public CacheableCourseService(CourseRepository repository,
+                                  TeacherService teacherService,
+                                  SubjectService subjectService,
+                                  CurriculumRepository curriculumRepository) {
         this.repository = repository;
         this.teacherService = teacherService;
         this.subjectService = subjectService;
+        this.curriculumRepository = curriculumRepository;
     }
 
     @Cacheable("courses")
@@ -58,19 +67,6 @@ public class CacheableCourseService implements CourseService {
     }
 
     @Override
-    public Course unenrollTeacher(Course course, Teacher teacher) {
-        course.getTeachers().remove(teacher);
-        return repository.save(course);
-    }
-
-    @Override
-    public List<Course> unenrollTeacher(Teacher teacher) {
-        return ((List<Course>) repository.findAll(CourseSpecification.withTeacher(teacher)))
-                .stream().map(o -> unenrollTeacher(o, teacher))
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public List<Course> withSubject(Subject subject) {
         return repository.findAll(CourseSpecification.withSubject(subject));
     }
@@ -81,7 +77,11 @@ public class CacheableCourseService implements CourseService {
     }
 
     @Override
+    @Transactional
     public void delete(Course course) {
+        curriculumRepository.delete(
+                (List<Curriculum>) curriculumRepository.findAll(CurriculumSpecification.withCourse(course))
+        );
         repository.delete(course);
     }
 

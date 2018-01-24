@@ -23,40 +23,40 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public List<Lesson> getByGroup(LocalDate date, Group group) {
-        List<Curriculum> byGroup = curriculumService.getByGroup(date, group);
+        List<Curriculum> byGroup = curriculumService.getAtDayByGroup(date, group);
         return byOneDay(byGroup, date);
     }
 
     @Override
     public Map<LocalDate, List<Lesson>> getByGroup(Set<LocalDate> date, Group group) {
         return new TreeMap<>(date.stream()
-                .flatMap(localDate -> byOneDay(curriculumService.getByGroup(localDate, group), localDate).stream())
+                .flatMap(localDate -> byOneDay(curriculumService.getAtDayByGroup(localDate, group), localDate).stream())
                 .collect(Collectors.groupingBy(Lesson::getDate)));
     }
 
     @Override
     public List<Lesson> getByTeacher(LocalDate date, Teacher teacher) {
-        List<Curriculum> byGroup = curriculumService.getByTeacher(date, teacher);
+        List<Curriculum> byGroup = curriculumService.getAtDayByTeacher(date, teacher);
         return byOneDay(byGroup, date);
     }
 
     @Override
     public Map<LocalDate, List<Lesson>> getByTeacher(Set<LocalDate> date, Teacher teacher) {
         return new TreeMap<>(date.stream()
-                .flatMap(localDate -> byOneDay(curriculumService.getByTeacher(localDate, teacher), localDate).stream())
+                .flatMap(localDate -> byOneDay(curriculumService.getAtDayByTeacher(localDate, teacher), localDate).stream())
                 .collect(Collectors.groupingBy(Lesson::getDate)));
     }
 
     @Override
     public List<Lesson> getByRoom(LocalDate date, Room room) {
-        List<Curriculum> byGroup = curriculumService.getByRoom(date, room);
+        List<Curriculum> byGroup = curriculumService.getAtDayByRoom(date, room);
         return byOneDay(byGroup, date);
     }
 
     @Override
     public Map<LocalDate, List<Lesson>> getByRoom(Set<LocalDate> dates, Room room) {
         return new TreeMap<>(dates.stream()
-                .flatMap(localDate -> byOneDay(curriculumService.getByRoom(localDate, room), localDate).stream())
+                .flatMap(localDate -> byOneDay(curriculumService.getAtDayByRoom(localDate, room), localDate).stream())
                 .collect(Collectors.groupingBy(Lesson::getDate)));
     }
 

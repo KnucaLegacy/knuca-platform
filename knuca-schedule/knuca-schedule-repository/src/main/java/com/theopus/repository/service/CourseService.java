@@ -15,10 +15,6 @@ public interface CourseService extends CacheableService {
 
     Collection<Course> getAll();
 
-    Course unenrollTeacher(Course course, Teacher teacher);
-
-    List<Course> unenrollTeacher(Teacher teacher);
-
     List<Course> withSubject(Subject subject);
 
     void deleteWithSubject(Subject subject);

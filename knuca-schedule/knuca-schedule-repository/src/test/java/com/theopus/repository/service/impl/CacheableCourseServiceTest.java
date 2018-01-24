@@ -11,6 +11,7 @@ import com.theopus.repository.jparepo.CourseRepository;
 import com.theopus.repository.jparepo.SubjectRepository;
 import com.theopus.repository.jparepo.TeacherRepository;
 import com.theopus.repository.service.CourseService;
+import com.theopus.repository.service.SubjectService;
 import com.theopus.repository.service.TeacherService;
 import com.theopus.repository.specification.SubjectSpecification;
 import com.theopus.repository.specification.TeacherSpecification;
@@ -20,7 +21,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -45,6 +50,8 @@ public class CacheableCourseServiceTest {
     private SubjectRepository subjectRepository;
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private SubjectService subjectService;
 
     @Before
     public void setUp() throws Exception {
@@ -101,6 +108,31 @@ public class CacheableCourseServiceTest {
         List<Course> expected = Lists.newArrayList(course_1, course_2);
         courseService.save(course_1);
         courseService.save(course_2);
+
+        List<Course> actual = (List<Course>) courseService.getAll();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void sameCourseSave_different_teachers_delete_no_courses() throws Exception {
+        String subjectName = "test_subject_1";
+        String teacherName_1 = "test_teacher_1";
+        String teacherName_2 = "test_teacher_2";
+        LessonType lessonType = LessonType.LAB;
+        Course course_1 = new Course(new Subject(subjectName), lessonType, Sets.newHashSet(
+                new Teacher(teacherName_1),
+                new Teacher(teacherName_2)
+        ));
+
+        Course course_2 = new Course(new Subject(subjectName), lessonType, Sets.newHashSet(
+                new Teacher(teacherName_1)
+        ));
+        List<Course> expected = Collections.emptyList();
+        courseService.save(course_1);
+        courseService.save(course_2);
+        subjectService.delete(subjectService.findByName(subjectName));
+
         List<Course> actual = (List<Course>) courseService.getAll();
 
         assertEquals(expected, actual);
@@ -158,45 +190,10 @@ public class CacheableCourseServiceTest {
                 )));
         courseService.save(course_1);
         courseService.save(course_2);
-        courseService.unenrollTeacher((Teacher) teacherRepository.findOne(TeacherSpecification.getByName(teacherName_2)));
         teacherService.delete(teacherService.findByName(teacherName_2));
         List<Course> actual = (List<Course>) courseService.getAll();
 
         assertEquals(expected, actual);
-    }
-
-    @Test(expected = org.springframework.dao.DataIntegrityViolationException.class)
-    public void deleteTeacherFail() throws Exception {
-        String subjectName_1 = "test_subject_1";
-        String subjectName_2 = "test_subject_1";
-        String teacherName_1 = "test_teacher_1";
-        String teacherName_2 = "test_teacher_2";
-        String teacherName_3 = "test_teacher_3";
-        LessonType lessonType = LessonType.LAB;
-        Course course_1 = new Course(new Subject(subjectName_1), lessonType, Sets.newHashSet(
-                new Teacher(teacherName_1),
-                new Teacher(teacherName_2)
-        ));
-
-        Course course_2 = new Course(new Subject(subjectName_2), lessonType, Sets.newHashSet(
-                new Teacher(teacherName_1),
-                new Teacher(teacherName_2),
-                new Teacher(teacherName_3)
-        ));
-
-        List<Course> expected = Lists.newArrayList(
-                new Course(
-                        new Subject(subjectName_1), lessonType, Sets.newHashSet(
-                        new Teacher(teacherName_1))
-                ),
-                new Course(new Subject(subjectName_2), lessonType, Sets.newHashSet(
-                        new Teacher(teacherName_1),
-                        new Teacher(teacherName_3)
-                )));
-        courseService.save(course_1);
-        courseService.save(course_2);
-        teacherService.delete(teacherService.findByName(teacherName_2));
-        fail();
     }
 
     @Test

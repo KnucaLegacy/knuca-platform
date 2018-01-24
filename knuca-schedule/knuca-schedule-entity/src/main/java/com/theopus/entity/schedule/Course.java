@@ -17,7 +17,8 @@ import java.util.Set;
 @Entity(name = "course")
 public class Course {
 
-    @Id@GeneratedValue(generator = "increment")
+    @Id
+    @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
@@ -27,6 +28,9 @@ public class Course {
     private LessonType type;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "course_teachers",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "teachers_id"))
     private Set<Teacher> teachers = new HashSet<>();
 
     public Course() {

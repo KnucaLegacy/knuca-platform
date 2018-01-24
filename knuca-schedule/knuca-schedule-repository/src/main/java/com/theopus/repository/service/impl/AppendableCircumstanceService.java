@@ -63,6 +63,11 @@ public class AppendableCircumstanceService implements CircumstanceService {
     }
 
     @Override
+    public void delete(Circumstance circumstance) {
+        circumstanceRepository.delete(circumstance);
+    }
+
+    @Override
     public void flush() {
         roomService.flush();
         circumstanceIsolatedCache.flush();

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
 import com.theopus.entity.schedule.Group;
 import com.theopus.entity.schedule.Room;
+import com.theopus.entity.schedule.Subject;
 import com.theopus.entity.schedule.Teacher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +35,7 @@ public class JacksonConfig {
         module.addSerializer(Group.class, new GroupSerializer());
         module.addSerializer(Teacher.class, new TeacherSerializer());
         module.addSerializer(Room.class, new RoomSerializer());
+        module.addSerializer(Subject.class, new SubjectSerializer());
         module.addDeserializer(LocalDate.class, new MyLocalDateDeserializer());
         mapper.registerModule(module);
         return mapper;
@@ -68,6 +70,19 @@ public class JacksonConfig {
     public static class RoomSerializer extends JsonSerializer<Room> {
         @Override
         public void serialize(Room value, JsonGenerator jgen,
+                              SerializerProvider provider) throws IOException {
+            if (value != null) {
+                jgen.writeStartObject();
+                jgen.writeStringField("id", value.getId().toString());
+                jgen.writeStringField("name", value.getName());
+                jgen.writeEndObject();
+            }
+        }
+    }
+
+    public static class SubjectSerializer extends JsonSerializer<Subject> {
+        @Override
+        public void serialize(Subject value, JsonGenerator jgen,
                               SerializerProvider provider) throws IOException {
             if (value != null) {
                 jgen.writeStartObject();

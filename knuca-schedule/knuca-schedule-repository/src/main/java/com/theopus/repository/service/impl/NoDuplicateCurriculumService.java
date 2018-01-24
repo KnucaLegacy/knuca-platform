@@ -71,7 +71,7 @@ public class NoDuplicateCurriculumService implements CurriculumService {
     }
 
     @Override
-    public List<Curriculum> getByGroup(LocalDate date, Group group) {
+    public List<Curriculum> getAtDayByGroup(LocalDate date, Group group) {
         return repository.findAll(CurriculumSpecification.withDateAndGroup(date, group));
     }
 
@@ -81,12 +81,12 @@ public class NoDuplicateCurriculumService implements CurriculumService {
     }
 
     @Override
-    public List<Curriculum> getByTeacher(LocalDate date, Teacher teacher) {
+    public List<Curriculum> getAtDayByTeacher(LocalDate date, Teacher teacher) {
         return repository.findAll(CurriculumSpecification.withDateAndTeacher(date, teacher));
     }
 
     @Override
-    public List<Curriculum> getByRoom(LocalDate date, Room room) {
+    public List<Curriculum> getAtDayByRoom(LocalDate date, Room room) {
         return repository.findAll(CurriculumSpecification.withDateAndRoom(date, room));
     }
 }

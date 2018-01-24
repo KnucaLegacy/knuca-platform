@@ -51,7 +51,7 @@ public class CacheableSubjectService implements SubjectService {
 
     @Override
     public void delete(Subject object) {
-
+        repository.delete(object);
     }
 
     @Override

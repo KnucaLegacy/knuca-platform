@@ -9,7 +9,6 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.convert.Jsr310Converters;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableAutoConfiguration
@@ -31,8 +30,8 @@ public class DataBaseServiceConfig {
     }
 
     @Bean("teacherService")
-    public TeacherService teacherService(TeacherRepository teacherRepository) {
-        return new CacheableTeacherService(teacherRepository);
+    public TeacherService teacherService(TeacherRepository teacherRepository, CourseRepository courseRepository) {
+        return new CacheableTeacherService(teacherRepository, courseRepository);
     }
 
     @Bean("subjectService")
@@ -47,8 +46,11 @@ public class DataBaseServiceConfig {
     }
 
     @Bean("courseService")
-    public CourseService courseService(CourseRepository courseRepository, TeacherService teacherService, SubjectService subjectService) {
-        return new CacheableCourseService(courseRepository, teacherService, subjectService);
+    public CourseService courseService(CourseRepository courseRepository,
+                                       TeacherService teacherService,
+                                       SubjectService subjectService,
+                                       CurriculumRepository curriculumRepository) {
+        return new CacheableCourseService(courseRepository, teacherService, subjectService, curriculumRepository);
     }
 
     @Bean("curriculumService")

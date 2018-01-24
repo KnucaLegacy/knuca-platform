@@ -49,7 +49,7 @@ public class CacheableRoomService implements RoomService {
 
     @Override
     public void delete(Room object) {
-
+        repository.delete(object);
     }
 
     @Override

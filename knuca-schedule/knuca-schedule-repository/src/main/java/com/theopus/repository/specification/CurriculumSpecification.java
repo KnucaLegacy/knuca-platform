@@ -51,6 +51,15 @@ public class CurriculumSpecification {
         };
     }
 
+    public static Specification<Curriculum> withCourse(Course course) {
+        return (root, query, cb) -> {
+            Path<Object> course1 = root.get("course");
+
+
+            return cb.and(cb.equal(course1, course));
+        };
+    }
+
     public static Specification<Curriculum> withDateAndTeacher(LocalDate date, Teacher teacher) {
         return (root, query, cb) -> {
             query.distinct(true);

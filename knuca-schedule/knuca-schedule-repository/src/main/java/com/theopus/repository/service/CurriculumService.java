@@ -13,11 +13,11 @@ public interface CurriculumService extends CacheableService {
 
     void delete(Curriculum curriculum);
 
-    List<Curriculum> getByGroup(LocalDate date, Group group);
+    List<Curriculum> getAtDayByGroup(LocalDate date, Group group);
 
     List<Curriculum> getWithCourseAtDate(LocalDate date, Course course, LessonOrder order);
 
-    List<Curriculum> getByTeacher(LocalDate date, Teacher teacher);
+    List<Curriculum> getAtDayByTeacher(LocalDate date, Teacher teacher);
 
-    List<Curriculum> getByRoom(LocalDate date, Room room);
+    List<Curriculum> getAtDayByRoom(LocalDate date, Room room);
 }

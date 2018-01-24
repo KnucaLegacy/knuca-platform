@@ -3,7 +3,9 @@ package com.theopus.entity.schedule;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by Oleksandr_Tkachov on 9/15/2017.
@@ -16,6 +18,10 @@ public class Group {
     private Long id;
     @Column(unique = true, name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "group", cascade = {CascadeType.REMOVE, CascadeType.DETACH},
+            fetch = FetchType.LAZY)
+    private Set<Curriculum> curriculums = new HashSet<>();
 
     public Group() {
     }
@@ -51,6 +57,14 @@ public class Group {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Curriculum> getCurriculums() {
+        return curriculums;
+    }
+
+    public void setCurriculums(Set<Curriculum> curriculums) {
+        this.curriculums = curriculums;
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -53,6 +54,7 @@ public class CacheableGroupService implements GroupService {
     }
 
     @Override
+    @Transactional
     public Group get(Long id) {
         return repository.getOne(id);
     }
