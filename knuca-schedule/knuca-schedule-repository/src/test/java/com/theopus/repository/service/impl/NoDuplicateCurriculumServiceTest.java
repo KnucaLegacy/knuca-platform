@@ -443,4 +443,58 @@ public class NoDuplicateCurriculumServiceTest {
 
         assertEquals(expected, actual);
     }
+
+
+
+    @Test
+    public void getAtDateWithCourseAndOrder() throws Exception {
+        String test_subject_1 = "test_subject_1";
+        LessonType lessonType = LessonType.CONSULTATION;
+        LessonOrder lessonOrder1 = LessonOrder.FIFTH;
+        LessonOrder lessonOrder2 = LessonOrder.FORTH;
+        String test_room_1 = "test_room_1";
+        String test_group_1 = "test_group_1";
+
+        String test_teacher_1 = "test_teacher_1";
+        String test_teacher_2 = "test_teacher_2";
+
+        Course course_1 = new Course(new Subject(test_subject_1), lessonType, Sets.newHashSet(
+                new Teacher(test_teacher_1)
+        ));
+        Course saved_course = courseService.save(course_1);
+
+        Course course_2 = new Course(new Subject(test_subject_1), lessonType, Sets.newHashSet(
+                new Teacher(test_teacher_2)
+        ));
+        Course saved_course_2 = courseService.save(course_2);
+
+        Curriculum curriculum_1 = new Curriculum(saved_course, new Group(test_group_1), Sets.newHashSet(
+                new Circumstance(lessonOrder1, new Room(test_room_1), Sets.newHashSet(
+                        LocalDate.now(),
+                        LocalDate.now().plusDays(1),
+                        LocalDate.now().plusDays(2),
+                        LocalDate.now().plusDays(3)
+                ))
+        ));
+        Curriculum curriculum_2 = new Curriculum(saved_course_2, new Group(test_group_1), Sets.newHashSet(
+                new Circumstance(lessonOrder2, new Room(test_room_1), Sets.newHashSet(
+                        LocalDate.now(),
+                        LocalDate.now().plusDays(1),
+                        LocalDate.now().plusDays(2),
+                        LocalDate.now().plusDays(3)
+                ))
+        ));
+        curriculumService.save(curriculum_1);
+        curriculumService.save(curriculum_2);
+
+        List<Curriculum> expected = Lists.newArrayList(curriculum_1);
+
+        List<Curriculum> actual = curriculumService.getWithCourseAtDate(
+                LocalDate.now(),
+                course_1,
+                lessonOrder1
+        );
+
+        assertEquals(expected, actual);
+    }
 }

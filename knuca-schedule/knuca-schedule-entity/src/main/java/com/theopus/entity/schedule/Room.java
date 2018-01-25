@@ -1,5 +1,6 @@
 package com.theopus.entity.schedule;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ public class Room {
 
     @OneToMany(mappedBy = "room", cascade = {CascadeType.REMOVE, CascadeType.DETACH},
             fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Circumstance> circumstances = new HashSet<>();
 
     public Room() {
