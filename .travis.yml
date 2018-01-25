@@ -1,5 +1,8 @@
 language: java
 sudo: required
+env:
+  global:
+    - CODECOV_TOKEN=988bb1ee-29f3-46af-8b7d-7b6d08ee6256
 services:
   - docker
 branches:
@@ -18,5 +21,8 @@ after_success:
     docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:latest;
     docker push $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER;
     docker push $DOCKER_HUB_USERNAME/knuca-platform:latest;
+    ./gradlew jacocoTestReport;
+    bash <(curl -s https://codecov.io/bash);
+    
 
 

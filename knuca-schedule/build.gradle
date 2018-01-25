@@ -47,6 +47,9 @@ applicationDistribution.into("bin") {
 dependencies {
     compile project(':knuca-schedule-rest-service')
     compile project(':knuca-schedule-upload')
+    compile project(':knuca-schedule-parser')
+    compile project(':knuca-schedule-repository')
+    compile project(':knuca-schedule-entity')
 }
 
 distTar {
@@ -162,24 +165,36 @@ allprojects {
     test.finalizedBy{
         jacocoTestReport
     }
+
+    jacocoTestReport {
+        reports {
+            xml.enabled true
+        }
+    }
     jacoco {
         toolVersion = "0.7.9"
         reportsDir = file("$buildDir/reports/jacoco")
     }
 
     jacocoTestReport.finalizedBy {
-        copyJaccocReport
+        copyJacocoReport
     }
 
-    task copyJaccocReport(type: Copy) {
-        from "build/reports/jacoco/"
-        into "${rootProject.rootDir}/build/reports/jacoco/${project.name}"
+    jacocoTestReport.dependsOn {
+        test
+    }
+
+    task copyJacocoReport(type: Copy) {
+        from "$buildDir/reports/jacoco"
+        into "${rootProject.buildDir}/reports/jacoco/${project.name}"
     }
 
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
     }
 }
+
+
 
 
 
