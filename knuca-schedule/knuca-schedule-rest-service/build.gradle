@@ -8,8 +8,16 @@ repositories {
     mavenCentral()
 }
 
+jacocoTestReport {
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: '**/config/**')
+        })
+    }
+}
+
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}"){
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
     }
     compile("org.springframework.boot:spring-boot-starter-jetty:${springBootVersion}")
@@ -21,5 +29,5 @@ dependencies {
     compile project(':knuca-schedule-parser')
     compile project(':knuca-schedule-repository')
     compile project(':knuca-schedule-upload')
-    testCompile ("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+    testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
 }
