@@ -256,4 +256,34 @@ public class CacheableSimpleServiceTest {
 
         assertEquals(expected,actual);
     }
+
+    @Test
+    public void saveSameRoomAfterFlush() throws Exception {
+        String name = "testname";
+        List<Room> expected = Collections.singletonList(new Room(name));
+        roomService.save(new Room(name));
+        roomService.flush();
+        roomService.save(new Room(name));
+        roomService.flush();
+        roomService.save(new Room(name));
+
+        List<Room> actual = (List<Room>) roomService.getAll();
+
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void saveSameSubjectAfterFlush() throws Exception {
+        String name = "testname";
+        List<Subject> expected = Collections.singletonList(new Subject(name));
+        subjectService.save(new Subject(name));
+        subjectService.flush();
+        subjectService.save(new Subject(name));
+        subjectService.flush();
+        subjectService.save(new Subject(name));
+
+        List<Subject> actual = (List<Subject>) subjectService.getAll();
+
+        assertEquals(expected,actual);
+    }
 }

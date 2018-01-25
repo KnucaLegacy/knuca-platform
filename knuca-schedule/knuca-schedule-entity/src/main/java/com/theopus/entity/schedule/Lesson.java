@@ -22,6 +22,14 @@ public class Lesson {
     public Lesson() {
     }
 
+    public Lesson(LessonOrder order, Set<Room> rooms, Set<Group> groups, LocalDate date, Course course) {
+        this.order = order;
+        this.rooms = rooms;
+        this.groups = groups;
+        this.date = date;
+        this.course = course;
+    }
+
     public LessonOrder getOrder() {
         return order;
     }
