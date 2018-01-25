@@ -1,5 +1,6 @@
 # knuca-platform
 [![Build Status](https://travis-ci.org/theopus/knuca-platform.svg?branch=develop)](https://travis-ci.org/theopus/knuca-platform)
+[![codecov](https://codecov.io/gh/theopus/knuca-platform/branch/develop/graph/badge.svg)](https://codecov.io/gh/theopus/knuca-platform)
 
 Developing platform of distributing schedule for [Kyiv National University of Constructure and Architecture](http://www.knuba.edu.ua/).
 * Java 8;
