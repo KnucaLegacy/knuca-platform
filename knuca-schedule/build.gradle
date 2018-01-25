@@ -118,6 +118,7 @@ allprojects {
 
     apply plugin: 'java'
     apply plugin: 'checkstyle'
+    apply plugin: "jacoco"
 
     group = 'com.theopus'
     sourceCompatibility = 1.8
@@ -145,15 +146,34 @@ allprojects {
 
     checkstyleMain.finalizedBy {
         copyCheckstyleReport
+
     }
 
     checkstyleTest.finalizedBy {
         copyCheckstyleReport
+
     }
 
     task copyCheckstyleReport(type: Copy) {
         from "build/reports/checkstyle/"
         into "${rootProject.rootDir}/build/reports/checkstyle/${project.name}"
+    }
+
+    test.finalizedBy{
+        jacocoTestReport
+    }
+    jacoco {
+        toolVersion = "0.7.9"
+        reportsDir = file("$buildDir/reports/jacoco")
+    }
+
+    jacocoTestReport.finalizedBy {
+        copyJaccocReport
+    }
+
+    task copyJaccocReport(type: Copy) {
+        from "build/reports/jacoco/"
+        into "${rootProject.rootDir}/build/reports/jacoco/${project.name}"
     }
 
     tasks.withType(JavaCompile) {
