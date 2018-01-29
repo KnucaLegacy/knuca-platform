@@ -45,7 +45,7 @@ public class UploadServiceImpl implements UploadService {
 
     @Override
     public Integer upload(String string) {
-        LocalDate nowMock = LocalDate.of(2017,8, 9);
+        LocalDate nowMock = LocalDate.now();
 
         String text = string;
         FileSheet<Group> parser = Parser.groupDefaultPatternsParser();

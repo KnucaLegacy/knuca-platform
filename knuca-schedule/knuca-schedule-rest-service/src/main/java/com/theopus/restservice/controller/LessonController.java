@@ -49,7 +49,7 @@ public class LessonController {
 
     @GetMapping("/week/group/{id}")
     public ResponseEntity<Map<LocalDate, List<Lesson>>> byGroupAndDate(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getByGroup(week(LocalDate.of(2017,9, 11)), groupService.get(id)));
+        return ResponseEntity.ok(service.getByGroup(week(LocalDate.now()), groupService.get(id)));
     }
 
     @GetMapping("/teacher/{id}")
@@ -64,7 +64,7 @@ public class LessonController {
 
     @GetMapping("/week/teacher/{id}")
     public ResponseEntity<Map<LocalDate, List<Lesson>>> byTeacherAndWeek(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getByTeacher(week(LocalDate.of(2017,9, 11)), teacherService.get(id)));
+        return ResponseEntity.ok(service.getByTeacher(week(LocalDate.now()), teacherService.get(id)));
     }
 
     @GetMapping("/room/{id}")
@@ -79,7 +79,7 @@ public class LessonController {
 
     @GetMapping("/week/room/{id}")
     public ResponseEntity<Map<LocalDate, List<Lesson>>> byRoomAndWeek(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getByRoom(week(LocalDate.of(2017,9, 11)), roomService.get(id)));
+        return ResponseEntity.ok(service.getByRoom(week(LocalDate.now()), roomService.get(id)));
     }
 
     private static Set<LocalDate> week(LocalDate localDate) {
