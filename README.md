@@ -11,5 +11,5 @@ Developing platform of distributing schedule for [Kyiv National University of Co
 
 Other links:
  * [Docker repository](https://hub.docker.com/r/theopus/knuca-platform/);
- * [Dev machine](http://159.89.7.190:8080);
+ * [Dev machine](http://35.195.191.179:8080);
  * [CI-CD](https://travis-ci.org/theopus/knuca-platform);
