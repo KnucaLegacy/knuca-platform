@@ -20,6 +20,7 @@ import javax.annotation.PreDestroy;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -55,8 +56,12 @@ public class UploadServiceImpl implements UploadService {
             LOG.info("{} sheets to be parsed+saved.", parser.getTotal());
             while (parser.next()) {
                 Group anchor = groupService.findByName(parser.getCurrent().getAnchor().getName());
-                LOG.info("Deleting from {} with anchor {}", nowMock, anchor);
-                circumstanceService.deleteWithGroupAfter(anchor, nowMock);
+                if (!Objects.isNull(anchor)) {
+                    LOG.info("Deleting from {} with anchor {}", nowMock, anchor);
+                    circumstanceService.deleteWithGroupAfter(anchor, nowMock);
+                } else {
+                    LOG.info("Not Found with anchor {}", anchor);
+                }
                 service.saveAll(parser.parse());
                 service.flush();
                 LOG.info("{}/{} proceeded", i++, parser.getTotal());
