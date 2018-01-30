@@ -4,7 +4,7 @@ import com.theopus.entity.schedule.Curriculum;
 import com.theopus.entity.schedule.Group;
 import com.theopus.parser.ParserUtils;
 import com.theopus.parser.exceptions.IllegalPdfException;
-import javafx.util.Pair;
+import com.theopus.parser.utl.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

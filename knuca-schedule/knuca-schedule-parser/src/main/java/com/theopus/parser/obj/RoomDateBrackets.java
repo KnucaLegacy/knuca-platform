@@ -4,7 +4,7 @@ import com.google.common.collect.Sets;
 import com.theopus.entity.schedule.Circumstance;
 import com.theopus.entity.schedule.Room;
 import com.theopus.entity.schedule.enums.LessonOrder;
-import javafx.util.Pair;
+import com.theopus.parser.utl.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
