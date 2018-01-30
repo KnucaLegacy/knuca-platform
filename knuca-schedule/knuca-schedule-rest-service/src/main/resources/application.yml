@@ -8,7 +8,7 @@ server:
 spring:
   profiles.active: upload
   datasource:
-    url: jdbc:mysql://localhost:3306/knuca?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://10.132.0.2:3306/knuca?useUnicode=true&characterEncoding=utf8
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
