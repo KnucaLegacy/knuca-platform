@@ -52,23 +52,24 @@ public class UploadServiceImpl implements UploadService {
         FileSheet<Group> parser = Parser.groupDefaultPatternsParser();
         parser.prepare(text);
 
-        int i = 1;
-        LOG.info("{} sheets to be parsed+saved.", parser.getTotal());
-        while (parser.next()) {
-            Group anchor = groupService.findByName(parser.getCurrent().getAnchor().getName());
-            if (!Objects.isNull(anchor)) {
-                LOG.info("Deleting from {} with anchor {}", nowMock, anchor);
-                circumstanceService.deleteWithGroupAfter(anchor, nowMock);
-            } else {
-                LOG.info("Not Found with anchor {}", anchor);
+        ex.submit(() -> {
+            int i = 1;
+            LOG.info("{} sheets to be parsed+saved.", parser.getTotal());
+            while (parser.next()) {
+                Group anchor = groupService.findByName(parser.getCurrent().getAnchor().getName());
+                if (!Objects.isNull(anchor)) {
+                    LOG.info("Deleting from {} with anchor {}", nowMock, anchor);
+                    circumstanceService.deleteWithGroupAfter(anchor, nowMock);
+                } else {
+                    LOG.info("Not Found with anchor {}", anchor);
+                }
+                service.saveAll(parser.parse());
+                service.flush();
+                LOG.info("{}/{} proceeded", i++, parser.getTotal());
             }
-            service.saveAll(parser.parse());
-            service.flush();
-            LOG.info("{}/{} proceeded", i++, parser.getTotal());
-        }
+        });
 
         return parser.getTotal();
-
     }
 
     @Override
