@@ -45,12 +45,36 @@ public class UploadServiceImpl implements UploadService {
     }
 
     @Override
-    public Integer upload(String string) {
-        LocalDate nowMock = LocalDate.now();
-
-        String text = string;
+    public Integer upload(MultipartFile multipartFile) throws IOException {
         FileSheet<Group> parser = Parser.groupDefaultPatternsParser();
-        parser.prepare(text);
+        parser.prepare(fileToString(multipartFile));
+        startProcessing(parser);
+        return parser.getTotal();
+    }
+
+    @Override
+    public Integer upload(MultipartFile multipartFile, Integer year) throws IOException {
+        FileSheet<Group> parser = Parser.groupDefaultPatternsParser();
+        parser.prepare(fileToString(multipartFile), year);
+        startProcessing(parser);
+        return parser.getTotal();
+    }
+
+    @PreDestroy
+    public void destroy() {
+        ex.shutdownNow();
+    }
+
+    private String fileToString(MultipartFile multipartFile) throws IOException {
+        File file = new File(multipartFile.getOriginalFilename());
+        Files.write(ByteStreams.toByteArray(multipartFile.getInputStream()), file);
+        String text = ParserUtils.pdfFileToString(file);
+        file.delete();
+        return text;
+    }
+
+    private void startProcessing(FileSheet<Group> parser) {
+        LocalDate nowMock = LocalDate.now();
         ex.submit(() -> {
             try {
                 int i = 1;
@@ -61,7 +85,7 @@ public class UploadServiceImpl implements UploadService {
                         LOG.info("Deleting from {} with anchor {}", nowMock, anchor);
                         circumstanceService.deleteWithGroupAfter(anchor, nowMock);
                     } else {
-                        LOG.info("Not Found with anchor {}", anchor);
+                        LOG.info("Not Found with anchor {}", parser.getCurrent().getAnchor().getName());
                     }
                     service.saveAll(parser.parse());
                     service.flush();
@@ -71,24 +95,5 @@ public class UploadServiceImpl implements UploadService {
                 LOG.error("Exception in upload executor service", e);
             }
         });
-
-        return parser.getTotal();
     }
-
-    @Override
-    public Integer upload(MultipartFile multipartFile) throws IOException {
-        File file = new File(multipartFile.getOriginalFilename());
-        Files.write(ByteStreams.toByteArray(multipartFile.getInputStream()), file);
-        String text = ParserUtils.pdfFileToString(file);
-        Integer upload = upload(text);
-        file.delete();
-        return upload;
-    }
-
-    @PreDestroy
-    public void destroy() {
-        ex.shutdownNow();
-    }
-
-
 }

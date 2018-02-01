@@ -8,7 +8,7 @@ import java.io.IOException;
 @Service
 public interface UploadService {
 
-    Integer upload(String string);
-
     Integer upload(MultipartFile multipartFile) throws IOException;
+
+    Integer upload(MultipartFile multipartFile, Integer year) throws IOException;
 }

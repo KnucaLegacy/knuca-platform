@@ -23,10 +23,16 @@ public class UploadController {
     }
 
     @PostMapping
-    public ResponseEntity uploadPdf(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity uploadPdf(@RequestParam("file") MultipartFile file, @RequestParam Integer year) throws IOException {
         if (!file.getOriginalFilename().matches(".*\\.(pdf)|(PDF)$")) {
             throw new RuntimeException("File is not pdf format.");
         }
-        return ResponseEntity.ok().body(service.upload(file) + " sheets from " + file.getOriginalFilename() + " accepted on proceeding");
+        Integer upload;
+        if (year != null) {
+            upload = service.upload(file, year);
+        } else {
+            upload = service.upload(file);
+        }
+        return ResponseEntity.ok().body(upload + " sheets from " + file.getOriginalFilename() + " accepted on proceeding");
     }
 }

@@ -10,8 +10,22 @@
 <div>
     <form method="POST" enctype="multipart/form-data" action="/upload">
         <table>
-            <tr><td>Pdf file to upload:</td><td><input type="file" name="file" /></td></tr>
-            <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+            <tr>
+                <td>
+                    Pdf year
+                    <input type="text" value="" name="year" />
+                </td>
+                <td>Pdf file to upload:</td>
+                <td>
+                    <input type="file" name="file" />
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="Upload" />
+                </td>
+            </tr>
         </table>
     </form>
 </div>
