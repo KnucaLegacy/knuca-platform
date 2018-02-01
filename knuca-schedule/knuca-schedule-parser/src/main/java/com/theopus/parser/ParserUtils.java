@@ -41,10 +41,12 @@ public class ParserUtils {
         Date dayOfWeek = null;
         try {
             String s = dow.toLowerCase().replaceAll("i", "і");
-            dayOfWeek = (Date) dayOfWeekFormat.parseObject(s);
+            if (s.matches("п.ятниця")) {
+                return DayOfWeek.FRIDAY;
+            }
+            dayOfWeek = (Date) dayOfWeekFormat.parse(s);
         } catch (ParseException e) {
-            //TODO hadle.
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return dayOfWeek
                 .toInstant()
