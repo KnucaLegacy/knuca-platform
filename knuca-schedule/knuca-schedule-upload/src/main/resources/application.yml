@@ -1,7 +1,6 @@
 server:
   port: 8090
 spring:
-
   datasource:
     url: jdbc:mysql://localhost:3306/knuca?useUnicode=true&characterEncoding=utf8
     username: root
