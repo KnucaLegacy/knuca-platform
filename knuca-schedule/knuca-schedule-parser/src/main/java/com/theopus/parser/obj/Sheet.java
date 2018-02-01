@@ -107,6 +107,15 @@ public abstract class Sheet<T> {
         return this;
     }
 
+    public Sheet<T> prepare(String content, Integer year) {
+        this.content = content;
+        this.sheetYear = year;
+        this.initFormatter();
+        this.table.prepare(content);
+        this.anchor = parseAnchor();
+        return this;
+    }
+
     public void initFormatter() {
         this.dateTimeFormat = new DateTimeFormatterBuilder()
                 .appendPattern("d.MM")
@@ -148,6 +157,7 @@ public abstract class Sheet<T> {
             if (parse.getMonthValue() < 3) {
                 parse = parse.plusYears(1);
             }
+
         } else {
             if (parse.getMonthValue() >= 8) {
                 parent.setAutumn(true);

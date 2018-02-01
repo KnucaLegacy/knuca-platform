@@ -50,7 +50,7 @@ public class FileSheetTest {
     public void fullFileParseTest() throws Exception {
         StringBuilder text = null;
 
-        try (Stream<Path> paths = Files.walk(Paths.get("src/test/resources/pdfs/full"))) {
+        try (Stream<Path> paths = Files.walk(Paths.get("src/test/resources/pdfs/full/small"))) {
             Set<Path> collect = paths
                     .filter(path -> Files.isRegularFile(path)).collect(Collectors.toSet());
             for (Path path : collect) {
@@ -100,6 +100,121 @@ public class FileSheetTest {
                         )
                 );
         sheet.prepare(text.toString()).parseAll();
-        assertTrue(validator.getErrorCount() < 5);
+        System.out.println(validator.hitCount());
+        assertTrue(validator.hitCount() >= 96d);
+    }
+
+
+    @Test
+    public void fullFileParseTest_big_file() throws Exception {
+        StringBuilder text = null;
+
+        try (Stream<Path> paths = Files.walk(Paths.get("src/test/resources/pdfs/full/big"))) {
+            Set<Path> collect = paths
+                    .filter(path -> Files.isRegularFile(path)).collect(Collectors.toSet());
+            for (Path path : collect) {
+                try (PDDocument document = PDDocument.load(new File(path.toString()))) {
+
+                    document.getClass();
+
+                    if (!document.isEncrypted()) {
+
+                        PDFTextStripperByArea stripper = new PDFTextStripperByArea();
+                        stripper.setSortByPosition(true);
+                        PDFTextStripper tStripper = new PDFTextStripper();
+
+                        text = new StringBuilder(text + tStripper.getText(document) + "\n");
+
+                    }
+                    document.close();
+                }
+            }
+        }
+
+        Validator validator = new Validator();
+        FileSheet<Group> sheet = FileSheet.<Group>create()
+                .delimiter(Patterns.Sheet.SHEET_DELIMITER)
+                .build()
+                .child(GroupSheet.<Group>createGroupSheet()
+                        .deafultTableBound()
+                        .defaultPatterns()
+                        .anchorPattern(Patterns.Sheet.EXACT_GROUP_PATTERN)
+                        .table(new SimpleTable().defaultPatternsMap())
+                        .build()
+                        .validator(validator)
+                        .child(DaySheet.<Group>create()
+                                .defaultPatterns()
+                                .build()
+                                .child(LessonLines.createGroupLine()
+                                        .defaultPatterns()
+                                        .orderPatterns("src/main/resources/parser-lessonorder.properties")
+                                        .build()
+                                        .child(RoomDateBrackets.create()
+                                                .defaultPatterns()
+                                                .build()
+                                        )
+                                )
+                        )
+                );
+        sheet.prepare(text.toString(), 2017).parseAll();
+        System.out.println(validator.hitCount());
+        assertTrue(validator.hitCount() >= 96d);
+    }
+
+
+    @Test
+    public void fullFileParseTest_small_files() throws Exception {
+        StringBuilder text = null;
+
+        try (Stream<Path> paths = Files.walk(Paths.get("src/test/resources/pdfs/full/xsmall"))) {
+            Set<Path> collect = paths
+                    .filter(path -> Files.isRegularFile(path)).collect(Collectors.toSet());
+            for (Path path : collect) {
+                try (PDDocument document = PDDocument.load(new File(path.toString()))) {
+
+                    document.getClass();
+
+                    if (!document.isEncrypted()) {
+
+                        PDFTextStripperByArea stripper = new PDFTextStripperByArea();
+                        stripper.setSortByPosition(true);
+                        PDFTextStripper tStripper = new PDFTextStripper();
+
+                        text = new StringBuilder(text + tStripper.getText(document) + "\n");
+
+                    }
+                    document.close();
+                }
+            }
+        }
+
+        Validator validator = new Validator();
+        FileSheet<Group> sheet = FileSheet.<Group>create()
+                .delimiter(Patterns.Sheet.SHEET_DELIMITER)
+                .build()
+                .child(GroupSheet.<Group>createGroupSheet()
+                        .deafultTableBound()
+                        .defaultPatterns()
+                        .anchorPattern(Patterns.Sheet.EXACT_GROUP_PATTERN)
+                        .table(new SimpleTable().defaultPatternsMap())
+                        .build()
+                        .validator(validator)
+                        .child(DaySheet.<Group>create()
+                                .defaultPatterns()
+                                .build()
+                                .child(LessonLines.createGroupLine()
+                                        .defaultPatterns()
+                                        .orderPatterns("src/main/resources/parser-lessonorder.properties")
+                                        .build()
+                                        .child(RoomDateBrackets.create()
+                                                .defaultPatterns()
+                                                .build()
+                                        )
+                                )
+                        )
+                );
+        sheet.prepare(text.toString()).parseAll();
+        System.out.println(validator.hitCount());
+        assertTrue(validator.hitCount() >= 96d);
     }
 }

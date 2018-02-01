@@ -6,6 +6,10 @@ server:
       minThreads: 10
       idleTimeout: 30000
 spring:
+  http:
+    multipart:
+      max-file-size: 12MB
+      max-request-size: 12MB
   profiles.active: upload
   datasource:
     url: jdbc:mysql://10.132.0.2:3306/knuca?useUnicode=true&characterEncoding=utf8

@@ -26,17 +26,18 @@ public class Validator {
             if (!Sets.symmetricDifference(result, tableEntries).isEmpty()) {
                 LOG.error(
                         "{} \n " +
-                        "{} \n " +
-                        "{} \n " +
-                        "{} \n " +
-                        "{} \n " +
-                        "{} \n",
+                                "{} \n " +
+                                "{} \n " +
+                                "{} \n " +
+                                "{} \n " +
+                                "{} \n",
                         localDate,
                         tableEntries,
                         result,
                         curriculums,
                         table.getDaysMap(),
-                        table.getParent().getContent());
+                        table.getParent().getContent()
+                );
                 errorCount++;
             }
         });
@@ -59,5 +60,9 @@ public class Validator {
         this.parent = sheet;
         this.errorCount = 0;
         return this;
+    }
+
+    public float hitCount() {
+        return 100 - getErrorCount() / ((parent.getParent().getPosition() + 1) / 100f);
     }
 }

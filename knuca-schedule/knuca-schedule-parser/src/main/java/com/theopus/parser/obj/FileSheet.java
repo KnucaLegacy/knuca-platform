@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,6 +22,7 @@ public class FileSheet<T> {
     private List<String> sheets;
     private DateTimeFormatter dateTimeFormat;
     private boolean autumn;
+    private Integer definedYear;
 
     public FileSheet() {
 
@@ -35,7 +37,11 @@ public class FileSheet<T> {
     }
 
     public List<Curriculum> parse() {
-        child.prepare(sheets.get(position++));
+        if (!Objects.isNull(definedYear) && definedYear >= 2016) {
+            child.prepare(sheets.get(position++), definedYear);
+        } else {
+            child.prepare(sheets.get(position++));
+        }
         return child.parse();
     }
 
@@ -66,10 +72,22 @@ public class FileSheet<T> {
         return this;
     }
 
+    public FileSheet<T> prepare(String fullFile, Integer definedYear) {
+        this.definedYear = definedYear;
+        this.position = 0;
+        this.fullFile = ParserUtils.replaceEngToUkr(fullFile);
+        sheets = splitToSheets();
+        return this;
+    }
+
     public FileSheet<T> child(Sheet<T> sheet) {
         this.child = sheet;
         sheet.parent(this);
         return this;
+    }
+
+    public int getPosition() {
+        return position;
     }
 
     public static <T> FileSheet<T>.Builder create() {

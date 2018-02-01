@@ -16,10 +16,12 @@ public class Patterns {
 
     public static final class LessonLine {
         public static final String LAB = "\\(лаб.*\\)";
-        public static final String PRACT = "\\(пра.*\\)";
+        public static final String PRACT = "\\(практ\\..*\\)";
         public static final String LECTURE = "\\(лек.*\\)";
+        public static final String LECTURE_2 = "\\(практикум\\)";
         public static final String EXAM = "\\(екз.*\\)";
-        public static final String CONSULTATION = "";
+        public static final String CONSULTATION = "\\(конс.*\\)";
+        public static final String INDIVIDUAL = "\\(сам.*\\)";
         public static final String FACULTY = "\\((факу.*)|(інд\\.роб\\.)\\)";
         public static final String TEACHER = "\\b((([^.,\\s\\d\\p{Punct}]{2,5}.)?" +
                 "[^.,\\s\\d\\p{Punct}]{2,4}\\.)|[^.,\\d\\s]{3,}\\.)\\s[^.,\\s\\d]+(\\s[^.,\\d\\s]\\.)?" +

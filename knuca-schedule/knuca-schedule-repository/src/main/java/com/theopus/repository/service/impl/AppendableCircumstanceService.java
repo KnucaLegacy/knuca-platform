@@ -57,7 +57,7 @@ public class AppendableCircumstanceService implements CircumstanceService {
         List<Circumstance> circumstances = withGroup(group);
 
         return circumstances.stream().peek(circumstance -> circumstance.setDates(circumstance.getDates()
-                .stream().filter(localDate1 -> localDate1.isBefore(localDate)).peek(System.out::println).collect(Collectors.toSet())))
+                .stream().filter(localDate1 -> localDate1.isBefore(localDate)).collect(Collectors.toSet())))
                 .map(circumstanceRepository::save)
                 .count();
     }

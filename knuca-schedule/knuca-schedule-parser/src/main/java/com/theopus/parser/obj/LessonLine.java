@@ -26,7 +26,10 @@ public abstract class LessonLine {
     private Pattern practPattern;
     private Pattern labPattern;
     private Pattern lecPattern;
+    private Pattern labPattern2;
     private Pattern facPattern;
+    private Pattern consPattern;
+    private Pattern indPattern;
     private Pattern exPattern;
 
     private Pattern teacherPattern;
@@ -85,17 +88,21 @@ public abstract class LessonLine {
     }
 
     protected LessonType parseLessonType() {
-        Matcher m = practPattern.matcher(line.toLowerCase());
+        Matcher m = lecPattern.matcher(line.toLowerCase());
+        if (m.find()) {
+            return LessonType.LECTURE;
+        }
+        m = practPattern.matcher(line.toLowerCase());
         if (m.find()) {
             return LessonType.PRACTICE;
+        }
+        m = labPattern2.matcher(line.toLowerCase());
+        if (m.find()) {
+            return LessonType.LAB;
         }
         m = labPattern.matcher(line.toLowerCase());
         if (m.find()) {
             return LessonType.LAB;
-        }
-        m = lecPattern.matcher(line.toLowerCase());
-        if (m.find()) {
-            return LessonType.LECTURE;
         }
         m = facPattern.matcher(line.toLowerCase());
         if (m.find()) {
@@ -104,6 +111,14 @@ public abstract class LessonLine {
         m = exPattern.matcher(line.toLowerCase());
         if (m.find()) {
             return LessonType.EXAM;
+        }
+        m = consPattern.matcher(line.toLowerCase());
+        if (m.find()) {
+            return LessonType.CONSULTATION;
+        }
+        m = indPattern.matcher(line.toLowerCase());
+        if (m.find()) {
+            return LessonType.INDIVIDUAL;
         }
         throw new IllegalPdfException("Lesson line '" + line + "' does not have lesson type." + "Parent: " + parent);
     }
@@ -160,8 +175,11 @@ public abstract class LessonLine {
             practPattern = Pattern.compile(Patterns.LessonLine.PRACT, Pattern.DOTALL | Pattern.MULTILINE);
             labPattern = Pattern.compile(Patterns.LessonLine.LAB, Pattern.DOTALL | Pattern.MULTILINE);
             lecPattern = Pattern.compile(Patterns.LessonLine.LECTURE, Pattern.DOTALL | Pattern.MULTILINE);
+            labPattern2 = Pattern.compile(Patterns.LessonLine.LECTURE_2, Pattern.DOTALL | Pattern.MULTILINE);
             facPattern = Pattern.compile(Patterns.LessonLine.FACULTY, Pattern.DOTALL | Pattern.MULTILINE);
+            consPattern = Pattern.compile(Patterns.LessonLine.CONSULTATION, Pattern.DOTALL | Pattern.MULTILINE);
             teacherPattern = Pattern.compile(Patterns.LessonLine.TEACHER, Pattern.DOTALL | Pattern.MULTILINE);
+            indPattern = Pattern.compile(Patterns.LessonLine.INDIVIDUAL, Pattern.DOTALL | Pattern.MULTILINE);
             exPattern = Pattern.compile(Patterns.LessonLine.EXAM, Pattern.DOTALL | Pattern.MULTILINE);
             return this;
         }

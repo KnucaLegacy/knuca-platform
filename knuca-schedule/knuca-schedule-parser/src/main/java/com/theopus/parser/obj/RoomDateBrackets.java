@@ -158,8 +158,6 @@ public class RoomDateBrackets {
     private Pattern weekSkipPattern;
     private String toDelimiter;
 
-    private DateTimeFormatter dateTimeFormat;
-
     class Bracket {
         private Room room;
         private Set<LocalDate> dates;
@@ -205,7 +203,8 @@ public class RoomDateBrackets {
             Set<LocalDate> localDates = new HashSet<>();
             Matcher matcher = singleDatePattern.matcher(bracketContent);
             while (matcher.find()) {
-                localDates.add(LocalDate.parse(matcher.group(3), dateTimeFormat));
+
+                localDates.add(convert(matcher.group(3)));
             }
             return localDates;
         }
@@ -292,10 +291,6 @@ public class RoomDateBrackets {
     public RoomDateBrackets prepare(String rightSplit, LessonOrder lessonOrder) {
         this.rightSplit = rightSplit;
         this.lessonOrder = lessonOrder;
-        this.dateTimeFormat = new DateTimeFormatterBuilder()
-                .appendPattern("d.MM")
-                .parseDefaulting(ChronoField.YEAR, parent.getParent().getParent().getSheetYear())
-                .toFormatter();
         return this;
     }
 

@@ -28,7 +28,9 @@ public class SimpleTable implements Table {
 
     @Override
     public SimpleTable prepare(String content) {
-        this.daysMap = parseToDays(parseTable(content));
+        String table = parseTable(content);
+
+        this.daysMap = parseToDays(table);
         return this;
     }
 
@@ -121,6 +123,8 @@ public class SimpleTable implements Table {
     public SimpleTable defaultPatternsMap() {
         this.lessonTypeMap = new HashMap<>();
         lessonTypeMap.put("Л", LessonType.LECTURE);
+        lessonTypeMap.put("К", LessonType.CONSULTATION);
+        lessonTypeMap.put("С", LessonType.INDIVIDUAL);
         lessonTypeMap.put("л", LessonType.LAB);
         lessonTypeMap.put("П", LessonType.PRACTICE);
         lessonTypeMap.put("Ф", LessonType.FACULTY);
