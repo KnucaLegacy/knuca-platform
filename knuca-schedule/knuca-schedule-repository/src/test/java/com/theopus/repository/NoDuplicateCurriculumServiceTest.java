@@ -10,7 +10,6 @@ import com.theopus.repository.jparepo.*;
 import com.theopus.repository.service.CourseService;
 import com.theopus.repository.service.CurriculumService;
 import com.theopus.repository.service.GroupService;
-import com.theopus.repository.specification.GroupSpecification;
 import com.theopus.repository.specification.RoomSpecification;
 import com.theopus.repository.specification.TeacherSpecification;
 import org.junit.After;
@@ -23,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -305,7 +303,7 @@ public class NoDuplicateCurriculumServiceTest {
         String test_subject_1 = "test_subject_1";
         LessonType lessonType = LessonType.CONSULTATION;
         LessonOrder lessonOrder1 = LessonOrder.FIFTH;
-        LessonOrder lessonOrder2 = LessonOrder.FORTH;
+        LessonOrder lessonOrder2 = LessonOrder.FOURTH;
         String test_room_1 = "test_room_1";
         String test_group_1 = "test_group_1";
 
@@ -356,7 +354,7 @@ public class NoDuplicateCurriculumServiceTest {
         String test_subject_1 = "test_subject_1";
         LessonType lessonType = LessonType.CONSULTATION;
         LessonOrder lessonOrder1 = LessonOrder.FIFTH;
-        LessonOrder lessonOrder2 = LessonOrder.FORTH;
+        LessonOrder lessonOrder2 = LessonOrder.FOURTH;
         String test_room_1 = "test_room_1";
         String test_group_1 = "test_group_1";
         String test_group_2 = "test_group_2";
@@ -403,7 +401,7 @@ public class NoDuplicateCurriculumServiceTest {
         String test_subject_1 = "test_subject_1";
         LessonType lessonType = LessonType.CONSULTATION;
         LessonOrder lessonOrder1 = LessonOrder.FIFTH;
-        LessonOrder lessonOrder2 = LessonOrder.FORTH;
+        LessonOrder lessonOrder2 = LessonOrder.FOURTH;
         String test_room_1 = "test_room_1";
         String test_room_2 = "test_room_2";
         String test_group_1 = "test_group_1";

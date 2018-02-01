@@ -8,7 +8,7 @@ public enum LessonOrder {
     FIRST,
     SECOND,
     THIRD,
-    FORTH,
+    FOURTH,
     FIFTH,
     SIXTH,
     SEVENTH,

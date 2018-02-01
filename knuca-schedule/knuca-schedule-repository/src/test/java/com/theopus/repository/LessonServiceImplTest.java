@@ -14,7 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -85,7 +84,7 @@ public class LessonServiceImplTest {
         LessonType lessonType = LessonType.CONSULTATION;
         LessonOrder lessonOrder1 = LessonOrder.FIFTH;
         LessonOrder lessonOrder1_5 = LessonOrder.SECOND;
-        LessonOrder lessonOrder2 = LessonOrder.FORTH;
+        LessonOrder lessonOrder2 = LessonOrder.FOURTH;
         String test_room_1 = "test_room_1";
         String test_room_2 = "test_room_2";
         String test_group_1 = "test_group_1";
@@ -163,7 +162,7 @@ public class LessonServiceImplTest {
         String test_subject_1 = "test_subject_1";
         LessonType lessonType = LessonType.CONSULTATION;
         LessonOrder lessonOrder1 = LessonOrder.FIFTH;
-        LessonOrder lessonOrder2 = LessonOrder.FORTH;
+        LessonOrder lessonOrder2 = LessonOrder.FOURTH;
         String test_room_1 = "test_room_1";
         String test_group_1 = "test_group_1";
         String test_group_2 = "test_group_2";
@@ -233,7 +232,7 @@ public class LessonServiceImplTest {
         String test_subject_1 = "test_subject_1";
         LessonType lessonType = LessonType.CONSULTATION;
         LessonOrder lessonOrder1 = LessonOrder.FIFTH;
-        LessonOrder lessonOrder2 = LessonOrder.FORTH;
+        LessonOrder lessonOrder2 = LessonOrder.FOURTH;
         LessonOrder lessonOrder1_5 = LessonOrder.FIRST;
         String test_room_1 = "test_room_1";
         String test_group_1 = "test_group_1";
@@ -309,7 +308,7 @@ public class LessonServiceImplTest {
         LessonType lessonType = LessonType.CONSULTATION;
         LessonOrder lessonOrder1 = LessonOrder.FIFTH;
         LessonOrder lessonOrder1_5 = LessonOrder.SECOND;
-        LessonOrder lessonOrder2 = LessonOrder.FORTH;
+        LessonOrder lessonOrder2 = LessonOrder.FOURTH;
         String test_room_1 = "test_room_1";
         String test_room_2 = "test_room_2";
         String test_group_1 = "test_group_1";
@@ -398,7 +397,7 @@ public class LessonServiceImplTest {
         LessonType lessonType = LessonType.CONSULTATION;
         LessonOrder lessonOrder1 = LessonOrder.FIFTH;
         LessonOrder lessonOrder1_5 = LessonOrder.SECOND;
-        LessonOrder lessonOrder2 = LessonOrder.FORTH;
+        LessonOrder lessonOrder2 = LessonOrder.FOURTH;
         String test_room_1 = "test_room_1";
         String test_group_1 = "test_group_1";
         String test_group_2 = "test_group_2";
@@ -502,7 +501,7 @@ public class LessonServiceImplTest {
         String test_subject_1 = "test_subject_1";
         LessonType lessonType = LessonType.CONSULTATION;
         LessonOrder lessonOrder1 = LessonOrder.FIFTH;
-        LessonOrder lessonOrder2 = LessonOrder.FORTH;
+        LessonOrder lessonOrder2 = LessonOrder.FOURTH;
         LessonOrder lessonOrder1_5 = LessonOrder.FIRST;
         String test_room_1 = "test_room_1";
         String test_group_1 = "test_group_1";

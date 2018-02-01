@@ -26,7 +26,7 @@ task runnerStartScript(type: CreateStartScripts) {
     outputDir = startScripts.outputDir
     mainClassName = 'com.theopus.upload.UploadRunner'
     applicationName = 'knuca-uploader'
-    defaultJvmOpts = ["-Xmx256m", "-Xms128m", "-Dspring.config.location=../conf/knuca-upload.yml"]
+    defaultJvmOpts = ["-Xmx521m", "-Xms128m", "-Dspring.config.location=../conf/knuca-upload.yml"]
 }
 
 task uploaderStartScript(type: CreateStartScripts) {
@@ -35,7 +35,7 @@ task uploaderStartScript(type: CreateStartScripts) {
     outputDir = startScripts.outputDir
     mainClassName = 'com.theopus.restservice.RestRunner'
     applicationName = 'knuca-rest'
-    defaultJvmOpts = ["-Xmx256m", "-Xms128m", "-Dspring.config.location=../conf/knuca-rest.yml"]
+    defaultJvmOpts = ["-Xmx521m", "-Xms128m", "-Dspring.config.location=../conf/knuca-rest.yml"]
 }
 
 applicationDistribution.into("bin") {

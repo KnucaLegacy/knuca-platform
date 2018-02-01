@@ -20,7 +20,7 @@ public class LessonLineParserTest {
 
     private String line1 = "13:50 Архiтектурне проектування (Практ.з.); [ ауд.305<C>] ас. Коляда Т.С.,\n " +
             "      доц. Кузьмiна Г.В., ас. Козакова О.М. ";
-    private LessonOrder lo1 = LessonOrder.FORTH;
+    private LessonOrder lo1 = LessonOrder.FOURTH;
     private LessonType lt1 = LessonType.PRACTICE;
     private String Fname1 = "доц. Кузьмiна Г.В.";
     private String Sname1 = "ас. Козакова О.М.";

@@ -29,7 +29,7 @@ public class Parser {
                                                 .put("9:00", LessonOrder.FIRST)
                                                 .put("10:30", LessonOrder.SECOND)
                                                 .put("12:20", LessonOrder.THIRD)
-                                                .put("13:50", LessonOrder.FORTH)
+                                                .put("13:50", LessonOrder.FOURTH)
                                                 .put("15:20", LessonOrder.FIFTH)
                                                 .put("16:50", LessonOrder.SIXTH)
                                                 .put("18:20", LessonOrder.SEVENTH)
