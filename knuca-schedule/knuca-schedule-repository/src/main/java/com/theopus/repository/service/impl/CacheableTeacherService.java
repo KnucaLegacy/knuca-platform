@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 public class CacheableTeacherService implements TeacherService {
 
@@ -69,8 +70,7 @@ public class CacheableTeacherService implements TeacherService {
 
     @Override
     public Teacher get(Long id) {
-        Teacher one = repository.getOne(id);
-        return one;
+        return repository.findOne(id);
     }
 
     @CacheEvict(value = "teachers", allEntries = true)

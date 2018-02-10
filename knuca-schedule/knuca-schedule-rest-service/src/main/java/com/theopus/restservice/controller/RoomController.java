@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/rooms")
@@ -29,6 +31,10 @@ public class RoomController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Room> byId(@PathVariable Long id) {
-        return ResponseEntity.ok(service.get(id));
+        Room room = service.get(id);
+        if (Objects.isNull(room)) {
+            throw new EntityNotFoundException("Not found Room with id " + id);
+        }
+        return ResponseEntity.ok(room);
     }
 }

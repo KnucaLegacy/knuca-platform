@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public class CacheableRoomService implements RoomService {
 
@@ -54,7 +55,7 @@ public class CacheableRoomService implements RoomService {
 
     @Override
     public Room get(Long id) {
-        return repository.getOne(id);
+        return repository.findOne(id);
     }
 
     @CacheEvict(value = "rooms", allEntries = true)

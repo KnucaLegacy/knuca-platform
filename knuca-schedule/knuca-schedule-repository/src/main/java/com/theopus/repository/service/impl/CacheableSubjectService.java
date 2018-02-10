@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class CacheableSubjectService implements SubjectService {
@@ -56,7 +57,7 @@ public class CacheableSubjectService implements SubjectService {
 
     @Override
     public Subject get(Long id) {
-        return repository.getOne(id);
+        return repository.findOne(id);
     }
 
     @CacheEvict(value = "subjects", allEntries = true)

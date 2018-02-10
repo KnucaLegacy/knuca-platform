@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public class CacheableGroupService implements GroupService {
 
@@ -54,9 +55,8 @@ public class CacheableGroupService implements GroupService {
     }
 
     @Override
-    @Transactional
     public Group get(Long id) {
-        return repository.getOne(id);
+        return repository.findOne(id);
     }
 
     @Override
