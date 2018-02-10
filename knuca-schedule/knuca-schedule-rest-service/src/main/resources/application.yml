@@ -8,8 +8,8 @@ server:
 spring:
   http:
     multipart:
-      max-file-size: 12MB
-      max-request-size: 12MB
+      max-file-size: 64MB
+      max-request-size: 64MB
   profiles.active: upload
   datasource:
     url: jdbc:mysql://10.132.0.2:3306/knuca?useUnicode=true&characterEncoding=utf8
