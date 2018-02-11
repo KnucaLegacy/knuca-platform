@@ -9,25 +9,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
-import javax.persistence.EntityNotFoundException;
-import javax.servlet.ServletContext;
-
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -60,6 +50,22 @@ public class GroupControllerTest {
     }
 
     @Test
+    public void byId() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Group group = new Group("Group");
+        group.setId(1L);
+        when(mockGroupService.get(1L)).thenReturn(group);
+        MvcResult mvcResult = mockMvc.perform(get("/groups/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andReturn();
+
+        String actual = mvcResult.getResponse().getContentAsString();
+
+        assertEquals(objectMapper.writeValueAsString(group), actual);
+    }
+
+    @Test
     public void findAll() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         Group group1 = new Group("one");
@@ -76,8 +82,8 @@ public class GroupControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
-        String contentAsString = mvcResult.getResponse().getContentAsString();
+        String actual = mvcResult.getResponse().getContentAsString();
 
-        assertEquals(objectMapper.writeValueAsString(groups), contentAsString);
+        assertEquals(objectMapper.writeValueAsString(groups), actual);
     }
 }
