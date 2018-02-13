@@ -35,7 +35,7 @@ public class FileSheetTest {
 
     @Test
     public void splitToSheets() throws Exception {
-        sheet.prepare( ParserUtils.replaceEngToUkr(string));
+        sheet.prepare(ParserUtils.replaceEngToUkr(string));
         List<String> expected = Lists.newArrayList(
                 ParserUtils.replaceEngToUkr(new String(Files.readAllBytes(Paths.get("src/test/resources/pdfs/pt1_file_test.txt")), "UTF-8")),
                 ParserUtils.replaceEngToUkr(new String(Files.readAllBytes(Paths.get("src/test/resources/pdfs/pt2_file_test.txt")), "UTF-8")),
@@ -73,7 +73,6 @@ public class FileSheetTest {
         }
 
 
-
         Validator validator = new Validator();
         FileSheet<Group> sheet = FileSheet.<Group>create()
                 .delimiter(Patterns.Sheet.SHEET_DELIMITER)
@@ -107,27 +106,14 @@ public class FileSheetTest {
 
     @Test
     public void fullFileParseTest_big_file() throws Exception {
-        StringBuilder text = null;
+        StringBuilder text = new StringBuilder();
 
         try (Stream<Path> paths = Files.walk(Paths.get("src/test/resources/pdfs/full/big"))) {
             Set<Path> collect = paths
                     .filter(path -> Files.isRegularFile(path)).collect(Collectors.toSet());
             for (Path path : collect) {
-                try (PDDocument document = PDDocument.load(new File(path.toString()))) {
-
-                    document.getClass();
-
-                    if (!document.isEncrypted()) {
-
-                        PDFTextStripperByArea stripper = new PDFTextStripperByArea();
-                        stripper.setSortByPosition(true);
-                        PDFTextStripper tStripper = new PDFTextStripper();
-
-                        text = new StringBuilder(text + tStripper.getText(document) + "\n");
-
-                    }
-                    document.close();
-                }
+                PDDocument document = PDDocument.load(new File(path.toString()));
+                text.append(new PDFTextStripper().getText(document));
             }
         }
 
@@ -156,7 +142,7 @@ public class FileSheetTest {
                                 )
                         )
                 );
-        sheet.prepare(text.toString(), 2017).parseAll();
+        sheet.prepare(text.toString(), 2018).parseAll();
         System.out.println(validator.hitCount());
         assertTrue(validator.hitCount() >= 96d);
     }

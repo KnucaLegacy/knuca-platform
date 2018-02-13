@@ -67,21 +67,9 @@ public class ParserUtils {
             Set<Path> collect = paths
                     .filter(path -> Files.isRegularFile(path)).collect(Collectors.toSet());
             for (Path path : collect) {
-                try (PDDocument document = PDDocument.load(new File(path.toString()))) {
-
-                    document.getClass();
-
-                    if (!document.isEncrypted()) {
-
-                        PDFTextStripperByArea stripper = new PDFTextStripperByArea();
-                        stripper.setSortByPosition(true);
-                        PDFTextStripper pdfTextStripper = new PDFTextStripper();
-
-                        text = new StringBuilder(text + pdfTextStripper.getText(document) + "\n");
-
-                    }
-                    document.close();
-                }
+                PDDocument document = PDDocument.load(new File(path.toString()));
+                text.append(new PDFTextStripper().getText(document));
+                document.close();
             }
         }
         return text.toString();

@@ -66,7 +66,9 @@ public class SimpleTable implements Table {
         while (matcher.find()) {
             String group = matcher.group(1);
             map.put(convert, group);
-            if (Pattern.matches("[\\s\\d\\r\\n]", new StringBuilder().append(content.charAt(matcher.end() + 1)))) {
+            if (Pattern.matches("[\\s\\d\\r\\n]", new StringBuilder().append(content.charAt(matcher.end() + 1)))
+                    || Pattern.matches("[\\s\\d\\r\\n]", new StringBuilder().append(content.charAt(matcher.end() + 2)))
+                    || Pattern.matches("[\\s\\d\\r\\n]", new StringBuilder().append(content.charAt(matcher.end())))) {
                 convert = convert.plusDays(1);
             }
             convert = convert.plusDays(1);
