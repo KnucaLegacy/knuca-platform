@@ -1,6 +1,7 @@
 package com.theopus.parser.obj;
 
 import com.google.common.collect.Lists;
+import com.theopus.entity.schedule.Curriculum;
 import com.theopus.entity.schedule.Group;
 import com.theopus.parser.ParserUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -8,8 +9,8 @@ import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -144,6 +145,105 @@ public class FileSheetTest {
                 );
         sheet.prepare(text.toString(), 2018).parseAll();
         System.out.println(validator.hitCount());
+        assertTrue(validator.hitCount() >= 96d);
+    }
+
+    @Test
+    public void fullFileParseTest_file_msdosdoc() throws Exception {
+        String text = ParserUtils.msdosFileToString(new File("src/test/resources/doc/KEK-msdos.doc"));
+
+        Validator validator = new Validator();
+        FileSheet<Group> sheet = FileSheet.<Group>create()
+                .delimiter(Patterns.Sheet.SHEET_DELIMITER)
+                .build()
+                .child(GroupSheet.<Group>createGroupSheet()
+                        .deafultTableBound()
+                        .defaultPatterns()
+                        .anchorPattern(Patterns.Sheet.EXACT_GROUP_PATTERN)
+                        .table(new SimpleTable().defaultPatternsMap())
+                        .build()
+                        .validator(validator)
+                        .child(DaySheet.<Group>create()
+                                .defaultPatterns()
+                                .build()
+                                .child(LessonLines.createGroupLine()
+                                        .defaultPatterns()
+                                        .orderPatterns("src/main/resources/parser-lessonorder.properties")
+                                        .build()
+                                        .child(RoomDateBrackets.create()
+                                                .defaultPatterns()
+                                                .build()
+                                        )
+                                )
+                        )
+                );
+        List<Curriculum> curricula = sheet.prepare(text, 2018).parseAll();
+        assertTrue(validator.hitCount() >= 96d);
+    }
+
+    @Test
+    public void fullFileParseTest_file_doc() throws Exception {
+        String text = ParserUtils.docFileToString(new File("src/test/resources/doc/kek.doc"));
+
+        Validator validator = new Validator();
+        FileSheet<Group> sheet = FileSheet.<Group>create()
+                .delimiter(Patterns.Sheet.SHEET_DELIMITER)
+                .build()
+                .child(GroupSheet.<Group>createGroupSheet()
+                        .deafultTableBound()
+                        .defaultPatterns()
+                        .anchorPattern(Patterns.Sheet.EXACT_GROUP_PATTERN)
+                        .table(new SimpleTable().defaultPatternsMap())
+                        .build()
+                        .validator(validator)
+                        .child(DaySheet.<Group>create()
+                                .defaultPatterns()
+                                .build()
+                                .child(LessonLines.createGroupLine()
+                                        .defaultPatterns()
+                                        .orderPatterns("src/main/resources/parser-lessonorder.properties")
+                                        .build()
+                                        .child(RoomDateBrackets.create()
+                                                .defaultPatterns()
+                                                .build()
+                                        )
+                                )
+                        )
+                );
+        List<Curriculum> curricula = sheet.prepare(text, 2018).parseAll();
+        assertTrue(validator.hitCount() >= 96d);
+    }
+
+    @Test
+    public void fullFileParseTest_file_docx() throws Exception {
+        String text = ParserUtils.docxFileToString(new File("src/test/resources/doc/kek.docx"));
+
+        Validator validator = new Validator();
+        FileSheet<Group> sheet = FileSheet.<Group>create()
+                .delimiter(Patterns.Sheet.SHEET_DELIMITER)
+                .build()
+                .child(GroupSheet.<Group>createGroupSheet()
+                        .deafultTableBound()
+                        .defaultPatterns()
+                        .anchorPattern(Patterns.Sheet.EXACT_GROUP_PATTERN)
+                        .table(new SimpleTable().defaultPatternsMap())
+                        .build()
+                        .validator(validator)
+                        .child(DaySheet.<Group>create()
+                                .defaultPatterns()
+                                .build()
+                                .child(LessonLines.createGroupLine()
+                                        .defaultPatterns()
+                                        .orderPatterns("src/main/resources/parser-lessonorder.properties")
+                                        .build()
+                                        .child(RoomDateBrackets.create()
+                                                .defaultPatterns()
+                                                .build()
+                                        )
+                                )
+                        )
+                );
+        List<Curriculum> curricula = sheet.prepare(text, 2018).parseAll();
         assertTrue(validator.hitCount() >= 96d);
     }
 

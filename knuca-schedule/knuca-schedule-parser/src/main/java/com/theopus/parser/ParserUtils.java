@@ -4,9 +4,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.extractor.WordExtractor;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,9 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -93,5 +95,46 @@ public class ParserUtils {
         }
 
         return text.toString();
+    }
+
+    public static String docxFileToString(File file) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        FileInputStream fis = new FileInputStream(file.getAbsolutePath());
+        XWPFDocument document = new XWPFDocument(fis);
+        List<XWPFParagraph> fileData = document.getParagraphs();
+
+        for (XWPFParagraph filesData : fileData) {
+            if (filesData != null) {
+                builder.append(filesData.getText()).append("\n");
+            }
+        }
+        fis.close();
+        return builder.toString();
+    }
+
+    public static String docFileToString(File file) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        FileInputStream fis = new FileInputStream(file.getAbsolutePath());
+        HWPFDocument document = new HWPFDocument(fis);
+        WordExtractor extractor = new WordExtractor(document);
+        List<String> fileData = Arrays.asList(extractor.getParagraphText());
+
+        for (String filesData : fileData) {
+            if (filesData != null) {
+                builder.append(filesData).append("\n");
+            }
+        }
+        fis.close();
+        return builder.toString();
+    }
+
+    public static String msdosFileToString(File file) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), Charset.forName("IBM866")));
+        while (reader.ready()) {
+            builder.append(reader.readLine()).append("\n");
+        }
+        reader.close();
+        return builder.toString();
     }
 }
