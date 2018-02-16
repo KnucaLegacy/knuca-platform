@@ -1,0 +1,9 @@
+version '1.0'
+
+apply plugin: 'com.moowork.node'
+
+
+node {
+    download = true
+    distBaseUrl = 'https://nodejs.org/dist'
+}

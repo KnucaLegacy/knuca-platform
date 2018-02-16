@@ -5,12 +5,17 @@ buildscript {
         jUnitVersion = '4.12'
         lombokVersion = '1.16.18'
         swaggerVersion = '2.6.1'
+        gradleNodePlugin = '1.2.0'
     }
     repositories {
         mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath ("com.moowork.gradle:gradle-node-plugin:${gradleNodePlugin}")
     }
 }
 
@@ -44,6 +49,11 @@ applicationDistribution.into("bin") {
     from(uploaderStartScript)
     fileMode = 0755
 }
+
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile project(':knuca-schedule-rest-service')
     compile project(':knuca-schedule-upload')
@@ -117,7 +127,7 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-allprojects {
+configure(allprojects - project(':knuca-schedule-upload-fe')) {
 
     apply plugin: 'java'
     apply plugin: 'checkstyle'
