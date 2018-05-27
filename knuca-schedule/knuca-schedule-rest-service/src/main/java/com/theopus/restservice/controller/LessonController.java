@@ -48,11 +48,6 @@ public class LessonController {
         return ResponseEntity.ok(service.getByGroup(localDate, group(id)));
     }
 
-    @GetMapping("/week/group/{id}")
-    public ResponseEntity<Map<LocalDate, List<Lesson>>> byGroupAndDate(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getByGroup(week(LocalDate.now()), group(id)));
-    }
-
     @GetMapping("/teacher/{id}")
     public ResponseEntity<List<Lesson>> byTeacher(@PathVariable Long id) {
         return ResponseEntity.ok(service.getByTeacher(LocalDate.now(), teacher(id)));
@@ -61,11 +56,6 @@ public class LessonController {
     @GetMapping("/{yyyy-MM-dd}/teacher/{id}")
     public ResponseEntity<List<Lesson>> byTeacherAndDate(@PathVariable Long id, @PathVariable("yyyy-MM-dd") LocalDate localDate) {
         return ResponseEntity.ok(service.getByTeacher(localDate, teacher(id)));
-    }
-
-    @GetMapping("/week/teacher/{id}")
-    public ResponseEntity<Map<LocalDate, List<Lesson>>> byTeacherAndWeek(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getByTeacher(week(LocalDate.now()), teacher(id)));
     }
 
     @GetMapping("/room/{id}")
@@ -81,6 +71,34 @@ public class LessonController {
     @GetMapping("/week/room/{id}")
     public ResponseEntity<Map<LocalDate, List<Lesson>>> byRoomAndWeek(@PathVariable Long id) {
         return ResponseEntity.ok(service.getByRoom(week(LocalDate.now()), room(id)));
+    }
+
+    @GetMapping("/week/group/{id}")
+    public ResponseEntity<Map<LocalDate, List<Lesson>>> byGroupAndWeek(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getByGroup(week(LocalDate.now()), group(id)));
+    }
+
+    @GetMapping("/week/teacher/{id}")
+    public ResponseEntity<Map<LocalDate, List<Lesson>>> byTeacherAndWeek(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getByTeacher(week(LocalDate.now()), teacher(id)));
+    }
+
+    @GetMapping("/week/{offset}/room/{id}")
+    public ResponseEntity<Map<LocalDate, List<Lesson>>> byRoomAndWeekOffset(@PathVariable Integer offset,
+                                                                            @PathVariable Long id) {
+        return ResponseEntity.ok(service.getByRoom(week(LocalDate.now(), offset), room(id)));
+    }
+
+    @GetMapping("/week/{offset}/group/{id}")
+    public ResponseEntity<Map<LocalDate, List<Lesson>>> byGroupAndDateOffset(@PathVariable Integer offset,
+                                                                             @PathVariable Long id) {
+        return ResponseEntity.ok(service.getByGroup(week(LocalDate.now(), offset), group(id)));
+    }
+
+    @GetMapping("/week/{offset}/teacher/{id}")
+    public ResponseEntity<Map<LocalDate, List<Lesson>>> byTeacherAndWeekOffset(@PathVariable Integer offset,
+                                                                               @PathVariable Long id) {
+        return ResponseEntity.ok(service.getByTeacher(week(LocalDate.now(), offset), teacher(id)));
     }
 
     private Room room(Long id) {
@@ -108,7 +126,13 @@ public class LessonController {
     }
 
     private static Set<LocalDate> week(LocalDate localDate) {
-        return Arrays.stream(DayOfWeek.values()).map(localDate::with)
+        return week(localDate, 0);
+    }
+
+    private static Set<LocalDate> week(LocalDate localDate, int offset) {
+        LocalDate newDate = localDate.plusDays(7 * offset);
+        return Arrays.stream(DayOfWeek.values()).map(newDate::with)
                 .collect(Collectors.toSet());
     }
+
 }
