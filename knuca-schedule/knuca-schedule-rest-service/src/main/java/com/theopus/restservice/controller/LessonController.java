@@ -10,16 +10,15 @@ import com.theopus.repository.service.RoomService;
 import com.theopus.repository.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/lessons")
@@ -101,6 +100,30 @@ public class LessonController {
         return ResponseEntity.ok(service.getByTeacher(week(LocalDate.now(), offset), teacher(id)));
     }
 
+    @GetMapping("/range/room/{id}")
+    public ResponseEntity<Map<LocalDate, List<Lesson>>> byRoomAndRange(
+            @RequestParam(name = "from", required = true) LocalDate from,
+            @RequestParam(name = "fo", required = true) LocalDate to,
+            @PathVariable Long id) {
+        return ResponseEntity.ok(service.getByRoom(range(from, to), room(id)));
+    }
+
+    @GetMapping("/range/group/{id}")
+    public ResponseEntity<Map<LocalDate, List<Lesson>>> byGroupAndRange(
+            @RequestParam(name = "from", required = true) LocalDate from,
+            @RequestParam(name = "fo", required = true) LocalDate to,
+            @PathVariable Long id) {
+        return ResponseEntity.ok(service.getByGroup(range(from, to), group(id)));
+    }
+
+    @GetMapping("/range/teacher/{id}")
+    public ResponseEntity<Map<LocalDate, List<Lesson>>> byTeacherAndRange(
+            @RequestParam(name = "from", required = true) LocalDate from,
+            @RequestParam(name = "fo", required = true) LocalDate to,
+            @PathVariable Long id) {
+        return ResponseEntity.ok(service.getByTeacher(range(from, to), teacher(id)));
+    }
+
     private Room room(Long id) {
         Room room = roomService.get(id);
         if (Objects.isNull(room)) {
@@ -135,4 +158,10 @@ public class LessonController {
                 .collect(Collectors.toSet());
     }
 
+
+    private static Set<LocalDate> range(LocalDate from, LocalDate to) {
+        final int days = (int) from.until(to, ChronoUnit.DAYS);
+        return Stream.iterate(from, d -> d.plusDays(1))
+                .limit(days).collect(Collectors.toCollection(LinkedHashSet::new));
+    }
 }
