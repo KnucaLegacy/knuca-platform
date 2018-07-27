@@ -18,13 +18,13 @@ cache:
   
 before_script: 
   - cd knuca-schedule
+  - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
   
 jobs: 
   include: 
     - 
       stage: Build
-      name: "Java build"
-      before_script: docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+      name: "Build-Package"
       script: 
         - ./gradlew build
         - ./gradlew jacocoTestReport
