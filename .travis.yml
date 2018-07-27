@@ -16,6 +16,7 @@ cache:
 before_script:
   - cd knuca-schedule
   - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+  - gcloud auth activate-service-account --key-file travis-secret.json
 jobs:
   include:
   - 
@@ -39,9 +40,9 @@ before_install:
   - openssl aes-256-cbc -K $encrypted_77ea7f21850c_key -iv $encrypted_77ea7f21850c_iv
     -in credentials.tar.gz.enc -out credentials.tar.gz -d
   - wget -qO- https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-209.0.0-linux-x86_64.tar.gz | tar xvz
-  - ls
   - ls google-cloud-sdk
   - ./google-cloud-sdk/install.sh -q
   - tar -xzf credentials.tar.gz
   - mkdir -p lib
-  - gcloud auth activate-service-account --key-file client-secret.json
+  - ls
+  - ls credeintials
