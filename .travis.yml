@@ -9,9 +9,9 @@ services:
   - docker
     
 stages:
-  - build
-  - package
-  - deploy
+  - java-build
+  - docker-build
+  - gcp-deploy
 
 java-build: 
   stage: build
