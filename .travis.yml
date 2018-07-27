@@ -31,6 +31,10 @@ jobs:
         - ./gradlew dockerfile
         - ls
         - ls docker
+      addons:
+          artifacts:
+            paths:
+            - $TRAVIS_BUILD_DIR/knuca-schedule/docker
     - 
       stage: Package
       name: "Docker build"
