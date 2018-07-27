@@ -11,12 +11,21 @@ branches:
   - develop
 jdk:
 - oraclejdk8
-install: cd knuca-schedule \ && ./gradlew build
-after_success: ./gradlew dockerfile; docker login -u "$DOCKER_HUB_USERNAME" -p "$DOCKER_HUB_PASSWORD";
-  docker build -t knuca-image docker/.; docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER;
-  docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:latest; docker push $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER;
-  docker push $DOCKER_HUB_USERNAME/knuca-platform:latest; ./gradlew jacocoTestReport;
-  bash <(curl -s https://codecov.io/bash);
+install: 
+  - cd knuca-schedule \ && ./gradlew build
+script:
+  - ./gradlew dockerfile; docker login -u "$DOCKER_HUB_USERNAME" -p "$DOCKER_HUB_PASSWORD"
+  - docker build -t knuca-image docker/.; docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER
+  - docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:latest; docker push $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER
+  - docker push $DOCKER_HUB_USERNAME/knuca-platform:latest; ./gradlew jacocoTestReport
+  - bash <(curl -s https://codecov.io/bash)
+  - gcloud compute instances list
+  - echo ky
 before_install:
-- openssl aes-256-cbc -K $encrypted_1a2d88b1326f_key -iv $encrypted_1a2d88b1326f_iv
-  -in credentials.tar.gz.enc -out .credentials.tar.gz -d
+- openssl aes-256-cbc -K $encrypted_1a2d88b1326f_key -iv $encrypted_1a2d88b1326f_iv -in credentials.tar.gz.enc -out credentials.tar.gz -d
+- if [ ! -d ${HOME}/google-cloud-sdk ]; then
+     curl https://sdk.cloud.google.com | bash;
+  fi
+- tar -xzf credentials.tar.gz
+- mkdir -p lib
+- gcloud auth activate-service-account --key-file travis-secret.json
