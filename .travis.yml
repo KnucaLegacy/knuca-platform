@@ -10,9 +10,15 @@ stages:
   - "Package"
   - "Deploy"
   
+cache:
+  directories:
+  - .autoconf
+  - $HOME/.m2
+  - $TRAVIS_BUILD_DIR/knuca-schedule/.gradle
+  
 before_script: 
   - cd knuca-schedule
-
+  
 jobs: 
   include: 
     - 
