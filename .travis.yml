@@ -1,6 +1,3 @@
-language: java
-jdk:
-  - oraclejdk8
 env:
   global:
   - CODECOV_TOKEN=988bb1ee-29f3-46af-8b7d-7b6d08ee6256
@@ -9,9 +6,9 @@ services:
   - docker
     
 stages:
-  - java-build
-  - docker-build
-  - gcp-deploy
+  - build
+  - package
+  - deploy
 
 java-build: 
   stage: build
