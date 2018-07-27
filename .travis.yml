@@ -1,41 +1,34 @@
-env:
-  global:
-  - CODECOV_TOKEN=988bb1ee-29f3-46af-8b7d-7b6d08ee6256
+language: java
+  jdk:
+    - oraclejdk8
 sudo: required
-services:
-  - docker
-    
+  services:
+      - docker
+
 stages:
-  - build
-  - package
-  - deploy
+  - "Build"
+  - "Package"
+  - "Deploy"
 
-java-build: 
-  stage: build
-  branches:
-    only:
-    - master
-    - develop
-  script:
-    - cd knuca-schedule \ && ./gradlew build
-    - bash <(curl -s https://codecov.io/bash)
-    - ./gradlew dockerfile
+jobs:
+  include:
+    - stage: "Build"
+      name: "Java build"
+      script: cd knuca-schedule \ && ./gradlew build
+    - script: bash <(curl -s https://codecov.io/bash)
+      name: "Codecov publish"
+    - script: ./gradlew dockerfile
+      name: "Dockerfile generate"
 
-docker-build:
-  stage: package
-  branches:
-    only:
-    - master
-    - develop
-  script:
-  - docker login -u "$DOCKER_HUB_USERNAME" -p "$DOCKER_HUB_PASSWORD"
-  - docker build -t knuca-image docker/.; docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER
-  - docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:latest
-  - docker push $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER
-  - docker push $DOCKER_HUB_USERNAME/knuca-platform:latest; ./gradlew jacocoTestReport
+    - stage: "Package"
+      before_script: docker login -u "$DOCKER_HUB_USERNAME" -p "$DOCKER_HUB_PASSWORD"
+      name: "Docker build"
+      script: - docker build -t knuca-image docker/.; docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER
+    - script:
+      - docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:latest
+      - docker push $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER
+      - docker push $DOCKER_HUB_USERNAME/knuca-platform:latest; ./gradlew jacocoTestReport
+      name: "Docker publish"
 
-gcp-deploy:
-  stage: deploy
-  script: 
-    - ls
-  
+    - stage: "Deploy"
+      script: ls
