@@ -29,6 +29,8 @@ jobs:
         - ./gradlew jacocoTestReport
         - bash <(curl -s https://codecov.io/bash)
         - ./gradlew dockerfile
+        - ls
+        - ls docker
     - 
       stage: Package
       name: "Docker build"
