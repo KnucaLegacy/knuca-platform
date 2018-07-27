@@ -9,30 +9,26 @@ stages:
   - "Build"
   - "Package"
   - "Deploy"
+  
+before_script: cd knuca-schedule
 
 jobs: 
   include: 
     - 
-      name: "Java build"
-      script: "cd knuca-schedule \\ && ./gradlew build"
       stage: Build
-    - 
-      name: "Codecov publish"
-      script: "bash <(curl -s https://codecov.io/bash)"
-    - 
-      name: "Dockerfile generate"
-      script: "./gradlew dockerfile"
-    - 
-      before_script: "docker login -u \"$DOCKER_HUB_USERNAME\" -p \"$DOCKER_HUB_PASSWORD\""
-      name: "Docker build"
-      script: "docker build -t knuca-image docker/.; docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER"
-      stage: Package
-    - 
-      name: "Docker publish"
       script: 
+        - ./gradlew build
+        - bash <(curl -s https://codecov.io/bash)
+        - ./gradlew dockerfile
+    - 
+      stage: Package
+      before_script: "docker login -u \"$DOCKER_HUB_USERNAME\" -p \"$DOCKER_HUB_PASSWORD\""
+      script: 
+        - "docker build -t knuca-image docker/.; docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER"
         - "docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:latest"
         - "docker push $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER"
         - "docker push $DOCKER_HUB_USERNAME/knuca-platform:latest; ./gradlew jacocoTestReport"
     - 
-      script: ls
       stage: Deploy
+      script: ls
+      
