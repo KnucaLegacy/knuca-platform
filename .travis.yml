@@ -5,8 +5,7 @@ sudo: required
 services:
   - docker
 stages:
-  - Build
-  - Package
+#   - Build
   - Deploy
 cache:
   directories:
@@ -35,7 +34,10 @@ jobs:
   - 
     stage: Deploy
     name: GCP Deploy
-    script: gcloud compute instances list
+    script: 
+      - gcloud config set project spry-firefly-2067110
+      - gcloud compute instances list
+      - gcloud compute ssh knuca-rest
 before_install:
   - openssl aes-256-cbc -K $encrypted_77ea7f21850c_key -iv $encrypted_77ea7f21850c_iv
     -in credentials.tar.gz.enc -out credentials.tar.gz -d
