@@ -45,4 +45,3 @@ before_install:
   - tar -xzf credentials.tar.gz
   - mkdir -p lib
   - ls
-  - ls credeintials
