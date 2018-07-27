@@ -5,7 +5,7 @@ sudo: required
 services:
   - docker
 stages:
-  - Build
+#   - Build
   - Deploy
 cache:
   directories:
@@ -39,9 +39,9 @@ jobs:
       - gcloud compute instances list
       - gcloud compute ssh knuca-rest --zone europe-west1-b --force-key-file-overwrite -- "
         sudo docker ps && \
-        sudo docker rm -f knuca-rest || true && \
-        sudo docker pull theopus/knuca-platform && \
-        sudo docker run --name="knuca-rest" -d --net="host" theopus/knuca-platform && \
+        docker rm -f knuca-rest || true && \
+        docker pull theopus/knuca-platform && \
+        docker run --name="knuca-rest" -d --net="host" theopus/knuca-platform && \
         echo done"
 before_install:
   - openssl aes-256-cbc -K $encrypted_77ea7f21850c_key -iv $encrypted_77ea7f21850c_iv
