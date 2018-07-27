@@ -1,3 +1,13 @@
+language: java
+jdk:
+  - oraclejdk8
+env:
+  global:
+  - CODECOV_TOKEN=988bb1ee-29f3-46af-8b7d-7b6d08ee6256
+sudo: required
+services:
+  - docker
+    
 stages:
   - build
   - package
@@ -5,12 +15,6 @@ stages:
 
 java-build: 
   stage: build
-  language: java
-  jdk:
-    - oraclejdk8
-  env:
-    global:
-    - CODECOV_TOKEN=988bb1ee-29f3-46af-8b7d-7b6d08ee6256
   branches:
     only:
     - master
@@ -22,9 +26,10 @@ java-build:
 
 docker-build:
   stage: package
-  sudo: required
-  services:
-    - docker
+  branches:
+    only:
+    - master
+    - develop
   script:
   - docker login -u "$DOCKER_HUB_USERNAME" -p "$DOCKER_HUB_PASSWORD"
   - docker build -t knuca-image docker/.; docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER
