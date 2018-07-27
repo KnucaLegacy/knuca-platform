@@ -9,12 +9,6 @@ stages:
   - "Build"
   - "Package"
   - "Deploy"
-
-cache:
-  directories:
-  - .autoconf
-  - $HOME/.m2
-  - knuca-schedule/.gradle
   
 before_script: cd knuca-schedule
 
@@ -22,23 +16,18 @@ jobs:
   include: 
     - 
       stage: Build
-      name: "Java build"
       script: 
         - ./gradlew build
         - bash <(curl -s https://codecov.io/bash)
         - ./gradlew dockerfile
     - 
       stage: Package
-      name: "Docker build:
-      before_script: docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+      before_script: "docker login -u \"$DOCKER_HUB_USERNAME\" -p \"$DOCKER_HUB_PASSWORD\""
       script: 
-        -  docker build -t knuca-image docker/ .
-        -  docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER
-        -  docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:latest
-        -  docker push $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER
-        -  docker push $DOCKER_HUB_USERNAME/knuca-platform:latest
+        - "docker build -t knuca-image docker/.; docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER"
+        - "docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:latest"
+        - "docker push $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER"
+        - "docker push $DOCKER_HUB_USERNAME/knuca-platform:latest; ./gradlew jacocoTestReport"
     - 
       stage: Deploy
-      name: "GCP Deploy" 
       script: ls
-      
