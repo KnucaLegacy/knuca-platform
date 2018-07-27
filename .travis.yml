@@ -24,26 +24,12 @@ jobs:
     - 
       stage: Build
       name: "Java build"
+      before_script: docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
       script: 
         - ./gradlew build
         - ./gradlew jacocoTestReport
         - bash <(curl -s https://codecov.io/bash)
         - ./gradlew dockerfile
-        - ls
-        - ls docker
-      addons:
-          artifacts:
-            paths:
-            - $TRAVIS_BUILD_DIR/knuca-schedule/docker
-    - 
-      stage: Package
-      name: "Docker build"
-      before_script: 
-        - cd knuca-schedule
-        - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
-      script: 
-        - ls 
-        - ls docker
         - docker build -t knuca-image docker/.
         - docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER
         - docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:latest
