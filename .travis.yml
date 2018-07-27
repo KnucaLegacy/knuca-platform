@@ -16,7 +16,8 @@ cache:
 before_script:
   - cd knuca-schedule
   - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
-  - gcloud auth activate-service-account --key-file travis-secret.json
+  - ls $TRAVIS_BUILD_DIR
+  - gcloud auth activate-service-account --key-file $TRAVIS_BUILD_DIR/travis-secret.json
 jobs:
   include:
   - 
@@ -43,5 +44,3 @@ before_install:
   - ls google-cloud-sdk
   - ./google-cloud-sdk/install.sh -q
   - tar -xzf credentials.tar.gz
-  - mkdir -p lib
-  - ls
