@@ -1,42 +1,38 @@
 language: java
 jdk:
-    - oraclejdk8
+- oraclejdk8
 sudo: required
 services:
-      - docker
-
+- docker
 stages:
-  - "Build"
-  - "Package"
-  - "Deploy"
-  
+- Build
+- Package
+- Deploy
 cache:
   directories:
-  - .autoconf
-  - $HOME/.m2
-  - $HOME/.gradle
-  
-before_script: 
-  - cd knuca-schedule
-  - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
-  - openssl aes-256-cbc -K $encrypted_77ea7f21850c_key -iv $encrypted_77ea7f21850c_iv -in credentials.tar.gz.enc -out credentials.tar.gz -d
-  
-jobs: 
-  include: 
-    - 
-      stage: Build
-      name: "Build-Package"
-      script: 
-        - ./gradlew build
-        - ./gradlew jacocoTestReport
-        - bash <(curl -s https://codecov.io/bash)
-        - ./gradlew dockerfile
-        - docker build -t knuca-image docker/.
-        - docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER
-        - docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:latest
-        - docker push $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER
-        - docker push $DOCKER_HUB_USERNAME/knuca-platform:latest; 
-    - 
-      stage: Deploy
-      name: "GCP Deploy"
-      script: ls
+  - ".autoconf"
+  - "$HOME/.m2"
+  - "$HOME/.gradle"
+before_script:
+- cd knuca-schedule
+- docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+jobs:
+  include:
+  - stage: Build
+    name: Build-Package
+    script:
+    - "./gradlew build"
+    - "./gradlew jacocoTestReport"
+    - bash <(curl -s https://codecov.io/bash)
+    - "./gradlew dockerfile"
+    - docker build -t knuca-image docker/.
+    - docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER
+    - docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:latest
+    - docker push $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER
+    - docker push $DOCKER_HUB_USERNAME/knuca-platform:latest;
+  - stage: Deploy
+    name: GCP Deploy
+    script: ls
+before_install:
+- openssl aes-256-cbc -K $encrypted_77ea7f21850c_key -iv $encrypted_77ea7f21850c_iv
+  -in credentials.tar.gz.enc -out credentials.tar.gz -d
