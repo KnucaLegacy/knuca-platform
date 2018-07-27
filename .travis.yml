@@ -30,7 +30,8 @@ jobs:
         - cd knuca-schedule
         - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
       script: 
-        - docker build -t knuca-image docker/.; docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER
+        - docker build -t knuca-image docker/.
+        - docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER
         - docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:latest
         - docker push $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER
         - docker push $DOCKER_HUB_USERNAME/knuca-platform:latest; 
