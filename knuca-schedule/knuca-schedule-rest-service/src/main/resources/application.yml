@@ -39,6 +39,10 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
+  security.ignored: /**
+  spring.security.enabled: false
+  management.security.enabled: false
+  security.basic.enabled: false
 
 ---
 spring:
