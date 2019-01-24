@@ -1,5 +1,10 @@
 package com.theopus.upload.handling;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.theopus.parser.obj.Table;
 import com.theopus.parser.obj.ValidatorReport;
 import com.theopus.upload.entity.Report;
@@ -7,12 +12,6 @@ import com.theopus.upload.entity.UploadFile;
 import com.theopus.upload.entity.Violation;
 import com.theopus.upload.entity.ViolationEntry;
 import com.theopus.upload.repository.ReportRepo;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 public class ReportService {
 
@@ -63,7 +62,7 @@ public class ReportService {
         return all;
     }
 
-    public Report get(Long reportId){
+    public Report get(Long reportId) {
         return reportRepo.getOne(reportId);
     }
 }
