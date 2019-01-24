@@ -34,15 +34,12 @@ api:
 ---
 spring:
   profiles: prod
+  profiles.include: nosecure, upload
   datasource:
     url: jdbc:mysql://10.0.0.2:3306/knuca?useUnicode=true&characterEncoding=utf8
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
-  security.ignored: /**
-  spring.security.enabled: false
-  management.security.enabled: false
-  security.basic.enabled: false
 
 ---
 spring:
