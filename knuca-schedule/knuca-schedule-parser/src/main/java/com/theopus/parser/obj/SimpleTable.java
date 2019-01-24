@@ -3,13 +3,10 @@ package com.theopus.parser.obj;
 import com.google.common.collect.Lists;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.entity.schedule.enums.LessonType;
-import com.theopus.parser.exceptions.IllegalPdfException;
+import com.theopus.parser.exceptions.IllegalParserFileException;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
@@ -42,7 +39,7 @@ public class SimpleTable implements Table {
                 return matcher.group();
             }
         }
-        throw new IllegalPdfException("Not found table in sheet");
+        throw new IllegalParserFileException("Not found table in sheet");
     }
 
     public SimpleTable parent(Sheet sheet) {
@@ -60,7 +57,7 @@ public class SimpleTable implements Table {
         if (firstDay.find()) {
             convert = parent.convert(firstDay.group());
         } else {
-            throw new IllegalPdfException("No date at table.");
+            throw new IllegalParserFileException("No date at table.");
         }
 
         while (matcher.find()) {
@@ -83,7 +80,7 @@ public class SimpleTable implements Table {
                 .stream()
                 .filter(ld -> ld.getDayOfWeek().equals(day))
                 .min(LocalDate::compareTo)
-                .orElseThrow(() -> new IllegalPdfException("No min date for current day of Week"));
+                .orElseThrow(() -> new IllegalParserFileException("No min date for current day of Week"));
     }
 
     @Override
@@ -92,7 +89,7 @@ public class SimpleTable implements Table {
                 .stream()
                 .filter(ld -> ld.getDayOfWeek().equals(day))
                 .max(LocalDate::compareTo)
-                .orElseThrow(() -> new IllegalPdfException("No max date for current day of Week"));
+                .orElseThrow(() -> new IllegalParserFileException("No max date for current day of Week"));
     }
 
     @Override

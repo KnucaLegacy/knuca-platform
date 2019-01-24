@@ -9,3 +9,5 @@ build/*
 knuca-entity/build/
 /knuca-entity/build/
 *.iml
+knuca-compose/
+logs/

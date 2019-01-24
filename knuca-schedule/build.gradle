@@ -31,7 +31,7 @@ task runnerStartScript(type: CreateStartScripts) {
     outputDir = startScripts.outputDir
     mainClassName = 'com.theopus.upload.UploadRunner'
     applicationName = 'knuca-uploader'
-    defaultJvmOpts = ["-Xmx521m", "-Xms128m", "-Dspring.config.location=../conf/knuca-upload.yml"]
+    defaultJvmOpts = ["-Xmx521m", "-Xms128m", "-Dspring.config.location=../conf/knuca-upload.yml", "-Dspring.profiles.active=prod"]
 }
 
 task uploaderStartScript(type: CreateStartScripts) {
@@ -40,7 +40,7 @@ task uploaderStartScript(type: CreateStartScripts) {
     outputDir = startScripts.outputDir
     mainClassName = 'com.theopus.restservice.RestRunner'
     applicationName = 'knuca-rest'
-    defaultJvmOpts = ["-Xmx521m", "-Xms128m", "-Dspring.config.location=../conf/knuca-rest.yml"]
+    defaultJvmOpts = ["-Xmx521m", "-Xms128m", "-Dspring.config.location=../conf/knuca-rest.yml", "-Dspring.profiles.active=prod"]
 }
 
 applicationDistribution.into("bin") {
@@ -127,7 +127,7 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-configure(allprojects - project(':knuca-schedule-upload-fe')) {
+configure(allprojects) {
 
     apply plugin: 'java'
     apply plugin: 'checkstyle'
@@ -139,7 +139,7 @@ configure(allprojects - project(':knuca-schedule-upload-fe')) {
     repositories {
         mavenCentral()
     }
-
+    
     dependencies {
         testCompile("junit:junit:${jUnitVersion}")
         compile group: 'org.projectlombok', name: 'lombok', version: "${lombokVersion}"

@@ -15,7 +15,7 @@ public interface CircumstanceService extends CacheableService {
 
     List<Circumstance> withGroup(Group group);
 
-    Long deleteWithGroupAfter(Group group, LocalDate localDate);
+    List<Circumstance> deleteWithGroupAfter(Group group, LocalDate localDate);
 
     void delete(Circumstance circumstance);
 }

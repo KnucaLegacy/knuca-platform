@@ -1,0 +1,127 @@
+/* specification */
+body {
+    background: #000;
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 16px;
+    color: #fff;
+    margin: 0;
+    box-sizing: border-box;
+    height: 100%;
+}
+ul, li {
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+li a:hover {
+    color: #fff;
+    cursor: pointer;
+}
+.menu {
+    position: relative;
+    padding: 30px 0 0 0;
+}
+.magic {
+    font-size: 16px;
+    margin-left: 30px;
+    /* transition-timing-function: ease-in-out;
+    transition: 0.2s; */
+}
+.menu__item a{
+    color: #e4e4e4;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+.logout {
+    padding: 0 5px 0 30px;
+}
+.container {
+    width: 1100px;
+    min-height: 700px;
+    height: 100vh;
+}
+
+.section1 {
+    height: 10vh;
+}
+.form {
+    height: 80vh;
+}
+.rectangle {
+    background-color: rgba(20, 18, 18, 0.6);
+    box-shadow: 0px 0px 20px 0px rgba(14, 14, 14, 0.7);
+    padding: 30px;
+    margin-bottom: 25px;
+  }
+.upload {
+    background: url(/img/bg.jpeg) no-repeat center top / cover;
+    width: 100%;
+}
+h1 {
+    font-size: 40px;
+    margin: 0;
+    padding: 15px;
+}
+p {
+    margin-bottom: 25px;
+}
+h1, p {
+    text-align: center;
+}
+/* placegolder*/
+::-webkit-input-placeholder {color:#fff;}
+::-moz-placeholder          {color:#fff;}/* Firefox 19+ */
+:-moz-placeholder           {color:#fff;}/* Firefox 18- */
+:-ms-input-placeholder      {color:#fff;}
+:focus::-webkit-input-placeholder {color: transparent}
+:focus::-moz-placeholder          {color: transparent}
+:focus:-moz-placeholder           {color: transparent}
+:focus:-ms-input-placeholder      {color: transparent}
+/*  */
+.up {
+    height: 42px;
+    width: 256px;
+    border: none;
+    border-radius: 15px;
+    margin: 0 auto;
+    background-color: #4fb99f;
+    color: #fff;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+    cursor: pointer;
+}
+.logout {
+    padding-right: 5px;
+}
+.year {
+    padding: 0;
+    text-align: center;
+    height: 42px;
+    width: 256px;
+    border: none;
+    border-radius: 15px;
+    margin: 0 auto;
+    background-color: rgba(234, 234, 234, 0.4);
+    color: #fff;
+    margin-bottom: 22px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+}
+.up:hover {
+    background-color: #60bfa8;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+/* .out:hover {
+    background-color: #f2ba4f;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+} */
+.year:hover {
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 5%;
+    text-align: center;
+  }

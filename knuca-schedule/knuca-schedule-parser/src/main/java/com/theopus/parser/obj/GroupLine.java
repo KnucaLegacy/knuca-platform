@@ -26,6 +26,7 @@ public class GroupLine extends LessonLine {
                                 parseLessonType(),
                                 parseTeachers()
                         ),
-                        parent.getAnchor(), circumstances));
+                        parent.getAnchor(), circumstances
+                ));
     }
 }

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/log.css" rel="stylesheet"/>
+    <title>Events</title>
+</head>
+<body>
+<div class="nav-bar">
+    <div>
+        <a th:href="@{/main}">Main</a>
+    </div>
+</div>
+
+<h2>Files</h2>
+
+<div class="table-responsive-md">
+    <table class="table table-striped table-dark">
+        <thead>
+            <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Sheets</th>
+            <th scope="col">Upload DateTime</th>
+            <th scope="col">Year</th>
+            <th scope="col">Ext</th>
+            <th scope="col">Open</th>
+            </tr>
+        </thead>
+    <!--/*@thymesVar id="events" type="java.util.List<com.theopus.upload.entity.UploadFile>"*/-->
+    <!--/*@thymesVar id="file" type="com.theopus.upload.entity.UploadFile"*/-->
+        <tbody>
+            <th:block th:each="file : ${files}">
+                <tr>
+                    <td th:text="${file.id}"></td>
+                    <td th:text="${file.name}"></td>
+                    <td th:text="${file.totalSheets}"></td>
+                    <td th:text="${file.uploadTime}"></td>
+                    <td th:text="${file.assignedYear}"></td>
+                    <td th:text="${file.extension}"></td>
+                    <td ><a th:href="@{/upload/files/{id}/view(id=${file.id})}">Look up</a></td>
+
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

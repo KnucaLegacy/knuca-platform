@@ -15,8 +15,7 @@ public class RestRunner {
     public static void main(String[] args) {
         SpringApplication.run(RestRunner.class);
     }
-
-
+    
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurerAdapter() {

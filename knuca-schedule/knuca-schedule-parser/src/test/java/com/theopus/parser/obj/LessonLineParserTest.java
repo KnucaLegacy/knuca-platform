@@ -5,7 +5,7 @@ import com.theopus.entity.schedule.Subject;
 import com.theopus.entity.schedule.Teacher;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.entity.schedule.enums.LessonType;
-import com.theopus.parser.exceptions.IllegalPdfException;
+import com.theopus.parser.exceptions.IllegalParserFileException;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -118,7 +118,7 @@ public class LessonLineParserTest {
         assertEquals(expected, actual);
     }
 
-    @Test(expected = IllegalPdfException.class)
+    @Test(expected = IllegalParserFileException.class)
     public void parseLessonType_NoLessonTypeIdentifier() throws Exception {
         LessonLine line = lessonLine.prepare(no_lesson_type);
         LessonType expected = LessonType.PRACTICE;
@@ -149,7 +149,7 @@ public class LessonLineParserTest {
         assertEquals(expected.getName(), actual.getName());
     }
 
-    @Test(expected = IllegalPdfException.class)
+    @Test(expected = IllegalParserFileException.class)
     public void parseLesssonSubject_NO_dotcoma() throws Exception {
         LessonLine line = lessonLine.prepare(lineNOComa);
 
@@ -174,13 +174,13 @@ public class LessonLineParserTest {
         assertEquals(lo2, actual);
     }
 
-    @Test(expected = IllegalPdfException.class)
+    @Test(expected = IllegalParserFileException.class)
     public void parseLessonOrder_NOTSPECIFIED_PREVIOUS_NULL() {
         LessonLine line = lessonLine.prepare(line2);
         LessonOrder actual = line.parseOrder();
     }
 
-    @Test(expected = IllegalPdfException.class)
+    @Test(expected = IllegalParserFileException.class)
     public void parseLessonOrder_NO_ORDER_INFO_AT_ALL() throws Exception {
         LessonLine line = lessonLine.prepare(no_order_line);
         LessonOrder actual = line.parseOrder();

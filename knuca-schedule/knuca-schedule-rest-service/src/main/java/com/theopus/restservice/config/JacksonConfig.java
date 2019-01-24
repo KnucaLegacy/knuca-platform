@@ -30,6 +30,7 @@ public class JacksonConfig {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JSR310Module());
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        mapper.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);
         SimpleModule module = new SimpleModule("custom",
                 Version.unknownVersion());
         module.addSerializer(Group.class, new GroupSerializer());

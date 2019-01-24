@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/log.css" rel="stylesheet"/>
+    <title>Events</title>
+</head>
+<body>
+<div class="nav-bar">
+    <div>
+        <a th:href="@{/main}">Main</a>
+    </div>
+</div>
+
+<h2>Events</h2>
+<div class="table-responsive-md">
+    <table class="table table-striped table-dark">
+        <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">LastProcessDate</th>
+              <th scope="col">Status</th>
+              <th scope="col">FilesCount</th>
+              <th scope="col">FiliseList</th>
+            </tr>
+        </thead>
+        <!--/*@thymesVar id="events" type="java.util.List<com.theopus.upload.entity.UploadEvent>"*/-->
+        <!--/*@thymesVar id="val" type="com.theopus.upload.entity.UploadEvent"*/-->
+        <tbody>
+            <th:block th:each="val : ${events}">
+                <tr>
+                    <td th:text="${val.id}"></td>
+                    <td th:text="${val.lastProcessing}"></td>
+                    <td th:text="${val.status}"></td>
+                    <td th:text="${val.files.size()}"></td>
+                    <!--/*@thymesVar id="events" type="java.util.List<com.theopus.upload.entity.UploadFile>"*/-->
+                    <!--/*@thymesVar id="val" type="com.theopus.upload.entity.UploadFile"*/-->
+        
+                    <!--files list-->
+                    <td>
+                        <th:block th:each="file : ${val.files}">
+                            <a th:text="${file.id} + '-' + ${file.name} + '-' + ${file.totalSheets}"
+                                th:href="@{/upload/files/{id}/view(id=${file.id})}"></a><br/>
+                        </th:block>
+                    </td>
+        
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
+    
+  </div>
+
+</body>
+</html>

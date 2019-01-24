@@ -3,7 +3,7 @@ package com.theopus.parser.obj;
 import com.theopus.entity.schedule.*;
 import com.theopus.entity.schedule.enums.LessonOrder;
 import com.theopus.entity.schedule.enums.LessonType;
-import com.theopus.parser.exceptions.IllegalPdfException;
+import com.theopus.parser.exceptions.IllegalParserFileException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +44,7 @@ public abstract class LessonLine {
         String[] split = line.split(";");
         if (split.length <= 1) {
             //ToDo add to Throw message parent info(Sheet info (Group, Date, etc.))
-            throw new IllegalPdfException("Lesson line '" + line + "' does not contains ';' splitting symbol.");
+            throw new IllegalParserFileException("Lesson line '" + line + "' does not contains ';' splitting symbol.");
         }
 
         if (isLeft) {
@@ -68,7 +68,7 @@ public abstract class LessonLine {
             if (previousOrder != null && !previousOrder.equals(LessonOrder.NONE)) {
                 return previousOrder;
             } else {
-                throw new IllegalPdfException("Lesson line " + line + "not contains any info about order");
+                throw new IllegalParserFileException("Lesson line " + line + "not contains any info about order");
             }
         } else {
             return lessonOrder;
@@ -120,7 +120,7 @@ public abstract class LessonLine {
         if (m.find()) {
             return LessonType.INDIVIDUAL;
         }
-        throw new IllegalPdfException("Lesson line '" + line + "' does not have lesson type." + "Parent: " + parent);
+        throw new IllegalParserFileException("Lesson line '" + line + "' does not have lesson type." + "Parent: " + parent);
     }
 
     protected Set<Teacher> parseTeachers() {

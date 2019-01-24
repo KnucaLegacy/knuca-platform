@@ -9,9 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Objects;
@@ -100,11 +97,13 @@ public class RoomDateBrackets {
                     log.debug("No dates brackets in {} ,setting max range.{}", parent, fromToRange(
                             parent.getParent().getParent().getTable().getFromBound(parent.getParent().getDayOfWeek()),
                             parent.getParent().getParent().getTable().getToBound(parent.getParent().getDayOfWeek()),
-                            false));
+                            false
+                    ));
                     cacheDates.addAll(Sets.newHashSet(fromToRange(
                             parent.getParent().getParent().getTable().getFromBound(parent.getParent().getDayOfWeek()),
                             parent.getParent().getParent().getTable().getToBound(parent.getParent().getDayOfWeek()),
-                            false)));
+                            false
+                    )));
                 }
 
                 Room finalCacheRoom = cacheRoom;
@@ -127,7 +126,8 @@ public class RoomDateBrackets {
             circumstance.setDates(Sets.newHashSet(fromToRange(
                     parent.getParent().getParent().getTable().getFromBound(parent.getParent().getDayOfWeek()),
                     parent.getParent().getParent().getTable().getToBound(parent.getParent().getDayOfWeek()),
-                    false)));
+                    false
+            )));
         });
         return result;
     }
@@ -232,7 +232,8 @@ public class RoomDateBrackets {
                         String to = matcher.group(2);
                         localDates.addAll(fromToRange(
                                 convert(from.getKey()), convert(to),
-                                from.getValue() | weekSkip));
+                                from.getValue() | weekSkip
+                        ));
                     }
                 }
                 if (weekSkip) {
@@ -255,7 +256,8 @@ public class RoomDateBrackets {
                     Set<LocalDate> fromToMax = fromToRange(
                             parent.getParent().getParent().getTable().getFromBound(parent.getParent().getDayOfWeek()),
                             parent.getParent().getParent().getTable().getToBound(parent.getParent().getDayOfWeek()),
-                            true);
+                            true
+                    );
                     log.warn("Week skip without date definition {},  setting max ", bracketContent, fromToMax);
                     localDates.addAll(fromToMax);
                 }

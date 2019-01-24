@@ -3,7 +3,7 @@ package com.theopus.parser.obj;
 import com.theopus.entity.schedule.Curriculum;
 import com.theopus.entity.schedule.Group;
 import com.theopus.parser.ParserUtils;
-import com.theopus.parser.exceptions.IllegalPdfException;
+import com.theopus.parser.exceptions.IllegalParserFileException;
 import com.theopus.parser.utl.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +16,7 @@ import java.time.temporal.ChronoField;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,15 +48,28 @@ public abstract class Sheet<T> {
         return table;
     }
 
+    private ValidatorReport validatorReport;
+
     public List<Curriculum> parse() {
-        return validator.validate(splitToDays().entrySet().stream().map(dc -> {
+        List<Curriculum> parsed = splitToDays().entrySet().stream().map(dc -> {
             child.prepare(dc.getKey(), dc.getValue());
             return child.parse();
         }).reduce((c1, c2) -> {
             c1.addAll(c2);
             return c1;
-        }).orElseThrow(() -> new IllegalPdfException("Daysheet")));
-
+        }).orElseThrow(() -> new IllegalParserFileException("Daysheet"));
+        ValidatorReport validate = validator.validate(parsed);
+        this.validatorReport = validate;
+        int violationsCount = validate.getViolationsCount();
+        if (violationsCount != 0) {
+            LOG.info("Errors after validation: {}, anchor: {}", violationsCount, anchor);
+            int criticalViolationsCount = validate.getCriticalViolationsCount();
+            if (criticalViolationsCount != 0) {
+                LOG.error("Critical errors after validation: {}!", violationsCount);
+                LOG.error("{}", validate);
+            }
+        }
+        return parsed;
     }
 
     Map<DayOfWeek, String> splitToDays() {
@@ -92,7 +106,7 @@ public abstract class Sheet<T> {
         return this;
     }
 
-    public abstract T parseAnchor();
+    public abstract T parseAnchor() throws IllegalParserFileException;
 
     public static Sheet<Group>.Builder createGroupSheet() {
         return new GroupSheet().new Builder();
@@ -104,6 +118,7 @@ public abstract class Sheet<T> {
         this.initFormatter();
         this.table.prepare(content);
         this.anchor = parseAnchor();
+        this.validatorReport = null;
         return this;
     }
 
@@ -129,7 +144,7 @@ public abstract class Sheet<T> {
         if (matcher.find()) {
             return Integer.valueOf(matcher.group(0));
         }
-        throw new IllegalPdfException("Cannot parse date from sheet " + this);
+        throw new IllegalParserFileException("Cannot parse date from sheet " + this);
     }
 
     public Sheet<T> parent(FileSheet<T> fileSheet) {
@@ -166,11 +181,20 @@ public abstract class Sheet<T> {
         return parse;
     }
 
+    public ValidatorReport getValidatorReport() {
+        if (Objects.isNull(validatorReport)) {
+            throw new RuntimeException("Report not ready");
+        }
+        return validatorReport;
+    }
+
     public class Builder {
 
         public Sheet<T>.Builder defaultPatterns() {
-            Sheet.this.dayOfWeekSplitter = Pattern.compile(ParserUtils.replaceEngToUkr(Patterns.Sheet.DAY_OF_WEEK_SPLITTER),
-                    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.DOTALL | Pattern.MULTILINE);
+            Sheet.this.dayOfWeekSplitter = Pattern.compile(
+                    ParserUtils.replaceEngToUkr(Patterns.Sheet.DAY_OF_WEEK_SPLITTER),
+                    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE | Pattern.DOTALL | Pattern.MULTILINE
+            );
             return this;
         }
 

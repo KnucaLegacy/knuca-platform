@@ -16,14 +16,40 @@ jacocoTestReport {
     }
 }
 
+bootRun {
+    doFirst {
+        project(':knuca-schedule-upload').tasks.getByPath(':knuca-schedule-upload:bootRun') //gradle magic
+        setMainClassName "com.theopus.restservice.RestRunner"
+        systemProperties = System.properties
+        jvmArgs = ["-Dspring.profiles.active=prod", "-Dspring.config.location='$projectDir/src/main/resources/application.yml'"]
+    }
+    addResources = true
+}
+
+task devConf {
+    doFirst {
+        bootRun.setMain("com.theopus.restservice.RestRunner")
+        bootRun.jvmArgs = ["-Dspring.profiles.active=dev", "-Dspring.config.location='$projectDir/src/main/resources/application.yml'"]
+    }
+}
+
+task runDev {
+    doLast {
+        devConf.execute()
+        print bootRun.main
+        bootRun.exec()
+    }
+    dependsOn compileJava
+}
+
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
     }
     compile("org.springframework.boot:spring-boot-starter-jetty:${springBootVersion}")
-    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.4.0")
     compile("io.springfox:springfox-swagger2:${swaggerVersion}")
     compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
+    compile("org.springframework.boot:spring-boot-devtools:${springBootVersion}")
 
     compile project(':knuca-schedule-entity')
     compile project(':knuca-schedule-parser')

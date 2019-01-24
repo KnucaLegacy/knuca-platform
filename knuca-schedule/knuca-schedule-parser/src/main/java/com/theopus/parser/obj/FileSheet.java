@@ -2,11 +2,9 @@ package com.theopus.parser.obj;
 
 import com.theopus.entity.schedule.Curriculum;
 import com.theopus.parser.ParserUtils;
+import com.theopus.parser.exceptions.IllegalParserFileException;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,7 +35,7 @@ public class FileSheet<T> {
     }
 
     public List<Curriculum> parse() {
-        if (!Objects.isNull(definedYear) && definedYear >= 2016) {
+        if (!Objects.isNull(definedYear) && definedYear >= 2016) { //FIXME: CHE NAHOI `2016`
             child.prepare(sheets.get(position++), definedYear);
         } else {
             child.prepare(sheets.get(position++));
@@ -69,6 +67,9 @@ public class FileSheet<T> {
         this.position = 0;
         this.fullFile = ParserUtils.replaceEngToUkr(fullFile);
         sheets = splitToSheets();
+        if (sheets.isEmpty()) {
+            throw new IllegalParserFileException("File does not contain any schedule");
+        }
         return this;
     }
 
@@ -84,6 +85,10 @@ public class FileSheet<T> {
         this.child = sheet;
         sheet.parent(this);
         return this;
+    }
+
+    public ValidatorReport getReportOfCurrentSheet() {
+        return child.getValidatorReport();
     }
 
     public int getPosition() {

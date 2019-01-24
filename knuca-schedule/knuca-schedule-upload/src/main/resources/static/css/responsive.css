@@ -1,0 +1,19 @@
+@media screen and (max-width: 768px) {
+    .container {
+        width: 80%;
+        min-height: 300px;
+    }
+}
+@media screen and (max-width: 576px) {
+    .container {
+        width: 60%;
+        min-height: 200px;
+    }
+    .signIn {
+        background: linear-gradient(to top, #1e1e20, #2a2c2b);
+    }
+    .footer {
+        width: 80%;
+        text-align: center;
+    }
+}

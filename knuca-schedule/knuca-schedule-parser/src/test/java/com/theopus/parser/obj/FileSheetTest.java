@@ -4,13 +4,14 @@ import com.google.common.collect.Lists;
 import com.theopus.entity.schedule.Curriculum;
 import com.theopus.entity.schedule.Group;
 import com.theopus.parser.ParserUtils;
+import com.theopus.parser.exceptions.IllegalParserFileException;
+import com.theopus.parser.facade.Parser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
 import org.junit.Test;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,6 +35,10 @@ public class FileSheetTest {
             .delimiter(Patterns.Sheet.SHEET_DELIMITER)
             .build();
 
+    @Test(expected = IllegalParserFileException.class)
+    public void splitToShhersEmptySheet() throws Exception {
+        Parser.onlyFileSheetParser().prepare("");
+    }
     @Test
     public void splitToSheets() throws Exception {
         sheet.prepare(ParserUtils.replaceEngToUkr(string));
@@ -72,7 +77,6 @@ public class FileSheetTest {
                 }
             }
         }
-
 
         Validator validator = new Validator();
         FileSheet<Group> sheet = FileSheet.<Group>create()

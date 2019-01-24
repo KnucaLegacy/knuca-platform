@@ -9,6 +9,8 @@ public enum LessonType {
     LAB,
     EXAM,
     INDIVIDUAL,
-    FACULTY, CONSULTATION,
-    NONE, UNIDENTIFIED
+    FACULTY,
+    CONSULTATION,
+    NONE,
+    UNIDENTIFIED
 }

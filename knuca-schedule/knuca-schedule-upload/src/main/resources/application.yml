@@ -1,11 +1,12 @@
 server:
   port: 8090
 spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/knuca?useUnicode=true&characterEncoding=utf8
-    username: root
-    password: root
-    driver-class-name: com.mysql.jdbc.Driver
+  http:
+    multipart:
+      max-file-size: 64MB
+      max-request-size: 64MB
+  profiles:
+    active:
   jpa:
     show-sql: false
     properties:
@@ -17,3 +18,30 @@ spring:
       ddl-auto: update
 logging:
   file: ../logs/knuca-upload.log
+
+---
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:mysql://localhost:3306/knuca-upload?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+
+---
+spring:
+  profiles: dev
+  profiles.include: nosecure
+  datasource.initialization-mode: always
+  jpa.hibernate.ddl-auto: update
+  h2.console.enabled: true
+  h2.console.path: /h2
+  datasource.platform: h2
+  datasource.schema: classpath:dumps/dump-29-03-2018.sql
+---
+spring:
+  profiles: nosecure
+security.ignored: /**
+spring.security.enabled: false
+management.security.enabled: false
+security.basic.enabled: false

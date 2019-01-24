@@ -10,5 +10,6 @@ dependencies{
 
     testCompile ("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
     compile("com.h2database:h2:1.4.196")
+    runtime("com.h2database:h2:1.4.196")
     testCompile("junit:junit")
 }

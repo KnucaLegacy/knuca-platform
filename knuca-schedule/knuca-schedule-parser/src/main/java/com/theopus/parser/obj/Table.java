@@ -25,7 +25,7 @@ public interface Table {
 
     Table parent(Sheet sheet);
 
-    class TableEntry {
+    public class TableEntry implements Comparable<TableEntry> {
         private LessonOrder lessonOrder;
         private LessonType lessonType;
 
@@ -44,18 +44,33 @@ public interface Table {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
             TableEntry that = (TableEntry) o;
-            if (!lessonOrder.equals(lessonOrder)) return false;
-            if (lessonType == LessonType.UNIDENTIFIED) return true;
-            if (that.lessonType == LessonType.UNIDENTIFIED) return true;
+            if (!lessonOrder.equals(lessonOrder)) {
+                return false;
+            }
+            if (lessonType == LessonType.UNIDENTIFIED) {
+                return true;
+            }
+            if (that.lessonType == LessonType.UNIDENTIFIED) {
+                return true;
+            }
             return lessonType == that.lessonType;
         }
 
         @Override
         public int hashCode() {
             return Objects.hash(lessonOrder);
+        }
+
+        @Override
+        public int compareTo(TableEntry o) {
+            return Integer.compare(this.lessonOrder.ordinal(), o.lessonOrder.ordinal());
         }
 
         @Override

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/log.css" rel="stylesheet"/>
+    <title>Events</title>
+</head>
+<body>
+<div class="nav-bar">
+    <div>
+        <a th:href="@{/main}">Main</a>
+    </div>
+</div>
+
+<h2>File</h2>
+
+<div class="table-responsive-md">
+    <table class="table table-striped table-dark">
+      <!--   <tr>
+            <td class="table-header"><b>Id</b></td>
+            <td class="table-header"><b>Name</b></td>
+            <td class="table-header"><b>Sheets</b></td>
+            <td class="table-header"><b>Upload DateTime</b></td>
+            <td class="table-header"><b>Year</b></td>
+            <td class="table-header"><b>Ext</b></td>
+        </tr> -->
+        <thead>
+                <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Sheets</th>
+                  <th scope="col">Upload DateTime</th>
+                  <th scope="col">Year</th>
+                  <th scope="col">Ext</th>
+                </tr>
+            </thead>
+        <!--/*@thymesVar id="events" type="java.util.List<com.theopus.upload.entity.UploadFile>"*/-->
+        <!--/*@thymesVar id="file" type="com.theopus.upload.entity.UploadFile"*/-->
+        <tbody>
+            <tr>
+                <td th:text="${file.id}"></td>
+                <td th:text="${file.name}"></td>
+                <td sth:text="${file.totalSheets}"></td>
+                <td th:text="${file.uploadTime}"></td>
+                <td th:text="${file.assignedYear}"></td>
+                <td th:text="${file.extension}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Content:</h2>
+<div class="content">
+    <p th:text="${file.content}">
+
+    </p>
+</div>
+</body>
+</html>

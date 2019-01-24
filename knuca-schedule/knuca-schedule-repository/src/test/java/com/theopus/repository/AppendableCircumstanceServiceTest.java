@@ -370,12 +370,14 @@ public class AppendableCircumstanceServiceTest {
         circumstanceService.save(circumstance_1);
         circumstanceService.save(circumstance_2);
 
-        circumstanceService.deleteWithGroupAfter(
+        List<Circumstance> circumstances = circumstanceService.deleteWithGroupAfter(
                 (Group) groupRepository.findOne(GroupSpecification.getByName(test_group_1)),
                 LocalDate.now().plusDays(1)
         );
 
+
         List<Circumstance> actual = circumstanceRepository.findAll();
+
         assertEquals(expected, actual);
     }
 

@@ -137,4 +137,14 @@ public class ParserUtils {
         reader.close();
         return builder.toString();
     }
+
+    public static String fileToString(File file) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+        while (reader.ready()) {
+            builder.append(reader.readLine()).append("\n");
+        }
+        reader.close();
+        return builder.toString();
+    }
 }

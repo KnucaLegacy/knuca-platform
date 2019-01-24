@@ -98,7 +98,7 @@ public class DaySheet<T> {
         }
 
         public Builder defaultPatterns() {
-            begin = Pattern.compile(Patterns.LessonLine.BEGIN_LESSON_SPLITTER,Pattern.DOTALL | Pattern.MULTILINE);
+            begin = Pattern.compile(Patterns.LessonLine.BEGIN_LESSON_SPLITTER, Pattern.DOTALL | Pattern.MULTILINE);
             finish = Pattern.compile(Patterns.LessonLine.END_LESSON_SPLITTER, Pattern.DOTALL | Pattern.MULTILINE);
             return this;
         }

@@ -1,0 +1,106 @@
+/* specification */
+body {
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 16px;
+    color: #fff;
+    margin: 0;
+    box-sizing: border-box;
+    height: 100%;
+}
+.container {
+    width: 1100px;
+    min-height: 700px;
+    height: 100vh;
+}
+/* content */
+.signIn {
+    background: url(/img/bg.jpeg) no-repeat center top / cover;
+    width: 100%;
+}
+
+.submit {
+    height: 42px;
+    width: 256px;
+    border: none;
+    border-radius: 15px;
+    margin: 0 auto;
+    background: linear-gradient(to right, #4989cf, #46a7e5);
+    color: #fff;
+    margin-bottom: 25px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+} 
+
+/* placegolder*/
+::-webkit-input-placeholder {color:#fff;}
+::-moz-placeholder          {color:#fff;}/* Firefox 19+ */
+:-moz-placeholder           {color:#fff;}/* Firefox 18- */
+:-ms-input-placeholder      {color:#fff;}
+:focus::-webkit-input-placeholder {color: transparent}
+:focus::-moz-placeholder          {color: transparent}
+:focus:-moz-placeholder           {color: transparent}
+:focus:-ms-input-placeholder      {color: transparent}
+/*  */
+
+.Help {
+    text-align: center;
+    color: #fff;
+}
+a:hover {
+    color: #cbcbcb;
+    text-decoration: none;
+}
+.submit:hover {
+    background: linear-gradient(to right, #46a7e5, #4989cf);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.username  {
+    background-image: url(/img/man-user.svg); /* размер указан в самом свг файле */
+    background-repeat: no-repeat;
+    background-position: 1rem 50%;
+    padding-left: 50px;
+    height: 42px;
+    width: 256px;
+    border: none;
+    border-radius: 15px;
+    margin: 0 auto;
+    background-color: rgba(234, 234, 234, 0.4);
+    color: #fff;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+}
+.password  {
+    background-image: url(/img/lock.svg); 
+    background-repeat: no-repeat;
+    background-position: 1rem 50%;
+    padding-left: 50px;
+    height: 42px;
+    width: 256px;
+    border: none;
+    border-radius: 15px;
+    margin: 0 auto;
+    background-color: rgba(234, 234, 234, 0.4);
+    color: #fff;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+}
+.username:hover {
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+.password:hover {
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+p {
+    /* margin-top: 20%; */
+    text-align: center; 
+    padding-bottom: 10px;
+   /*  margin-top: auto; */
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+  }

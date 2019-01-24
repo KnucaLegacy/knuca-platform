@@ -53,7 +53,6 @@ gen
 /knuca-schedule-repository/build/
 .gradle/
 .idea/
-gradle/
 knuca-schedule-entity/build/
 knuca-schedule-parser/build/
 
@@ -62,3 +61,10 @@ knuca-schedule-parser/build/
 /knuca-schedule-rest-service/build/resources/main/application.yml
 /knuca-schedule-upload/build/
 /knuca-schedule-upload/out/
+/knuca-schedule-rest-service/out/
+docker/Dockerfile
+docker/knuca-platform/*
+knuca-schedule-upload-fe/node_modules/
+*/dist/*
+.vscode/*
+*/logs/*

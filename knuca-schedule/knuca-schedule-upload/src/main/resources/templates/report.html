@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/log.css" rel="stylesheet"/>
+    <title>Events</title>
+</head>
+<body>
+<div class="nav-bar">
+    <div>
+        <a th:href="@{/main}">Main</a>
+    </div>
+</div>
+
+<h2>Reports</h2>
+
+<div class="table-responsive-md">
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Anchor</th>
+                <th scope="col">ErrorsCount</th>
+                <th scope="col">File</th>
+                <th scope="col">ReportDate</th>
+                <th scope="col">SheetNumber</th>
+            </tr>
+        </thead>
+        <!--/*@thymesVar id="events" type="java.util.List<com.theopus.upload.entity.Report>"*/-->
+        <!--/*@thymesVar id="report" type="com.theopus.upload.entity.Report"*/-->
+        <tbody>
+            <tr>
+                <td th:text="${report.id}"></td>
+                <td th:text="${report.anchor}"></td>
+                <td th:text="${report.errors.size()}"></td>
+                <td><a th:href="@{/upload/reports/{id}/view(id=${report.file.id})}"
+                th:text="${report.file.name}">s</a></td>
+                <td th:text="${report.reportDate}"></td>
+                <td th:text="${report.sheetNumber}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="table-responsive-md">
+    <table class="table table-striped table-dark">
+        <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Expected</th>
+                    <th scope="col">Actual</th>
+                </tr>
+        </thead>
+        <!--/*@thymesVar id="error" type="com.theopus.upload.entity.Violation"*/-->
+        <tbody>
+            <th:block th:each="error : ${report.errors}">
+                <tr>
+                    <td th:text="${error.id}"></td>
+                    <td th:text="${error.violationDate}"></td>
+                    <td >
+                        <ul>
+                            <th:block th:each="violationEntry : ${error.expected}">
+                                <ul  th:text="${violationEntry.lessonOrder} + ' ---- ' + ${violationEntry.lessonType}"></ul>
+                            </th:block>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <th:block th:each="violationEntry : ${error.actual}">
+                                <ul  th:text="${violationEntry.lessonOrder} + ' ---- ' + ${violationEntry.lessonType}"></ul>
+                            </th:block>
+                        </ul>
+                    </td>
+                </tr>
+            </th:block>
+    </tbody>
+    </table>
+</div>
+
+</body>
+</html>

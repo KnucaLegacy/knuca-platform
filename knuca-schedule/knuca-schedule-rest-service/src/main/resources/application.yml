@@ -6,11 +6,12 @@ server:
       minThreads: 10
       idleTimeout: 30000
 spring:
+  profiles:
+    active: upload
   http:
     multipart:
       max-file-size: 64MB
       max-request-size: 64MB
-  profiles.active: upload
   datasource:
     url: jdbc:mysql://10.0.0.2:3306/knuca?useUnicode=true&characterEncoding=utf8
     username: root
@@ -24,10 +25,38 @@ spring:
     hibernate:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      ddl-auto: update
 logging:
   file: ../logs/knuca-rest.log
 api:
   swagger:
     path: "/api/docs"
     basePackage: "com.theopus"
+---
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:mysql://10.0.0.2:3306/knuca?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+
+---
+spring:
+  profiles: dev
+  profiles.include: nosecure, upload
+  datasource.initialization-mode: always
+  jpa.hibernate.ddl-auto: none
+  h2.console.enabled: true
+  h2.console.path: /h2
+  datasource.platform: h2
+  datasource.schema: classpath:dump-29-03-2018.sql
+
+---
+spring:
+  profiles: nosecure
+security.ignored: /**
+spring.security.enabled: false
+management.security.enabled: false
+security.basic.enabled: false
+
+

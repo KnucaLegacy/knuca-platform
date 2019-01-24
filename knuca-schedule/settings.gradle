@@ -4,5 +4,3 @@ include 'knuca-schedule-repository'
 include 'knuca-schedule-rest-service'
 include 'knuca-schedule-parser'
 include 'knuca-schedule-upload'
-include 'knuca-schedule-upload-fe'
-

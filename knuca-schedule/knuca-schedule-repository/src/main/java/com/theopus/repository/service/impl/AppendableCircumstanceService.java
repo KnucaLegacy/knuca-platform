@@ -9,10 +9,10 @@ import com.theopus.repository.service.RoomService;
 import com.theopus.repository.specification.CircumstanceSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -52,14 +52,16 @@ public class AppendableCircumstanceService implements CircumstanceService {
         return (List<Circumstance>) circumstanceRepository.findAll(CircumstanceSpecification.withGroup(group));
     }
 
+    /**
+     * Methods whitch delete dates dates after passed date(including it) and returns curriculums with dates which was deleted.
+     * @param group     - anchor on which based deletion.
+     * @param localDate - from what date delete (including).
+     * @return List of deleted difference.
+     */
     @Override
-    public Long deleteWithGroupAfter(Group group, LocalDate localDate) {
+    public List<Circumstance> deleteWithGroupAfter(Group group, LocalDate localDate) {
         List<Circumstance> circumstances = withGroup(group);
-
-        return circumstances.stream().peek(circumstance -> circumstance.setDates(circumstance.getDates()
-                .stream().filter(localDate1 -> localDate1.isBefore(localDate)).collect(Collectors.toSet())))
-                .map(circumstanceRepository::save)
-                .count();
+        return deleteAfter(circumstances, localDate);
     }
 
     @Override
@@ -71,5 +73,25 @@ public class AppendableCircumstanceService implements CircumstanceService {
     public void flush() {
         roomService.flush();
         circumstanceIsolatedCache.flush();
+    }
+
+    private Set<LocalDate> equalAndAfter(Set<LocalDate> dates, LocalDate localDate) {
+        return dates.stream()
+                .filter(ld -> ld.isAfter(localDate) || ld.isEqual(localDate))
+                .collect(Collectors.toSet());
+    }
+
+    private List<Circumstance> deleteAfter(List<Circumstance> circumstances, LocalDate localDate) {
+        Map<Long, Set<LocalDate>> collect = circumstances.stream().collect(Collectors.toMap(Circumstance::getId, Circumstance::getDates));
+        collect.entrySet()
+                .forEach(longSetEntry -> longSetEntry.setValue(equalAndAfter(longSetEntry.getValue(), localDate)));
+
+        List<Circumstance> afterDelete = circumstances.stream().peek(circumstance -> circumstance.setDates(circumstance.getDates()
+                .stream().filter(localDate1 -> localDate1.isBefore(localDate)).collect(Collectors.toSet())))
+                .map(circumstanceRepository::save)
+                .collect(Collectors.toList());
+
+        afterDelete.forEach(circumstance -> circumstance.setDates(collect.get(circumstance.getId())));
+        return afterDelete;
     }
 }
