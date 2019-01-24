@@ -15,8 +15,7 @@ cache:
 before_script:
   - cd knuca-schedule
   - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
-  - gcloud config set project spry-firefly-206711
-  - gcloud auth activate-service-account --key-file $TRAVIS_BUILD_DIR/travis-secret.json
+  
 jobs:
   include:
   - 
@@ -31,17 +30,4 @@ jobs:
     - docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER
     - docker tag knuca-image $DOCKER_HUB_USERNAME/knuca-platform:latest
     - docker push $DOCKER_HUB_USERNAME/knuca-platform:$TRAVIS_BUILD_NUMBER
-    - docker push $DOCKER_HUB_USERNAME/knuca-platform:latest;
-  - 
-    stage: Deploy
-    name: GCP Deploy
-    script: 
-      - gcloud compute instances list
-      - gcloud compute ssh knuca-rest --zone europe-west1-b --force-key-file-overwrite -- 'sudo docker ps && \sudo docker rm -f knuca-rest || true && \sudo docker pull theopus/knuca-platform && \sudo docker run --name="knuca-rest" -d --net="host" theopus/knuca-platform && \echo done'
-before_install:
-  - openssl aes-256-cbc -K $encrypted_77ea7f21850c_key -iv $encrypted_77ea7f21850c_iv
-    -in credentials.tar.gz.enc -out credentials.tar.gz -d
-  - wget -qO- https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-209.0.0-linux-x86_64.tar.gz | tar xz
-  - ls google-cloud-sdk
-  - ./google-cloud-sdk/install.sh -q
-  - tar -xzf credentials.tar.gz
+    - docker push $DOCKER_HUB_USERNAME/knuca-platform:latest
