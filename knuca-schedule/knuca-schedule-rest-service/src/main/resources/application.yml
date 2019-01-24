@@ -46,7 +46,7 @@ spring:
   profiles: dev
   profiles.include: nosecure, upload
   datasource.initialization-mode: always
-  jpa.hibernate.ddl-auto: none
+  jpa.hibernate.ddl-auto: update
   h2.console.enabled: true
   h2.console.path: /h2
   datasource.platform: h2
