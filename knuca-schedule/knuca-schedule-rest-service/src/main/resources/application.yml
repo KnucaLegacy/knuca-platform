@@ -35,6 +35,7 @@ api:
 spring:
   profiles: prod
   profiles.include: nosecure, upload
+  jpa.hibernate.ddl-auto: update
   datasource:
     url: jdbc:mysql://10.0.0.2:3306/knuca?useUnicode=true&characterEncoding=utf8
     username: root
