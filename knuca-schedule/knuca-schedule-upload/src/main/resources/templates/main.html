@@ -72,7 +72,7 @@
                     <div class="form d-flex align-items-center justify-content-center">
                         <div class="uploadForm d-flex flex-column justify-content-center">
                             <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-                                <form class="pdfForm d-flex flex-column justify-content-center" method="POST" enctype="multipart/form-data" action="/upload">
+                                <form class="pdfForm d-flex flex-column justify-content-center" method="POST" enctype="multipart/form-data" action="/upload/files">
                                     <!-- <p>Please indicate the year:</p> -->
                                     <input class="year" type="text" value="" name="year" placeholder='Please indicate the year' />
                                     <div class="rectangle d-flex flex-column justify-content-center ">
